@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Context from "../utils/context";
 import axios from "axios";
 import "../css/home.css";
@@ -30,7 +31,9 @@ const Home = (props) => {
     return stateLocal.posts.map((post) => {
       return (
         <div key={post.post_id} className="column is-one-quarter">
-          <PostCard post={post} />
+          <Link to={`/post/${post.post_id}`}>
+            <PostCard post={post} />{" "}
+          </Link>{" "}
         </div>
       );
     });

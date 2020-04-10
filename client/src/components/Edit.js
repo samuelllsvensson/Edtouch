@@ -1,9 +1,7 @@
 import React from "react";
 var moment = require("moment");
 
-const PostCard = (props) => {
-  console.log(props);
-
+const Edit = (props) => {
   return (
     <div className="card">
       <div className="card-image">
@@ -25,7 +23,7 @@ const PostCard = (props) => {
             </figure>
           </div>
           <div className="media-content">
-            <p className="title is-4">{props.post.title}</p>
+            {/* <p className="title is-4">{props.post.title}</p> */}
             <p className="subtitle is-6">@johnsmith</p>
           </div>
         </div>
@@ -38,10 +36,11 @@ const PostCard = (props) => {
             whiteSpace: "nowrap",
           }}
         >
-          {props.post.body}
+          {/* {props.post.body} */}
+          EDIT BODY
           <br />
           <h6 className="title is-6">
-            {moment(props.post.date_created).fromNow().toString()}
+            {/* {moment(props.post.date_created).fromNow().toString()} */}
           </h6>
         </div>
       </div>
@@ -49,4 +48,4 @@ const PostCard = (props) => {
   );
 };
 
-export default PostCard;
+export default Edit;

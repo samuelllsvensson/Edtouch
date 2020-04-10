@@ -8,6 +8,19 @@ router.get("/api/get/allposts", (req, res, next) => {
   });
 });
 
+router.get("/api/get/post/:post_id", (req, res, next) => {
+  const post_id = req.params.post_id;
+  //console.log(req);
+  pool.query(
+    `SELECT * FROM posts WHERE post_id=$1`,
+    [post_id],
+    (q_err, q_res) => {
+      //console.log(q_res);
+      res.json(q_res.rows[0]);
+    }
+  );
+});
+
 /*
 /api/get/post?:id Retrieves a specific post given a post_id
 /api/post/posttodb: Saves a user post to the database
