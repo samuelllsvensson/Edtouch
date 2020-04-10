@@ -10,7 +10,10 @@ var moment = require("moment");
 const Post = (props) => {
   const context = useContext(Context);
 
-  const [stateLocal, setState] = useState({ post: null });
+  const [stateLocal, setState] = useState({
+    post: null,
+    activeTab: "comments",
+  });
 
   useEffect(() => {
     if (!stateLocal.post) {
@@ -26,8 +29,8 @@ const Post = (props) => {
     }
   }, [context, stateLocal, props.match.params.post_id]);
 
-  function renderTabs(value) {
-    if (value === "comments") {
+  function renderTabs() {
+    if (stateLocal.activeTab === "comments") {
       return (
         <div className="column">
           <PostComment />
@@ -35,7 +38,7 @@ const Post = (props) => {
           <PostComment />
         </div>
       );
-    } else if (value === "edits") {
+    } else if (stateLocal.activeTab === "edits") {
       return (
         <div className="column">
           <Edit /> <Edit /> <Edit />
@@ -43,6 +46,17 @@ const Post = (props) => {
       );
     }
   }
+  function changeActiveTab() {
+    if (stateLocal.activeTab === "comments") {
+      document.getElementById("commentTab").parentElement.className = "";
+      document.getElementById("editTab").parentElement.className = "is-active";
+    } else if (stateLocal.activeTab === "edits") {
+      document.getElementById("editTab").parentElement.className = "";
+      document.getElementById("commentTab").parentElement.className =
+        "is-active";
+    }
+  }
+
   function render() {
     console.log(stateLocal);
     if (stateLocal.post) {
@@ -136,7 +150,13 @@ const Post = (props) => {
           <div className="tabs is-centered is-boxed">
             <ul>
               <li className="is-active">
-                <a onClick={() => renderTabs("comments")}>
+                <a
+                  id="commentTab"
+                  onClick={() => {
+                    changeActiveTab();
+                    setState({ ...stateLocal, activeTab: "comments" });
+                  }}
+                >
                   <span className="icon is-small">
                     <i className="far fa-comments" aria-hidden="true"></i>
                   </span>
@@ -144,7 +164,13 @@ const Post = (props) => {
                 </a>
               </li>
               <li>
-                <a onClick={() => renderTabs("edits")}>
+                <a
+                  id="editTab"
+                  onClick={() => {
+                    changeActiveTab();
+                    setState({ ...stateLocal, activeTab: "edits" });
+                  }}
+                >
                   <span className="icon is-small">
                     <i className="fas fa-edit" aria-hidden="true"></i>
                   </span>
@@ -153,7 +179,7 @@ const Post = (props) => {
               </li>
             </ul>
           </div>
-          {renderTabs("edits")}
+          {renderTabs()}
         </div>
       );
     } else {
