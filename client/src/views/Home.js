@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import Context from "../utils/context";
 
 import "../css/home.css";
@@ -16,7 +18,9 @@ const Home = () => {
     return postsState.posts.map((post) => {
       return (
         <div key={post.post_id} className="column is-one-quarter">
-          <PostCard post={post} />
+          <Link to={`/post/${post.post_id}`}>
+            <PostCard post={post} />{" "}
+          </Link>{" "}
         </div>
       );
     });
