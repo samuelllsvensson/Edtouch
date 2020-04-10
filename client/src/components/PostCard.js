@@ -2,8 +2,6 @@ import React from "react";
 var moment = require("moment");
 
 const PostCard = (props) => {
-  console.log(props);
-
   return (
     <div className="card">
       <div className="card-image">

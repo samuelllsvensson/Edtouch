@@ -1,6 +1,7 @@
 import React, { useReducer } from "react";
 import Context from "./utils/context";
 import * as ACTIONS from "./store/actions/actions";
+import axios from "axios";
 
 import * as postsReducer from "./store/reducers/postsReducer";
 import Routes from "./routes";
@@ -14,15 +15,23 @@ const ContextState = () => {
     postsReducer.initialState
   );
 
-  const handleFetchPosts = (posts) => {
-    dispatchPostsReducer(ACTIONS.fetchDbPosts(posts));
+  const handleFetchPosts = () => {
+    axios
+      .get("/api/get/allposts")
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbPostsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchPostsReducer(ACTIONS.fetchDbPostsFail(err));
+      });
   };
 
   return (
     <div>
       <Context.Provider
         value={{
-          postsState: statePostsReducer.posts,
+          postsState: statePostsReducer,
           handleFetchPosts: (posts) => handleFetchPosts(posts),
         }}
       >
