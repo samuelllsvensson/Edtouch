@@ -14,6 +14,8 @@ The database will need to store several tables for users, post comments, edits e
 
 The frontend will be a **React** application, using Hooks and the **Context** API. The _Context API_ will replace the need for _Redux_ since it offers basically the same functionality (actions, reducers, global state). _CRUD_ requests will be made using Axios. The UI will be created using the CSS framework **Bulma**.
 
+Jest will be used as a testing framework.
+
 Some additional functionalities that will be implemented if there is time would be a search functionality to be able to search for posts/edits. This could be implemented using **Algolia**, which is a search engine _SaaS_.
 As for _CI/CD_ we will probably use **CircleCI** to automate builds in a scaleable way. 
 
