@@ -13,7 +13,7 @@ CREATE TABLE posts (
   post_id SERIAL PRIMARY KEY,
   title VARCHAR(255),
   body VARCHAR,
-  author_id VARCHAR REFERENCES users(user_id),
+  user_id VARCHAR REFERENCES users(user_id),
   date_created TIMESTAMP,
 );
 
@@ -31,15 +31,15 @@ CREATE TABLE post_comments (
 --   edit_id SERIAL PRIMARY KEY,
 --   title VARCHAR(255),
 --   body VARCHAR,
---   author VARCHAR REFERENCES users(username),
+--   username VARCHAR REFERENCES users(username),
 --   date_created TIMESTAMP
 -- );
 
 -- CREATE TABLE edit_comments (
 --   edit_comment_id SERIAL PRIMARY KEY,
 --   body VARCHAR(255),
---   author VARCHAR REFERENCES users(username),
---   user_comment_id INT REFERENCES users(user_id),
---   edit_comment_id INT REFERENCES edits(edit_id),
+--   username VARCHAR REFERENCES users(username),
+--   user_id INT REFERENCES users(user_id),
+--   edit_id INT REFERENCES edits(edit_id),
 --   date_created TIMESTAMP
 -- );
