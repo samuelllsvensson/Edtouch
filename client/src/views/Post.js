@@ -16,15 +16,9 @@ const Post = (props) => {
   });
 
   useEffect(() => {
-    if (!postsState.post) handleFetchPost(props.match.params.post_id);
-    if (!postsState.comments)
-      handleFetchPostComments(props.match.params.post_id);
-  }, [
-    postsState,
-    handleFetchPost,
-    handleFetchPostComments,
-    props.match.params.post_id,
-  ]);
+    handleFetchPost(props.match.params.post_id);
+    handleFetchPostComments(props.match.params.post_id);
+  }, []);
 
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {

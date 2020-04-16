@@ -10,11 +10,17 @@ const Home = () => {
   const { postsState, handleFetchPosts } = useContext(Context);
 
   useEffect(() => {
-    if (!postsState.posts) handleFetchPosts();
-  }, [handleFetchPosts, postsState]);
+    handleFetchPosts();
+  }, []);
 
   function renderPostCards() {
-    if (!postsState.posts) return;
+    if (postsState.loadings["FETCH_POSTS"]) {
+      return (
+        <div className="column is-one-quarter">
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
     return postsState.posts.map((post) => {
       return (
         <div key={post.post_id} className="column is-one-quarter">
