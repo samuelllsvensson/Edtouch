@@ -15,9 +15,18 @@ const ContextState = () => {
     postsReducer.initialState
   );
 
+  const handleFetchPost = (postId) => {
+    axios
+      .get(`/api/get/post/${postId}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbPostSuccess(res.data));
+      })
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchDbPostFail(err)));
+  };
+
   const handleFetchPosts = () => {
     axios
-      .get("/api/get/allposts")
+      .get("/api/get/posts")
       .then((res) => {
         dispatchPostsReducer(ACTIONS.fetchDbPostsSuccess(res.data));
       })
@@ -27,12 +36,27 @@ const ContextState = () => {
       });
   };
 
+  const handleFetchPostComments = (postId) => {
+    axios
+      .get(`/api/get/post/${postId}/comments`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbPostCommentsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchPostsReducer(ACTIONS.fetchDbPostCommentsFail(err));
+      });
+  };
+
   return (
     <div>
       <Context.Provider
         value={{
           postsState: statePostsReducer,
+          handleFetchPost: (post) => handleFetchPost(post),
           handleFetchPosts: (posts) => handleFetchPosts(posts),
+          handleFetchPostComments: (comments) =>
+            handleFetchPostComments(comments),
         }}
       >
         <Routes />
