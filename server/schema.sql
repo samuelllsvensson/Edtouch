@@ -13,7 +13,7 @@ CREATE TABLE posts (
   post_id SERIAL PRIMARY KEY,
   title VARCHAR(255),
   body VARCHAR,
-  user_id VARCHAR REFERENCES users(user_id),
+  user_id INT REFERENCES users(user_id),
   date_created TIMESTAMP,
 );
 
