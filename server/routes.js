@@ -23,15 +23,14 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
 
 router.get("/api/get/post/:post_id/comments", (req, res, next) => {
   const post_id = req.params.post_id;
-  console.log("HEJ", post_id);
   pool.query(
-    `SELECT comment_id, body, author, name, post_comments.date_created
+    `SELECT comment_id, body, users.username, name, post_comments.date_created
       FROM post_comments
-      INNER JOIN users ON users.user_id = post_comments.user_comment_id
-      WHERE post_comment_id=$1`,
+      INNER JOIN users ON users.user_id = post_comments.user_id
+      WHERE post_id=$1`,
     [post_id],
     (q_err, q_res) => {
-      console.log(q_res);
+      //console.log(q_res);
       res.json(q_res.rows);
     }
   );
