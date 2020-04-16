@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var pool = require("./db");
 
-router.get("/api/get/allposts", (req, res, next) => {
+router.get("/api/get/posts", (req, res, next) => {
   pool.query(`SELECT * FROM posts`, (q_err, q_res) => {
     res.json(q_res.rows);
   });
@@ -17,6 +17,22 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
     (q_err, q_res) => {
       //console.log(q_res);
       res.json(q_res.rows[0]);
+    }
+  );
+});
+
+router.get("/api/get/post/:post_id/comments", (req, res, next) => {
+  const post_id = req.params.post_id;
+  console.log("HEJ", post_id);
+  pool.query(
+    `SELECT comment_id, body, author, name, post_comments.date_created
+      FROM post_comments
+      INNER JOIN users ON users.user_id = post_comments.user_comment_id
+      WHERE post_comment_id=$1`,
+    [post_id],
+    (q_err, q_res) => {
+      console.log(q_res);
+      res.json(q_res.rows);
     }
   );
 });

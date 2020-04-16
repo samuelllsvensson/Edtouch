@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-//var moment = require("moment");
+var moment = require("moment");
 
-const PostComment = (props) => {
+const PostComment = ({ comment }) => {
   return (
     <article className="media">
       <figure className="media-left">
@@ -16,14 +16,10 @@ const PostComment = (props) => {
       <div className="media-content">
         <div className="content">
           <p>
-            <strong>John Smith</strong> <small>@johnsmith</small>{" "}
-            <small>
-              {/* {moment(stateLocal.post.date_created).fromNow().toString()} */}
-              timestamp
-            </small>
+            <strong>{comment.name}</strong> <small>@{comment.author}</small>{" "}
+            <small>{moment(comment.date_created).fromNow().toString()}</small>
             <br />
-            comment body
-            {/* {stateLocal.post.body} */}
+            {comment.body}
           </p>
         </div>
         <nav className="level is-mobile">
@@ -41,10 +37,9 @@ const PostComment = (props) => {
           </div>
           <div className="level-right">
             <small>
-              timestamp
-              {/* {moment(stateLocal.post.date_created)
-                .format("h:m A · MMM D, YYYY")
-                .toString()} */}
+              {moment(comment.date_created)
+                .format("h:mm A · MMM D, YYYY")
+                .toString()}
             </small>
           </div>
         </nav>

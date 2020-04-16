@@ -1,43 +1,41 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Context from "../utils/context";
-import axios from "axios";
 
 import PostComment from "../components/PostComment";
 import Edit from "../components/Edit";
 var moment = require("moment");
 
 const Post = (props) => {
-  const context = useContext(Context);
+  const { postsState, handleFetchPost, handleFetchPostComments } = useContext(
+    Context
+  );
 
   const [stateLocal, setState] = useState({
-    post: null,
     activeTab: "comments",
   });
 
   useEffect(() => {
-    if (!stateLocal.post) {
-      axios
-        .get(`/api/get/post/${props.match.params.post_id}`)
-        .then((res) => {
-          setState({
-            ...stateLocal,
-            post: res.data,
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [context, stateLocal, props.match.params.post_id]);
+    if (!postsState.post) handleFetchPost(props.match.params.post_id);
+    if (!postsState.comments)
+      handleFetchPostComments(props.match.params.post_id);
+  }, [
+    postsState,
+    handleFetchPost,
+    handleFetchPostComments,
+    props.match.params.post_id,
+  ]);
 
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
-      return (
-        <div className="column">
-          <PostComment />
-          <PostComment />
-          <PostComment />
-        </div>
-      );
+      if (!postsState.comments) return;
+      return postsState.comments.map((comment) => {
+        return (
+          <div key={comment.comment_id} className="column">
+            <PostComment comment={comment} />
+          </div>
+        );
+      });
     } else if (stateLocal.activeTab === "edits") {
       return (
         <div className="column">
@@ -58,11 +56,10 @@ const Post = (props) => {
   }
 
   function render() {
-    console.log(stateLocal);
-    if (stateLocal.post) {
+    if (postsState.post) {
       return (
         <div className="column is-centered is-half is-offset-one-quarter">
-          <h1 className="title">{stateLocal.post.title}</h1>
+          <h1 className="title">{postsState.post.title}</h1>
           <figure className="image is-16by9">
             <img
               src="https://bulma.io/images/placeholders/1280x960.png"
@@ -85,10 +82,10 @@ const Post = (props) => {
                 <p>
                   <strong>John Smith</strong> <small>@johnsmith</small>{" "}
                   <small>
-                    {moment(stateLocal.post.date_created).fromNow().toString()}
+                    {moment(postsState.post.date_created).fromNow().toString()}
                   </small>
                   <br />
-                  {stateLocal.post.body}
+                  {postsState.post.body}
                 </p>
               </div>
               <nav className="level is-mobile">
@@ -106,7 +103,7 @@ const Post = (props) => {
                 </div>
                 <div className="level-right">
                   <small>
-                    {moment(stateLocal.post.date_created)
+                    {moment(postsState.post.date_created)
                       .format("h:m A · MMM D, YYYY")
                       .toString()}
                   </small>
