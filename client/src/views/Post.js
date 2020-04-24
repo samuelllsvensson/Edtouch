@@ -29,31 +29,18 @@ const Post = (props) => {
     activeTab: "comments",
     comment: "",
   });
-  // const handleCommentSubmit = (submitted_comment) => {
-  //   if (postsState.comments) {
-  //     console.log("hej");
-  //     setState({
-  //       ...postsState,
-  //       comments_arr: [submitted_comment, ...postsState.comments],
-  //     });
-  //   } else {
-  //     setState({ ...postsState, comments: [submitted_comment] });
-  //   }
-  // };
   const handleSubmit = () => {
     const comment = document.getElementById("postCommentText").value;
     const user_id = postsState.post.user_id;
     const username = postsState.post.username;
     const post_id = postsState.post.post_id;
-
-    const data = {
+    const commentData = {
       comment: comment,
       username: username,
       user_id: user_id,
       post_id: post_id,
     };
-
-    handlePostComment(data);
+    handlePostComment(commentData);
   };
 
   function renderTabs() {
