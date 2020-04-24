@@ -48,6 +48,21 @@ const ContextState = () => {
       });
   };
 
+  const handlePostComment = (data) => {
+    axios
+      .post(`/api/post/${data.post_id}/postcomment`, {
+        comment: data.comment,
+        username: data.username,
+        user_id: data.user_id,
+      })
+      .then(() => {
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Context.Provider
@@ -57,6 +72,8 @@ const ContextState = () => {
           handleFetchPosts: (posts) => handleFetchPosts(posts),
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
+          handlePostComment: (comment, username, userId, postId) =>
+            handlePostComment(comment, username, userId, postId),
         }}
       >
         <Routes />

@@ -16,7 +16,7 @@ const PostComment = ({ comment }) => {
       <div className="media-content">
         <div className="content">
           <p>
-            <strong>{comment.name}</strong> <small>@{comment.author}</small>{" "}
+            <strong>{comment.name}</strong> <small>@{comment.username}</small>{" "}
             <small>{moment(comment.date_created).fromNow().toString()}</small>
             <br />
             {comment.body}
@@ -45,9 +45,9 @@ const PostComment = ({ comment }) => {
         </nav>
       </div>
       <div className="media-right">
-        <button className="button is-danger is-small is-focused is-rounded is-inverted">
+        <button className="button is-small">
           <span className="icon is-small">
-            <i className="fas fa-flag"></i>
+            <i className="far fa-edit"></i>
           </span>
         </button>
       </div>

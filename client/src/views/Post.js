@@ -7,13 +7,12 @@ import Edit from "../components/Edit";
 var moment = require("moment");
 
 const Post = (props) => {
-  const { postsState, handleFetchPost, handleFetchPostComments } = useContext(
-    Context
-  );
-
-  const [stateLocal, setState] = useState({
-    activeTab: "comments",
-  });
+  const {
+    postsState,
+    handleFetchPost,
+    handleFetchPostComments,
+    handlePostComment,
+  } = useContext(Context);
 
   useEffect(() => {
     if (!postsState.post) handleFetchPost(props.match.params.post_id);
@@ -25,6 +24,37 @@ const Post = (props) => {
     handleFetchPostComments,
     props.match.params.post_id,
   ]);
+
+  const [stateLocal, setState] = useState({
+    activeTab: "comments",
+    comment: "",
+  });
+  // const handleCommentSubmit = (submitted_comment) => {
+  //   if (postsState.comments) {
+  //     console.log("hej");
+  //     setState({
+  //       ...postsState,
+  //       comments_arr: [submitted_comment, ...postsState.comments],
+  //     });
+  //   } else {
+  //     setState({ ...postsState, comments: [submitted_comment] });
+  //   }
+  // };
+  const handleSubmit = () => {
+    const comment = document.getElementById("postCommentText").value;
+    const user_id = postsState.post.user_id;
+    const username = postsState.post.username;
+    const post_id = postsState.post.post_id;
+
+    const data = {
+      comment: comment,
+      username: username,
+      user_id: user_id,
+      post_id: post_id,
+    };
+
+    handlePostComment(data);
+  };
 
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
@@ -56,6 +86,7 @@ const Post = (props) => {
   }
 
   function render() {
+    console.log(postsState);
     if (postsState.post) {
       return (
         <div className="column is-centered is-half is-offset-one-quarter">
@@ -80,7 +111,8 @@ const Post = (props) => {
             <div className="media-content">
               <div className="content">
                 <p>
-                  <strong>John Smith</strong> <small>@johnsmith</small>{" "}
+                  <strong>{postsState.post.name}</strong>{" "}
+                  <small>@{postsState.post.username}</small>{" "}
                   <small>
                     {moment(postsState.post.date_created).fromNow().toString()}
                   </small>
@@ -128,16 +160,23 @@ const Post = (props) => {
               <div className="field">
                 <p className="control">
                   <textarea
+                    id="postCommentText"
                     type="textarea"
                     placeholder="Add a comment..."
                     style={{ width: "100%", height: "10vh" }}
+                    className="textarea is-primary"
                   ></textarea>
                 </p>
               </div>
               <nav className="level">
                 <div className="level-left">
                   <div className="level-item">
-                    <a className="button is-info">Submit</a>
+                    <a
+                      className="button is-info"
+                      onClick={() => handleSubmit()}
+                    >
+                      Submit
+                    </a>
                   </div>
                 </div>
               </nav>

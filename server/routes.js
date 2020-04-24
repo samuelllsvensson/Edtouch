@@ -3,19 +3,23 @@ var router = express.Router();
 var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
-  pool.query(`SELECT * FROM posts`, (q_err, q_res) => {
-    res.json(q_res.rows);
-  });
+  pool.query(
+    `SELECT * FROM posts INNER JOIN users ON users.user_id = posts.user_id`,
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
 });
 
 router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   //console.log(req);
   pool.query(
-    `SELECT * FROM posts WHERE post_id=$1`,
+    `SELECT * FROM posts 
+    INNER JOIN users ON users.user_id = posts.user_id
+    WHERE post_id=$1`,
     [post_id],
     (q_err, q_res) => {
-      //console.log(q_res);
       res.json(q_res.rows[0]);
     }
   );
@@ -27,10 +31,28 @@ router.get("/api/get/post/:post_id/comments", (req, res, next) => {
     `SELECT comment_id, body, users.username, name, post_comments.date_created
       FROM post_comments
       INNER JOIN users ON users.user_id = post_comments.user_id
-      WHERE post_id=$1`,
+      WHERE post_id=$1
+      ORDER BY post_comments.date_created DESC`,
     [post_id],
     (q_err, q_res) => {
-      //console.log(q_res);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.post("/api/post/:post_id/postcomment", (req, res, next) => {
+  const values = [
+    req.body.comment,
+    req.body.username,
+    req.body.user_id,
+    req.params.post_id,
+  ];
+  pool.query(
+    `INSERT INTO post_comments(body, username, user_id, post_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
       res.json(q_res.rows);
     }
   );
