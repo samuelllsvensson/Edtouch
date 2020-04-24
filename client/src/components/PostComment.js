@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 var moment = require("moment");
 
-const PostComment = ({ comment }) => {
+const PostComment = ({ comment, callback }) => {
   return (
     <article className="media">
       <figure className="media-left">
@@ -45,7 +45,10 @@ const PostComment = ({ comment }) => {
         </nav>
       </div>
       <div className="media-right">
-        <button className="button is-small">
+        <button
+          onClick={() => callback(comment.comment_id)}
+          className="button is-small"
+        >
           <span className="icon is-small">
             <i className="far fa-edit"></i>
           </span>

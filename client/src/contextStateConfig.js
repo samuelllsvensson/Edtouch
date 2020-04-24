@@ -74,6 +74,7 @@ const ContextState = () => {
     axios
       .get(`/api/get/post/${postId}/comments`)
       .then((res) => {
+        console.log(res);
         dispatchPostsReducer(ACTIONS.fetchDbPostCommentsSuccess(res.data));
       })
       .catch((err) => {
@@ -97,6 +98,22 @@ const ContextState = () => {
       });
   };
 
+  const handleEditComment = (data) => {
+    axios
+      .put(`/api/put/${data.post_id}/postcomment`, {
+        comment: data.comment,
+        username: data.username,
+        user_id: data.user_id,
+        comment_id: data.comment_id,
+      })
+      .then((res) => {
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Context.Provider
@@ -106,8 +123,8 @@ const ContextState = () => {
           handleFetchPosts: (posts) => handleFetchPosts(posts),
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
-          handlePostComment: (comment, username, userId, postId) =>
-            handlePostComment(comment, username, userId, postId),
+          handlePostComment: (comment) => handlePostComment(comment),
+          handleEditComment: (comment) => handleEditComment(comment),
         }}
       >
         <Routes />

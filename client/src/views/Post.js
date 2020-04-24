@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Context from "../utils/context";
 
 import PostComment from "../components/PostComment";
+import EditComment from "../components/EditComment";
 import Edit from "../components/Edit";
 var moment = require("moment");
 
@@ -22,28 +23,40 @@ const Post = (props) => {
   const [stateLocal, setState] = useState({
     activeTab: "comments",
     comment: "",
+    isEdit: 0,
   });
   const handleSubmit = () => {
     const comment = document.getElementById("postCommentText").value;
     const user_id = postsState.post.user_id;
     const username = postsState.post.username;
     const post_id = postsState.post.post_id;
+    const comment_id = postsState.post.comment_id;
     const commentData = {
       comment: comment,
       username: username,
       user_id: user_id,
       post_id: post_id,
+      comment_id: comment_id,
     };
     handlePostComment(commentData);
   };
-
+  function setEditState(comment_id) {
+    setState({ ...stateLocal, isEdit: comment_id });
+  }
+  function resetEditState() {
+    setState({ ...stateLocal, isEdit: 0 });
+  }
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
       return postsState.comments.map((comment) => {
         return (
           <div key={comment.comment_id} className="column">
-            <PostComment comment={comment} />
+            {stateLocal.isEdit !== comment.comment_id ? (
+              <PostComment comment={comment} callback={setEditState} />
+            ) : (
+              <EditComment comment={comment} resetCallback={resetEditState} />
+            )}
           </div>
         );
       });

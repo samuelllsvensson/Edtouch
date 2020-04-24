@@ -58,6 +58,25 @@ router.post("/api/post/:post_id/postcomment", (req, res, next) => {
   );
 });
 
+router.put("/api/put/:post_id/:comment_id", (req, res, next) => {
+  const values = [
+    req.body.comment,
+    req.body.username,
+    req.body.user_id,
+    req.params.post_id,
+    req.body.comment_id,
+  ];
+  pool.query(
+    `UPDATE post_comments SET body = $1, username = $2, user_id = $3, post_id = $4, date_created = NOW()
+              WHERE comment_id=$5`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
 /*
 /api/get/post?:id Retrieves a specific post given a post_id
 /api/post/posttodb: Saves a user post to the database
