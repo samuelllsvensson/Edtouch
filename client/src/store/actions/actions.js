@@ -14,6 +14,12 @@ export const fetchDbPostFail = (err) => {
   };
 };
 
+export const fetchDbPostsRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_POSTS_REQUEST,
+  };
+};
+
 export const fetchDbPostsSuccess = (posts) => {
   return {
     type: ACTION_TYPES.FETCH_POSTS_SUCCESS,
