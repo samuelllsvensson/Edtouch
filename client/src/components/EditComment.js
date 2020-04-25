@@ -45,63 +45,60 @@ const EditComment = ({ comment, resetCallback }) => {
       </figure>
       <div className="media-content">
         <div className="content">
-          <p>
-            <strong>{comment.name}</strong> <small>@{comment.username}</small>{" "}
-            <small>{moment(comment.date_created).fromNow().toString()}</small>
-            <br />
-            <div className="field">
-              <p className="control">
-                <textarea
-                  id="editCommentText"
-                  type="textarea"
-                  placeholder=""
-                  style={{ width: "100%", height: "10vh" }}
-                  className="textarea is-primary"
+          <strong>{comment.name}</strong> <small>@{comment.username}</small>{" "}
+          <small>{moment(comment.date_created).fromNow().toString()}</small>
+          <br />
+          <div className="field">
+            <p className="control">
+              <textarea
+                id="editCommentText"
+                type="textarea"
+                placeholder=""
+                defaultValue={comment.body}
+                style={{ width: "100%", height: "10vh" }}
+                className="textarea is-primary"
+              ></textarea>
+            </p>
+          </div>
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <button
+                  onClick={() => handleSubmit("saveComment")}
+                  className="button is-info"
                 >
-                  {comment.body}
-                </textarea>
-              </p>
-            </div>
-            <nav className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <button
-                    onClick={() => handleSubmit("saveComment")}
-                    className="button is-info"
-                  >
-                    Save
-                  </button>
-                </div>
-                <div className="level-item">
-                  <button
-                    onClick={() => resetCallback()}
-                    className="button is-info"
-                  >
-                    Cancel
-                  </button>
-                </div>
-                <div className="level-item">
-                  <button
-                    onClick={() => handleSubmit("deleteComment")}
-                    className="button is-small is-danger"
-                  >
-                    Delete
-                  </button>
-                </div>
+                  Save
+                </button>
               </div>
+              <div className="level-item">
+                <button
+                  onClick={() => resetCallback()}
+                  className="button is-info"
+                >
+                  Cancel
+                </button>
+              </div>
+              <div className="level-item">
+                <button
+                  onClick={() => handleSubmit("deleteComment")}
+                  className="button is-small is-danger"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
 
-              <nav className="level is-mobile">
-                <div className="level-right">
-                  <small>
-                    Comment created: &nbsp;
-                    {moment(comment.date_created)
-                      .format("h:mm A · MMM D, YYYY")
-                      .toString()}
-                  </small>
-                </div>
-              </nav>
+            <nav className="level is-mobile">
+              <div className="level-right">
+                <small>
+                  Comment created: &nbsp;
+                  {moment(comment.date_created)
+                    .format("h:mm A · MMM D, YYYY")
+                    .toString()}
+                </small>
+              </div>
             </nav>
-          </p>
+          </nav>
         </div>
       </div>
     </article>
