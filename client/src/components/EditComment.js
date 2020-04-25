@@ -3,22 +3,35 @@ import Context from "../utils/context";
 var moment = require("moment");
 
 const EditComment = ({ comment, resetCallback }) => {
-  const { postsState, handleEditComment } = useContext(Context);
+  const { postsState, handleEditComment, handleDeleteComment } = useContext(
+    Context
+  );
 
-  const handleSubmit = () => {
-    const editedComment = document.getElementById("editCommentText").value;
-    const post_id = postsState.post.post_id;
-    const user_id = postsState.post.user_id;
-    const commentData = {
-      comment: editedComment,
-      username: comment.username,
-      user_id: user_id,
-      post_id: post_id,
-      comment_id: comment.comment_id,
-    };
+  const handleSubmit = (action) => {
+    if (action === "saveComment") {
+      const editedComment = document.getElementById("editCommentText").value;
+      const post_id = postsState.post.post_id;
+      const user_id = postsState.post.user_id;
+      const commentData = {
+        comment: editedComment,
+        username: comment.username,
+        user_id: user_id,
+        post_id: post_id,
+        comment_id: comment.comment_id,
+      };
 
-    handleEditComment(commentData);
-    resetCallback();
+      handleEditComment(commentData);
+      resetCallback();
+    }
+    if (action === "deleteComment") {
+      const post_id = postsState.post.post_id;
+      const commentData = {
+        post_id: post_id,
+        comment_id: comment.comment_id,
+      };
+      handleDeleteComment(commentData);
+      resetCallback();
+    }
   };
   return (
     <article className="media">
@@ -53,7 +66,7 @@ const EditComment = ({ comment, resetCallback }) => {
               <div className="level-left">
                 <div className="level-item">
                   <button
-                    onClick={() => handleSubmit()}
+                    onClick={() => handleSubmit("saveComment")}
                     className="button is-info"
                   >
                     Save
@@ -65,6 +78,14 @@ const EditComment = ({ comment, resetCallback }) => {
                     className="button is-info"
                   >
                     Cancel
+                  </button>
+                </div>
+                <div className="level-item">
+                  <button
+                    onClick={() => handleSubmit("deleteComment")}
+                    className="button is-small is-danger"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>

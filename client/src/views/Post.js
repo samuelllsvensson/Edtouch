@@ -80,7 +80,6 @@ const Post = (props) => {
   }
 
   function render() {
-    console.log(postsState);
     if (postsState.post) {
       return (
         <div className="column is-centered is-half is-offset-one-quarter">

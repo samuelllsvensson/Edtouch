@@ -74,7 +74,7 @@ const ContextState = () => {
     axios
       .get(`/api/get/post/${postId}/comments`)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         dispatchPostsReducer(ACTIONS.fetchDbPostCommentsSuccess(res.data));
       })
       .catch((err) => {
@@ -114,6 +114,19 @@ const ContextState = () => {
       });
   };
 
+  const handleDeleteComment = (data) => {
+    //console.log(data);
+    axios
+      .delete(`/api/delete/${data.comment_id}`)
+      .then((res) => {
+        //console.log(res);
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Context.Provider
@@ -125,6 +138,7 @@ const ContextState = () => {
             handleFetchPostComments(comments),
           handlePostComment: (comment) => handlePostComment(comment),
           handleEditComment: (comment) => handleEditComment(comment),
+          handleDeleteComment: (comment) => handleDeleteComment(comment),
         }}
       >
         <Routes />

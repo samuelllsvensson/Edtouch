@@ -58,7 +58,7 @@ router.post("/api/post/:post_id/postcomment", (req, res, next) => {
   );
 });
 
-router.put("/api/put/:post_id/:comment_id", (req, res, next) => {
+router.put("/api/put/:post_id/postcomment", (req, res, next) => {
   const values = [
     req.body.comment,
     req.body.username,
@@ -77,6 +77,19 @@ router.put("/api/put/:post_id/:comment_id", (req, res, next) => {
   );
 });
 
+router.delete("/api/delete/:comment_id", (req, res, next) => {
+  const comment_id = req.params.comment_id;
+  //console.log(comment_id);
+  pool.query(
+    `DELETE FROM post_comments
+              WHERE comment_id=$1`,
+    [comment_id],
+    (q_err, q_res) => {
+      res.json(q_res);
+      //console.log(q_err);
+    }
+  );
+});
 /*
 /api/get/post?:id Retrieves a specific post given a post_id
 /api/post/posttodb: Saves a user post to the database
