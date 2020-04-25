@@ -7,7 +7,7 @@ import "../css/home.css";
 import PostCard from "../components/PostCard";
 
 const Home = () => {
-  const { postsState, handleFetchPosts } = useContext(Context);
+  const { postsState, authState, handleFetchPosts } = useContext(Context);
 
   useEffect(() => {
     handleFetchPosts();
@@ -34,6 +34,7 @@ const Home = () => {
 
   return (
     <div className="container">
+      {console.log(authState)}
       <div className="columns is-multiline">{renderPostCards()}</div>
     </div>
   );

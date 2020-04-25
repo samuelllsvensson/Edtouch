@@ -6,7 +6,7 @@ const Header = () => {
   const context = useContext(Context);
 
   function renderLoginButton() {
-    if (!context.authState) {
+    if (!context.authState.authenticated) {
       return (
         <button
           className="button is-light"

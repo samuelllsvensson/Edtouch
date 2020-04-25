@@ -7,9 +7,12 @@ import Edit from "../components/Edit";
 var moment = require("moment");
 
 const Post = (props) => {
-  const { postsState, handleFetchPost, handleFetchPostComments } = useContext(
-    Context
-  );
+  const {
+    postsState,
+    authState,
+    handleFetchPost,
+    handleFetchPostComments,
+  } = useContext(Context);
 
   const [stateLocal, setState] = useState({
     activeTab: "comments",
@@ -21,6 +24,9 @@ const Post = (props) => {
   }, []);
 
   function renderTabs() {
+    {
+      console.log(authState);
+    }
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
       return postsState.comments.map((comment) => {
