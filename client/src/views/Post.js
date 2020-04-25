@@ -1,5 +1,5 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Context from "../utils/context";
 
 import PostComment from "../components/PostComment";
@@ -110,16 +110,16 @@ const Post = (props) => {
               </div>
               <nav className="level is-mobile">
                 <div className="level-left">
-                  <Link to="#" className="level-item">
+                  <div className="level-item">
                     <span className="icon is-small">
                       <i className="fas fa-plus"></i>
                     </span>
-                  </Link>
-                  <Link to="#" className="level-item">
+                  </div>
+                  <div className="level-item">
                     <span className="icon is-small">
                       <i className="fas fa-minus"></i>
                     </span>
-                  </Link>
+                  </div>
                 </div>
                 <div className="level-right">
                   <small>
@@ -159,7 +159,7 @@ const Post = (props) => {
               <nav className="level">
                 <div className="level-left">
                   <div className="level-item">
-                    <a
+                    <button
                       className={`button is-info ${
                         postsState.loadings["SUBMIT_POST_COMMENT"]
                           ? "is-loading"
@@ -168,7 +168,7 @@ const Post = (props) => {
                       onClick={() => handleSubmit()}
                     >
                       Submit
-                    </a>
+                    </button>
                     {console.log(postsState)}
                   </div>
                 </div>
