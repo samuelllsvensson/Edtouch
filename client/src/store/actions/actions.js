@@ -118,21 +118,28 @@ export const loginSuccess = () => {
   };
 };
 
-export const loginFail = () => {
+export const logoutSuccess = () => {
   return {
-    type: ACTION_TYPES.LOGIN_FAILURE,
+    type: ACTION_TYPES.LOGOUT_SUCCESS,
   };
 };
 
-export const addProfile = (profile) => {
+export const addA0Profile = (profile) => {
   return {
-    type: ACTION_TYPES.ADD_PROFILE,
+    type: ACTION_TYPES.ADD_A0_PROFILE,
     payload: profile,
   };
 };
 
-export const removeProfile = () => {
+export const addDBProfile = (profile) => {
   return {
-    type: ACTION_TYPES.REMOVE_PROFILE,
+    type: ACTION_TYPES.ADD_DB_PROFILE,
+    payload: profile,
+  };
+};
+
+export const removeA0Profile = () => {
+  return {
+    type: ACTION_TYPES.REMOVE_A0_PROFILE,
   };
 };

@@ -3,7 +3,6 @@
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE,
-  name VARCHAR(255),
   email VARCHAR(255),
   date_created DATE
 );

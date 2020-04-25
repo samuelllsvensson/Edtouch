@@ -28,12 +28,25 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
 router.get("/api/get/post/:post_id/comments", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
-    `SELECT comment_id, body, users.username, name, post_comments.date_created
+    `SELECT comment_id, body, users.username, post_comments.date_created
       FROM post_comments
       INNER JOIN users ON users.user_id = post_comments.user_id
       WHERE post_id=$1
       ORDER BY post_comments.date_created DESC`,
     [post_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.post("/api/post/user", (req, res, next) => {
+  const values = [req.body.profile.nickname, req.body.profile.email];
+  pool.query(
+    `INSERT INTO users(username, email, date_created)
+              VALUES($1, $2, NOW())
+              ON CONFLICT DO NOTHING`,
+    values,
     (q_err, q_res) => {
       res.json(q_res.rows);
     }
@@ -53,6 +66,18 @@ router.post("/api/post/:post_id/postcomment", (req, res, next) => {
     values,
     (q_err, q_res) => {
       if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.get("/api/get/user", (req, res, next) => {
+  const email = req.query.email;
+  pool.query(
+    `SELECT * FROM users
+              WHERE email=$1`,
+    [email],
+    (q_err, q_res) => {
       res.json(q_res.rows);
     }
   );
@@ -90,6 +115,7 @@ router.delete("/api/delete/:comment_id", (req, res, next) => {
     }
   );
 });
+
 /*
 /api/get/post?:id Retrieves a specific post given a post_id
 /api/post/posttodb: Saves a user post to the database

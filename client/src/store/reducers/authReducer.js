@@ -3,6 +3,7 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 export const initialState = {
   authenticated: false,
   profile: null,
+  dbProfile: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -12,17 +13,22 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         authenticated: true,
       };
-    case ACTION_TYPES.LOGIN_FAILURE:
+    case ACTION_TYPES.LOGOUT_SUCCESS:
       return {
         ...state,
         authenticated: false,
       };
-    case ACTION_TYPES.ADD_PROFILE:
+    case ACTION_TYPES.ADD_A0_PROFILE:
       return {
         ...state,
         profile: action.payload,
       };
-    case ACTION_TYPES.REMOVE_PROFILE:
+    case ACTION_TYPES.ADD_DB_PROFILE:
+      return {
+        ...state,
+        dbProfile: action.payload,
+      };
+    case ACTION_TYPES.REMOVE_A0_PROFILE:
       return {
         ...state,
         profile: null,

@@ -159,15 +159,19 @@ const ContextState = () => {
   };
 
   const handleLogout = () => {
-    dispatchAuthReducer(ACTIONS.loginFail());
+    dispatchAuthReducer(ACTIONS.logoutSuccess());
   };
 
-  const handleAddProfile = (profile) => {
-    dispatchAuthReducer(ACTIONS.addProfile(profile));
+  const handleAddA0Profile = (profile) => {
+    dispatchAuthReducer(ACTIONS.addA0Profile(profile));
   };
 
-  const handleRemoveProfile = () => {
-    dispatchAuthReducer(ACTIONS.removeProfile());
+  const handleAddDBProfile = (profile) => {
+    dispatchAuthReducer(ACTIONS.addDBProfile(profile));
+  };
+
+  const handleRemoveA0Profile = () => {
+    dispatchAuthReducer(ACTIONS.removeA0Profile());
   };
 
   const handleAuthentication = (props) => {
@@ -192,12 +196,12 @@ const ContextState = () => {
           handleDeleteComment: (comment) => handleDeleteComment(comment),
 
           //Auth
-          authState: stateAuthReducer.authenticated,
-          profileState: stateAuthReducer.profile,
+          authState: stateAuthReducer,
           handleUserLogin: () => handleLogin(),
           handleUserLogout: () => handleLogout(),
-          handleUserAddProfile: (profile) => handleAddProfile(profile),
-          handleUserRemoveProfile: () => handleRemoveProfile(),
+          handleAddA0Profile: (profile) => handleAddA0Profile(profile),
+          handleAddDBProfile: (profile) => handleAddDBProfile(profile),
+          handleRemoveA0Profile: () => handleRemoveA0Profile(),
 
           authObj: auth,
           handleAuth: (props) => handleAuthentication(props),
