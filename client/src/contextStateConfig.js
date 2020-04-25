@@ -4,7 +4,12 @@ import * as ACTIONS from "./store/actions/actions";
 import axios from "axios";
 
 import * as postsReducer from "./store/reducers/postsReducer";
+import * as authReducer from "./store/reducers/authReducer";
 import Routes from "./routes";
+
+import Auth from "./utils/Auth";
+
+const auth = new Auth();
 
 // Acts as a middleware and will add status states for a reducer
 const addStatus = (reducer) => {
@@ -141,10 +146,41 @@ const ContextState = () => {
       });
   };
 
+  /*
+      Auth Reducer
+    */
+  const [stateAuthReducer, dispatchAuthReducer] = useReducer(
+    authReducer.authReducer,
+    authReducer.initialState
+  );
+
+  const handleLogin = () => {
+    dispatchAuthReducer(ACTIONS.loginSuccess());
+  };
+
+  const handleLogout = () => {
+    dispatchAuthReducer(ACTIONS.loginFail());
+  };
+
+  const handleAddProfile = (profile) => {
+    dispatchAuthReducer(ACTIONS.addProfile(profile));
+  };
+
+  const handleRemoveProfile = () => {
+    dispatchAuthReducer(ACTIONS.removeProfile());
+  };
+
+  const handleAuthentication = (props) => {
+    if (props.location.hash) {
+      auth.handleAuth();
+    }
+  };
+
   return (
     <div>
       <Context.Provider
         value={{
+          //Posts
           postsState: statePostsReducer,
           handleFetchPost: (post) => handleFetchPost(post),
           handleFetchPosts: (posts) => handleFetchPosts(posts),
@@ -154,6 +190,17 @@ const ContextState = () => {
           setIsEdit: (id) => setIsEdit(id),
           handleEditComment: (comment) => handleEditComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
+
+          //Auth
+          authState: stateAuthReducer.authenticated,
+          profileState: stateAuthReducer.profile,
+          handleUserLogin: () => handleLogin(),
+          handleUserLogout: () => handleLogout(),
+          handleUserAddProfile: (profile) => handleAddProfile(profile),
+          handleUserRemoveProfile: () => handleRemoveProfile(),
+
+          authObj: auth,
+          handleAuth: (props) => handleAuthentication(props),
         }}
       >
         <Routes />

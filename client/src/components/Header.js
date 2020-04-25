@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import Context from "../utils/context";
 
 const Header = () => {
+  const context = useContext(Context);
+
+  function renderLoginButton() {
+    if (!context.authState) {
+      return (
+        <button
+          className="button is-light"
+          onClick={() => context.authObj.login()}
+        >
+          <strong>Log in</strong>
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="button is-light"
+          onClick={() => context.authObj.logout()}
+        >
+          <strong>Log out</strong>
+        </button>
+      );
+    }
+  }
+
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -59,9 +84,7 @@ const Header = () => {
               <Link to="/" className="button is-primary">
                 <strong>Sign up</strong>
               </Link>
-              <Link to="/" className="button is-light">
-                <strong>Log in</strong>
-              </Link>
+              {renderLoginButton()}
             </div>
           </div>
         </div>
