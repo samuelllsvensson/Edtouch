@@ -6,6 +6,7 @@ export const initialState = {
   comments: null,
   errors: {},
   loadings: {},
+  isEdit: -1,
 };
 
 export const postsReducer = (state = initialState, action) => {
@@ -16,27 +17,10 @@ export const postsReducer = (state = initialState, action) => {
         post: action.payload,
       };
 
-    case ACTION_TYPES.FETCH_POST_FAIL:
-      return {
-        ...state,
-        post: null,
-      };
-
-    case ACTION_TYPES.FETCH_POSTS_REQUEST:
-      return {
-        ...state,
-      };
-
     case ACTION_TYPES.FETCH_POSTS_SUCCESS:
       return {
         ...state,
         posts: action.payload,
-      };
-
-    case ACTION_TYPES.FETCH_POSTS_FAIL:
-      return {
-        ...state,
-        posts: null,
       };
 
     case ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS:
@@ -45,10 +29,16 @@ export const postsReducer = (state = initialState, action) => {
         comments: action.payload,
       };
 
-    case ACTION_TYPES.FETCH_POST_COMMENTS_FAIL:
+    case ACTION_TYPES.SET_COMMENT_EDITABLE:
       return {
         ...state,
-        comments: null,
+        isEdit: action.payload,
+      };
+
+    case ACTION_TYPES.UPDATE_POST_COMMENT_SUCCESS:
+      return {
+        ...state,
+        isEdit: -1,
       };
 
     default:

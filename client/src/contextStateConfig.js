@@ -16,7 +16,11 @@ const addStatus = (reducer) => {
   return (state, action) => {
     const { type } = action;
     const matches = /(.*)_(REQUEST|SUCCESS|FAIL)/.exec(type);
-    const [, requestName, requestState] = matches;
+    let requestName;
+    let requestState;
+    if (matches) {
+      [, requestName, requestState] = matches;
+    }
 
     let error;
     let loading;
@@ -79,11 +83,66 @@ const ContextState = () => {
     axios
       .get(`/api/get/post/${postId}/comments`)
       .then((res) => {
+        //console.log(res);
         dispatchPostsReducer(ACTIONS.fetchDbPostCommentsSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);
         dispatchPostsReducer(ACTIONS.fetchDbPostCommentsFail(err));
+      });
+  };
+  const handlePostComment = (data) => {
+    dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
+    axios
+      .post(`/api/post/${data.post_id}/postcomment`, {
+        comment: data.comment,
+        username: data.username,
+        user_id: data.user_id,
+      })
+      .then(() => {
+        dispatchPostsReducer(ACTIONS.submitPostCommentSuccess());
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.submitPostCommentFail());
+        console.log(err);
+      });
+  };
+
+  const setIsEdit = (id) => {
+    dispatchPostsReducer(ACTIONS.setCommentEditable(id));
+  };
+
+  const handleEditComment = (data) => {
+    dispatchPostsReducer(ACTIONS.updatePostCommentRequest());
+    axios
+      .put(`/api/put/${data.post_id}/postcomment`, {
+        comment: data.comment,
+        username: data.username,
+        user_id: data.user_id,
+        comment_id: data.comment_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.updatePostCommentSuccess());
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.updatePostCommentFail());
+        console.log(err);
+      });
+  };
+
+  const handleDeleteComment = (data) => {
+    dispatchPostsReducer(ACTIONS.deletePostCommentRequest());
+    axios
+      .delete(`/api/delete/${data.comment_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deletePostCommentSuccess());
+        handleFetchPostComments(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deletePostCommentFail(err));
+        console.log(err);
       });
   };
 
@@ -127,6 +186,10 @@ const ContextState = () => {
           handleFetchPosts: (posts) => handleFetchPosts(posts),
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
+          handlePostComment: (comment) => handlePostComment(comment),
+          setIsEdit: (id) => setIsEdit(id),
+          handleEditComment: (comment) => handleEditComment(comment),
+          handleDeleteComment: (comment) => handleDeleteComment(comment),
 
           //Auth
           authState: stateAuthReducer.authenticated,

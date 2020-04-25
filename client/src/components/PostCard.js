@@ -1,7 +1,7 @@
 import React from "react";
 var moment = require("moment");
 
-const PostCard = (props) => {
+const PostCard = ({ post }) => {
   return (
     <div className="card">
       <div className="card-image">
@@ -23,8 +23,8 @@ const PostCard = (props) => {
             </figure>
           </div>
           <div className="media-content">
-            <p className="title is-4">{props.post.title}</p>
-            <p className="subtitle is-6">@johnsmith</p>
+            <p className="title is-4">{post.title}</p>
+            <p className="subtitle is-6">@{post.username}</p>
           </div>
         </div>
 
@@ -36,10 +36,10 @@ const PostCard = (props) => {
             whiteSpace: "nowrap",
           }}
         >
-          {props.post.body}
+          {post.body}
           <br />
           <h6 className="title is-6">
-            {moment(props.post.date_created).fromNow().toString()}
+            {moment(post.date_created).fromNow().toString()}
           </h6>
         </div>
       </div>
