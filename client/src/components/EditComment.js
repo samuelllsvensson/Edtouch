@@ -1,11 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Context from "../utils/context";
 var moment = require("moment");
 
-const EditComment = ({ comment, resetCallback }) => {
-  const { postsState, handleEditComment, handleDeleteComment } = useContext(
-    Context
-  );
+const EditComment = ({ comment }) => {
+  const {
+    postsState,
+    handleEditComment,
+    handleDeleteComment,
+    setIsEdit,
+  } = useContext(Context);
 
   const handleSubmit = (action) => {
     if (action === "saveComment") {
@@ -21,7 +24,6 @@ const EditComment = ({ comment, resetCallback }) => {
       };
 
       handleEditComment(commentData);
-      resetCallback();
     }
     if (action === "deleteComment") {
       const post_id = postsState.post.post_id;
@@ -29,8 +31,8 @@ const EditComment = ({ comment, resetCallback }) => {
         post_id: post_id,
         comment_id: comment.comment_id,
       };
+
       handleDeleteComment(commentData);
-      resetCallback();
     }
   };
   return (
@@ -65,14 +67,18 @@ const EditComment = ({ comment, resetCallback }) => {
               <div className="level-item">
                 <button
                   onClick={() => handleSubmit("saveComment")}
-                  className="button is-info"
+                  className={`button is-info ${
+                    postsState.loadings["UPDATE_POST_COMMENT"]
+                      ? "is-loading"
+                      : ""
+                  }`}
                 >
                   Save
                 </button>
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => resetCallback()}
+                  onClick={() => setIsEdit(-1)}
                   className="button is-info"
                 >
                   Cancel
@@ -81,7 +87,11 @@ const EditComment = ({ comment, resetCallback }) => {
               <div className="level-item">
                 <button
                   onClick={() => handleSubmit("deleteComment")}
-                  className="button is-small is-danger"
+                  className={`button is-small ${
+                    postsState.loadings["DELETE_POST_COMMENT"]
+                      ? "is-loading"
+                      : ""
+                  } is-danger`}
                 >
                   Delete
                 </button>

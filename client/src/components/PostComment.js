@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useContext } from "react";
+import Context from "../utils/context";
 import { Link } from "react-router-dom";
 var moment = require("moment");
 
-const PostComment = ({ comment, callback }) => {
+const PostComment = ({ comment }) => {
+  const { setIsEdit } = useContext(Context);
   return (
     <article className="media">
       <figure className="media-left">
@@ -46,7 +48,7 @@ const PostComment = ({ comment, callback }) => {
       </div>
       <div className="media-right">
         <button
-          onClick={() => callback(comment.comment_id)}
+          onClick={() => setIsEdit(comment.comment_id)}
           className="button is-small"
         >
           <span className="icon is-small">

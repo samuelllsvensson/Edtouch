@@ -23,7 +23,6 @@ const Post = (props) => {
   const [stateLocal, setState] = useState({
     activeTab: "comments",
     comment: "",
-    isEdit: 0,
   });
   const handleSubmit = () => {
     const comment = document.getElementById("postCommentText").value;
@@ -38,24 +37,20 @@ const Post = (props) => {
       post_id: post_id,
       comment_id: comment_id,
     };
+    console.log(postsState.loadings);
     handlePostComment(commentData);
   };
-  function setEditState(comment_id) {
-    setState({ ...stateLocal, isEdit: comment_id });
-  }
-  function resetEditState() {
-    setState({ ...stateLocal, isEdit: 0 });
-  }
+
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
       return postsState.comments.map((comment) => {
         return (
           <div key={comment.comment_id} className="column">
-            {stateLocal.isEdit !== comment.comment_id ? (
-              <PostComment comment={comment} callback={setEditState} />
+            {postsState.isEdit !== comment.comment_id ? (
+              <PostComment comment={comment} />
             ) : (
-              <EditComment comment={comment} resetCallback={resetEditState} />
+              <EditComment comment={comment} />
             )}
           </div>
         );
@@ -165,11 +160,16 @@ const Post = (props) => {
                 <div className="level-left">
                   <div className="level-item">
                     <a
-                      className="button is-info"
+                      className={`button is-info ${
+                        postsState.loadings["SUBMIT_POST_COMMENT"]
+                          ? "is-loading"
+                          : ""
+                      }`}
                       onClick={() => handleSubmit()}
                     >
                       Submit
                     </a>
+                    {console.log(postsState)}
                   </div>
                 </div>
               </nav>
