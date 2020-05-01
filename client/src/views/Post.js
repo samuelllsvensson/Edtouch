@@ -13,6 +13,7 @@ const Post = (props) => {
     handleFetchPost,
     handleFetchPostComments,
     handlePostComment,
+    authState,
   } = useContext(Context);
 
   useEffect(() => {
@@ -24,20 +25,19 @@ const Post = (props) => {
     activeTab: "comments",
     comment: "",
   });
+
   const handleSubmit = () => {
+    console.log(authState);
     const comment = document.getElementById("postCommentText").value;
-    const user_id = postsState.post.user_id;
-    const username = postsState.post.username;
-    const post_id = postsState.post.post_id;
-    const comment_id = postsState.post.comment_id;
+    const userId = authState.dbProfile.user_id;
+    const username = authState.dbProfile.username;
+    const postId = postsState.post.post_id;
     const commentData = {
       comment: comment,
       username: username,
-      user_id: user_id,
-      post_id: post_id,
-      comment_id: comment_id,
+      userId,
+      postId,
     };
-    console.log(postsState.loadings);
     handlePostComment(commentData);
   };
 
@@ -63,6 +63,52 @@ const Post = (props) => {
       );
     }
   }
+
+  function renderAddComment() {
+    if (!authState.authenticated) return;
+    return (
+      <article className="media">
+        <figure className="media-left">
+          <p className="image is-64x64">
+            <img
+              src="https://bulma.io/images/placeholders/128x128.png"
+              alt="Placeholder"
+            />
+          </p>
+        </figure>
+        <div className="media-content">
+          <div className="field">
+            <p className="control">
+              <textarea
+                id="postCommentText"
+                type="textarea"
+                placeholder="Add a comment..."
+                style={{ width: "100%", height: "10vh" }}
+                className="textarea is-primary"
+              ></textarea>
+            </p>
+          </div>
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <button
+                  className={`button is-info ${
+                    postsState.loadings["SUBMIT_POST_COMMENT"]
+                      ? "is-loading"
+                      : ""
+                  }`}
+                  onClick={() => handleSubmit()}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </article>
+    );
+  }
+
   function changeActiveTab() {
     if (stateLocal.activeTab === "comments") {
       document.getElementById("commentTab").parentElement.className = "";
@@ -134,47 +180,7 @@ const Post = (props) => {
               <span className="tag is-primary">Art</span>
             </div>
           </article>
-          {/* -------ADD COMMENT-------- */}
-          <article className="media">
-            <figure className="media-left">
-              <p className="image is-64x64">
-                <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Placeholder"
-                />
-              </p>
-            </figure>
-            <div className="media-content">
-              <div className="field">
-                <p className="control">
-                  <textarea
-                    id="postCommentText"
-                    type="textarea"
-                    placeholder="Add a comment..."
-                    style={{ width: "100%", height: "10vh" }}
-                    className="textarea is-primary"
-                  ></textarea>
-                </p>
-              </div>
-              <nav className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    <button
-                      className={`button is-info ${
-                        postsState.loadings["SUBMIT_POST_COMMENT"]
-                          ? "is-loading"
-                          : ""
-                      }`}
-                      onClick={() => handleSubmit()}
-                    >
-                      Submit
-                    </button>
-                    {console.log(postsState)}
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </article>
+          {renderAddComment()}
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>

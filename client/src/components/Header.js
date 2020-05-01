@@ -9,7 +9,7 @@ const Header = () => {
     if (!context.authState.authenticated) {
       return (
         <button
-          className="button is-light"
+          className="button is-primary"
           onClick={() => context.authObj.login()}
         >
           <strong>Log in</strong>
@@ -80,12 +80,7 @@ const Header = () => {
 
         <div className="navbar-end">
           <div className="navbar-item">
-            <div className="buttons">
-              <Link to="/" className="button is-primary">
-                <strong>Sign up</strong>
-              </Link>
-              {renderLoginButton()}
-            </div>
+            <div className="buttons">{renderLoginButton()}</div>
           </div>
         </div>
       </div>

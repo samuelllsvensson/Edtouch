@@ -57,7 +57,7 @@ router.post("/api/post/:post_id/postcomment", (req, res, next) => {
   const values = [
     req.body.comment,
     req.body.username,
-    req.body.user_id,
+    req.body.userId,
     req.params.post_id,
   ];
   pool.query(

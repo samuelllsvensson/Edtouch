@@ -34,7 +34,6 @@ const Home = () => {
 
   return (
     <div className="container">
-      {console.log(authState)}
       <div className="columns is-multiline">{renderPostCards()}</div>
     </div>
   );
