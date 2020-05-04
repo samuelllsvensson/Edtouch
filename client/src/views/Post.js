@@ -1,11 +1,11 @@
 // eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useContext, useState, useEffect } from "react";
+import moment from "moment";
+import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
-
 import PostComment from "../components/PostComment";
 import EditComment from "../components/EditComment";
 import Edit from "../components/Edit";
-var moment = require("moment");
 
 const Post = (props) => {
   const {
@@ -27,16 +27,15 @@ const Post = (props) => {
   });
 
   const handleSubmit = () => {
-    console.log(authState);
     const comment = document.getElementById("postCommentText").value;
-    const userId = authState.dbProfile.user_id;
+    const user_id = authState.dbProfile.user_id;
     const username = authState.dbProfile.username;
-    const postId = postsState.post.post_id;
+    const post_id = postsState.post.post_id;
     const commentData = {
       comment: comment,
       username: username,
-      userId,
-      postId,
+      user_id,
+      post_id,
     };
     handlePostComment(commentData);
   };
@@ -126,10 +125,7 @@ const Post = (props) => {
         <div className="column is-centered is-half is-offset-one-quarter">
           <h1 className="title">{postsState.post.title}</h1>
           <figure className="image is-16by9">
-            <img
-              src="https://bulma.io/images/placeholders/1280x960.png"
-              alt="Placeholder"
-            />
+            <Image publicId={postsState.post.image_id}></Image>
           </figure>
           <br />
           {/* -------POST INFO-------- */}

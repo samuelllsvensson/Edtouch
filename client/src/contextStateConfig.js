@@ -96,14 +96,14 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
     console.log(data);
     axios
-      .post(`/api/post/${data.postId}/postcomment`, {
+      .post(`/api/post/${data.post_id}/postcomment`, {
         comment: data.comment,
         username: data.username,
-        userId: data.userId,
+        userId: data.user_id,
       })
       .then(() => {
         dispatchPostsReducer(ACTIONS.submitPostCommentSuccess());
-        handleFetchPostComments(data.postId);
+        handleFetchPostComments(data.post_id);
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.submitPostCommentFail());
