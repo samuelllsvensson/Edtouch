@@ -21,7 +21,7 @@ const Routes = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/post/:post_id" component={Post} />
-            <Route path="/addpost" component={AddPost} />
+            <Route path="/add-post" component={AddPost} />
             <Route
               path="/callback"
               render={(props) => {

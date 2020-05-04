@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import Context from "./utils/context";
 import * as ACTIONS from "./store/actions/actions";
 import axios from "axios";
+import history from "./utils/history";
 
 import * as postsReducer from "./store/reducers/postsReducer";
 import * as authReducer from "./store/reducers/authReducer";
@@ -148,6 +149,27 @@ const ContextState = () => {
       });
   };
 
+  const handleAddPost = (data) => {
+    console.log("START");
+    axios
+      .post("/api/post/post", {
+        title: data.title,
+        description: data.description,
+        image_id: data.image_id,
+        user_id: data.user_id,
+        username: data.username,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.addPostSuccess());
+        history.replace("/");
+        console.log("HISTORY REPLACED ");
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.addPostFail(err));
+        console.log(err);
+      });
+  };
+
   /*
       Auth Reducer
     */
@@ -196,6 +218,7 @@ const ContextState = () => {
           setIsEdit: (id) => setIsEdit(id),
           handleEditComment: (comment) => handleEditComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
+          handleAddPost: (post) => handleAddPost(post),
 
           //Auth
           authState: stateAuthReducer,

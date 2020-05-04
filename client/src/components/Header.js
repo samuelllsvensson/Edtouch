@@ -59,6 +59,9 @@ const Header = () => {
           <Link to="/" className="navbar-item">
             Home
           </Link>
+          <Link to="/add-post" className="navbar-item">
+            Add request
+          </Link>
           <Link to="/" className="navbar-item">
             Contact us
           </Link>

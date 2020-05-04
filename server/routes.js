@@ -116,6 +116,24 @@ router.delete("/api/delete/:comment_id", (req, res, next) => {
   );
 });
 
+router.post("/api/post/post", (req, res, next) => {
+  const values = [
+    req.body.title,
+    req.body.description,
+    req.body.image_id,
+    req.body.user_id,
+  ];
+  pool.query(
+    `INSERT INTO posts(title, body, image_id, user_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
 /*
 /api/get/post?:id Retrieves a specific post given a post_id
 /api/post/posttodb: Saves a user post to the database
