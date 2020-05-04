@@ -4,7 +4,7 @@ var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
-    `SELECT * FROM posts INNER JOIN users ON users.user_id = posts.user_id`,
+    `SELECT * FROM posts INNER JOIN users ON users.user_id = posts.user_id ORDER BY posts.date_created DESC`,
     (q_err, q_res) => {
       res.json(q_res.rows);
     }

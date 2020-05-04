@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { CloudinaryContext } from "cloudinary-react";
 import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
 import Context from "../utils/context";
+import { Image, Transformation } from "cloudinary-react";
 
 const AddPost = () => {
   const [images, setImages] = useState([]);
@@ -55,6 +56,40 @@ const AddPost = () => {
     handleAddPost(postData);
   };
 
+  const renderUploadField = () => {
+    if (images[0]) {
+      return <Image width={"33%"} publicId={images[0]}></Image>;
+    }
+    return (
+      <div className="field">
+        <div className="field">
+          <div className="file" onClick={() => beginUpload("image")}>
+            <label className="file-label">
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload"></i>
+                </span>
+                <span className="file-label">Choose a file…</span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div className="field">
+          <div
+            className="file"
+            onClick={() => setImages([...images, "kpgi2illb0zf2pqyfvlg"])}
+          >
+            <label className="file-label">
+              <span className="file-cta">
+                <span className="file-label">[DEV] fake file</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
@@ -83,18 +118,7 @@ const AddPost = () => {
                 ></textarea>
               </div>
             </div>
-            <div className="field">
-              <div className="file" onClick={() => beginUpload("image")}>
-                <label className="file-label">
-                  <span className="file-cta">
-                    <span className="file-icon">
-                      <i className="fas fa-upload"></i>
-                    </span>
-                    <span className="file-label">Choose a file…</span>
-                  </span>
-                </label>
-              </div>
-            </div>
+            {renderUploadField()}
             <div className="field">
               <div className="control">
                 <button type="submit" className="button is-link">
