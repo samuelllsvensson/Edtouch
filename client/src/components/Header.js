@@ -30,15 +30,6 @@ const Header = () => {
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <a className="navbar-item" href="https://bulma.io">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            width="112"
-            height="28"
-            alt="Placeholder"
-          />
-        </a>
-
         <label
           role="button"
           className="navbar-burger burger"

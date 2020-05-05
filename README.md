@@ -18,4 +18,8 @@ Jest will be used as a testing framework.
 
 Some additional functionalities that will be implemented if there is time would be a search functionality to be able to search for posts/edits. This could be implemented using **Algolia**, which is a search engine _SaaS_.
 As for _CI/CD_ we will probably use **CircleCI** to automate builds in a scaleable way. 
+___________________________________
+
+[Mid course screencast can be seen here](https://www.youtube.com/watch?v=wucZl2d4Mn0&feature=youtu.be)
+
 
