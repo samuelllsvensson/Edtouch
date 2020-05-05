@@ -19,7 +19,7 @@ const AuthCheck = () => {
             .get("/api/get/user", {
               params: { email: profile.profile.email },
             })
-            .then((res) => context.handleAddDBProfile(res.data))
+            .then((res) => context.handleAddDBProfile(res.data[0]))
         )
         .then(history.replace("/"));
     } else {

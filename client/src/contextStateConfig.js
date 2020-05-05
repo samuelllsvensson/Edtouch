@@ -91,17 +91,19 @@ const ContextState = () => {
         dispatchPostsReducer(ACTIONS.fetchDbPostCommentsFail(err));
       });
   };
+
   const handlePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
+    console.log(data);
     axios
-      .post(`/api/post/${data.post_id}/postcomment`, {
+      .post(`/api/post/${data.postId}/postcomment`, {
         comment: data.comment,
         username: data.username,
-        user_id: data.user_id,
+        userId: data.userId,
       })
       .then(() => {
         dispatchPostsReducer(ACTIONS.submitPostCommentSuccess());
-        handleFetchPostComments(data.post_id);
+        handleFetchPostComments(data.postId);
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.submitPostCommentFail());
