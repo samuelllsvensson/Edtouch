@@ -7,7 +7,7 @@ CREATE TABLE users (
   date_created DATE
 );
 
--- TODO: image_url, likes
+-- TODO: likes
 CREATE TABLE posts (
   post_id SERIAL PRIMARY KEY,
   title VARCHAR(255),
@@ -25,19 +25,20 @@ CREATE TABLE post_comments (
   date_created TIMESTAMP
 );
 
--- TODO: image_url, likes
--- CREATE TABLE edits (
---   edit_id SERIAL PRIMARY KEY,
---   title VARCHAR(255),
---   body VARCHAR,
---   username VARCHAR REFERENCES users(username),
---   date_created TIMESTAMP
--- );
+-- TODO: likes
+CREATE TABLE edits (
+  edit_id SERIAL PRIMARY KEY,
+  title VARCHAR(255),
+  body VARCHAR,
+  post_id INT REFERENCES posts(post_id),
+  user_id INT REFERENCES users(user_id),
+  image_id VARCHAR,
+  date_created TIMESTAMP
+);
 
 -- CREATE TABLE edit_comments (
 --   edit_comment_id SERIAL PRIMARY KEY,
 --   body VARCHAR(255),
---   username VARCHAR REFERENCES users(username),
 --   user_id INT REFERENCES users(user_id),
 --   edit_id INT REFERENCES edits(edit_id),
 --   date_created TIMESTAMP
