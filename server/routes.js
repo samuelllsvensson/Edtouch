@@ -4,9 +4,8 @@ var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
-    `SELECT post_id, title, body, posts.date_created, image_id, username
-    FROM posts INNER JOIN users ON users.user_id = posts.user_id 
-    ORDER BY posts.date_created DESC`,
+    `SELECT posts.post_id, title, body, posts.date_created, image_id, username
+    FROM posts INNER JOIN users ON users.user_id = posts.user_id ORDER BY posts.date_created DESC`,
     (q_err, q_res) => {
       res.json(q_res.rows);
     }
@@ -17,7 +16,8 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   //console.log(req);
   pool.query(
-    `SELECT post_id, title, body, posts.user_id, posts.date_created, image_id, username FROM posts 
+    `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username 
+    FROM posts 
     INNER JOIN users ON users.user_id = posts.user_id
     WHERE post_id=$1`,
     [post_id],
