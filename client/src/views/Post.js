@@ -166,7 +166,7 @@ const Post = (props) => {
                 <div className="level-right">
                   <small>
                     {moment(postsState.post.date_created)
-                      .format("h:m A · MMM D, YYYY")
+                      .format("h:mm A · MMM D, YYYY")
                       .toString()}
                   </small>
                 </div>
