@@ -53,6 +53,7 @@ const ContextState = () => {
   /*
     Posts Reducer
   */
+  // Posts
   const [statePostsReducer, dispatchPostsReducer] = useReducer(
     addStatus(postsReducer.postsReducer),
     postsReducer.initialState
@@ -80,6 +81,28 @@ const ContextState = () => {
       });
   };
 
+  const handleAddPost = (data) => {
+    console.log("START");
+    axios
+      .post("/api/post/post", {
+        title: data.title,
+        description: data.description,
+        image_id: data.image_id,
+        user_id: data.user_id,
+        username: data.username,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.addPostSuccess());
+        history.replace("/");
+        console.log("HISTORY REPLACED ");
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.addPostFail(err));
+        console.log(err);
+      });
+  };
+
+  // Post comments
   const handleFetchPostComments = (postId) => {
     axios
       .get(`/api/get/post/${postId}/comments`)
@@ -149,27 +172,18 @@ const ContextState = () => {
       });
   };
 
-  const handleAddPost = (data) => {
-    console.log("START");
+  const handleFetchEdits = (postId) => {
+    dispatchPostsReducer(ACTIONS.fetchDbEditsRequest());
     axios
-      .post("/api/post/post", {
-        title: data.title,
-        description: data.description,
-        image_id: data.image_id,
-        user_id: data.user_id,
-        username: data.username,
-      })
+      .get(`/api/get/${postId}/edits`)
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.addPostSuccess());
-        history.replace("/");
-        console.log("HISTORY REPLACED ");
+        dispatchPostsReducer(ACTIONS.fetchDbEditsSuccess(res.data));
       })
       .catch((err) => {
-        dispatchPostsReducer(ACTIONS.addPostFail(err));
         console.log(err);
+        dispatchPostsReducer(ACTIONS.fetchDbEditsFail(err));
       });
   };
-
   /*
       Auth Reducer
     */
@@ -208,10 +222,12 @@ const ContextState = () => {
     <div>
       <Context.Provider
         value={{
-          //Posts
+          // Posts
           postsState: statePostsReducer,
           handleFetchPost: (post) => handleFetchPost(post),
           handleFetchPosts: (posts) => handleFetchPosts(posts),
+
+          // Post comments
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
           handlePostComment: (comment) => handlePostComment(comment),
@@ -220,14 +236,16 @@ const ContextState = () => {
           handleDeleteComment: (comment) => handleDeleteComment(comment),
           handleAddPost: (post) => handleAddPost(post),
 
-          //Auth
+          // Edits
+          handleFetchEdits: (edits) => handleFetchEdits(edits),
+
+          // Auth
           authState: stateAuthReducer,
           handleUserLogin: () => handleLogin(),
           handleUserLogout: () => handleLogout(),
           handleAddA0Profile: (profile) => handleAddA0Profile(profile),
           handleAddDBProfile: (profile) => handleAddDBProfile(profile),
           handleRemoveA0Profile: () => handleRemoveA0Profile(),
-
           authObj: auth,
           handleAuth: (props) => handleAuthentication(props),
         }}

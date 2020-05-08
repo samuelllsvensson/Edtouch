@@ -13,11 +13,13 @@ const Post = (props) => {
     handleFetchPost,
     handleFetchPostComments,
     handlePostComment,
+    handleFetchEdits,
     authState,
   } = useContext(Context);
 
   useEffect(() => {
     handleFetchPost(props.match.params.post_id);
+    handleFetchEdits(props.match.params.post_id);
     handleFetchPostComments(props.match.params.post_id);
   }, []);
 
@@ -55,11 +57,13 @@ const Post = (props) => {
         );
       });
     } else if (stateLocal.activeTab === "edits") {
-      return (
-        <div className="column">
-          <Edit /> <Edit /> <Edit />
-        </div>
-      );
+      return postsState.edits.map((edit) => {
+        return (
+          <div key={edit.edit_id} className="column is-one-third">
+            <Edit edit={edit} />
+          </div>
+        );
+      });
     }
   }
 
