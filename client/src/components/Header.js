@@ -36,6 +36,16 @@ const Header = () => {
     );
   }
 
+  function renderProfileButton() {
+    if (!context.authState.dbProfile || !context.authState.authenticated)
+      return;
+    return (
+      <Link to="/profile" className="navbar-item">
+        {context.authState.dbProfile.username}
+      </Link>
+    );
+  }
+
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -60,9 +70,6 @@ const Header = () => {
             Home
           </Link>
           {renderAddRequestButton()}
-          <Link to="/" className="navbar-item">
-            Contact us
-          </Link>
           <div className="level-item">
             <div className="field has-addons">
               <p className="control">
@@ -80,6 +87,7 @@ const Header = () => {
         </div>
 
         <div className="navbar-end">
+          {renderProfileButton()}
           <div className="navbar-item">
             <div className="buttons">{renderLoginButton()}</div>
           </div>
