@@ -4,7 +4,7 @@ var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
-    `SELECT * FROM posts INNER JOIN users ON users.user_id = posts.user_id`,
+    `SELECT * FROM posts INNER JOIN users ON users.user_id = posts.user_id ORDER BY posts.date_created DESC`,
     (q_err, q_res) => {
       res.json(q_res.rows);
     }
@@ -112,6 +112,24 @@ router.delete("/api/delete/:comment_id", (req, res, next) => {
     (q_err, q_res) => {
       res.json(q_res);
       //console.log(q_err);
+    }
+  );
+});
+
+router.post("/api/post/post", (req, res, next) => {
+  const values = [
+    req.body.title,
+    req.body.description,
+    req.body.image_id,
+    req.body.user_id,
+  ];
+  pool.query(
+    `INSERT INTO posts(title, body, image_id, user_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
     }
   );
 });

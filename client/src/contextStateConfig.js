@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import Context from "./utils/context";
 import * as ACTIONS from "./store/actions/actions";
 import axios from "axios";
+import history from "./utils/history";
 
 import * as postsReducer from "./store/reducers/postsReducer";
 import * as authReducer from "./store/reducers/authReducer";
@@ -96,14 +97,14 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
     console.log(data);
     axios
-      .post(`/api/post/${data.postId}/postcomment`, {
+      .post(`/api/post/${data.post_id}/postcomment`, {
         comment: data.comment,
         username: data.username,
-        userId: data.userId,
+        userId: data.user_id,
       })
       .then(() => {
         dispatchPostsReducer(ACTIONS.submitPostCommentSuccess());
-        handleFetchPostComments(data.postId);
+        handleFetchPostComments(data.post_id);
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.submitPostCommentFail());
@@ -144,6 +145,27 @@ const ContextState = () => {
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.deletePostCommentFail(err));
+        console.log(err);
+      });
+  };
+
+  const handleAddPost = (data) => {
+    console.log("START");
+    axios
+      .post("/api/post/post", {
+        title: data.title,
+        description: data.description,
+        image_id: data.image_id,
+        user_id: data.user_id,
+        username: data.username,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.addPostSuccess());
+        history.replace("/");
+        console.log("HISTORY REPLACED ");
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.addPostFail(err));
         console.log(err);
       });
   };
@@ -196,6 +218,7 @@ const ContextState = () => {
           setIsEdit: (id) => setIsEdit(id),
           handleEditComment: (comment) => handleEditComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
+          handleAddPost: (post) => handleAddPost(post),
 
           //Auth
           authState: stateAuthReducer,

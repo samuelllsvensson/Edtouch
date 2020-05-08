@@ -143,3 +143,17 @@ export const removeA0Profile = () => {
     type: ACTION_TYPES.REMOVE_A0_PROFILE,
   };
 };
+
+export const addPostSuccess = (post) => {
+  return {
+    type: ACTION_TYPES.ADD_POST_SUCCESS,
+    payload: post,
+  };
+};
+
+export const addPostFail = (err) => {
+  return {
+    type: ACTION_TYPES.ADD_POST_FAIL,
+    payload: err,
+  };
+};

@@ -27,6 +27,15 @@ const Header = () => {
     }
   }
 
+  function renderAddRequestButton() {
+    if (!context.authState.authenticated) return;
+    return (
+      <Link to="/add-post" className="navbar-item">
+        Add request
+      </Link>
+    );
+  }
+
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -50,6 +59,7 @@ const Header = () => {
           <Link to="/" className="navbar-item">
             Home
           </Link>
+          {renderAddRequestButton()}
           <Link to="/" className="navbar-item">
             Contact us
           </Link>
