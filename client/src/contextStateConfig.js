@@ -139,7 +139,7 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.setCommentEditable(id));
   };
 
-  const handleEditComment = (data) => {
+  const handleUpdatePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.updatePostCommentRequest());
     axios
       .put(`/api/put/${data.post_id}/postcomment`, {
@@ -170,6 +170,17 @@ const ContextState = () => {
         dispatchPostsReducer(ACTIONS.deletePostCommentFail(err));
         console.log(err);
       });
+  };
+
+  // Edits
+  const handleFetchEdit = (data) => {
+    console.log(data);
+    axios
+      .get(`/api/get/${data.post_id}/edits/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbEditSuccess(res.data));
+      })
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchDbEditFail(err)));
   };
 
   const handleFetchEdits = (postId) => {
@@ -232,11 +243,13 @@ const ContextState = () => {
             handleFetchPostComments(comments),
           handlePostComment: (comment) => handlePostComment(comment),
           setIsEdit: (id) => setIsEdit(id),
-          handleEditComment: (comment) => handleEditComment(comment),
+          handleUpdatePostComment: (comment) =>
+            handleUpdatePostComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
           handleAddPost: (post) => handleAddPost(post),
 
           // Edits
+          handleFetchEdit: (edit) => handleFetchEdit(edit),
           handleFetchEdits: (edits) => handleFetchEdits(edits),
 
           // Auth

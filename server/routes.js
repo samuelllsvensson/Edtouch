@@ -149,18 +149,21 @@ router.get("/api/get/:post_id/edits", (req, res, next) => {
   );
 });
 
-/*
-/api/get/post?:id Retrieves a specific post given a post_id
-/api/post/posttodb: Saves a user post to the database
-/api/put/post: Edits a existing post in the database.
-/api/delete/postcomments: Deletes all the comments associated with a post
-/api/delete/post: Deletes a post with the post id.
-/api/get/allpostcomments: Retrieves all the comments associated with a single post
-/api/post/postcommenttodb: Saves a comment to the database
-/api/put/postcommenttodb: edits an existing comment in the database
-/api/delete/postcomment: Deletes a single comment
+router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
+  const post_id = req.params.post_id;
+  const edit_id = req.params.edit_id;
+  pool.query(
+    `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username FROM edits
+    INNER JOIN users ON users.user_id = edits.user_id
+    WHERE post_id=$1 AND edit_id=$2`,
+    [post_id, edit_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
 
-/api/get/alledits: Retrieves all edits
+/*
 /api/delete/deleteedit: Deletes the edit and its comments 
 
 /api/get/alleditcomments: Retrieves all edit comments associated with a single edit

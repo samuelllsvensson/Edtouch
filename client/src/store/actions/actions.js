@@ -115,19 +115,19 @@ export const updatePostCommentFail = (err) => {
 };
 
 // Edits
-// export const fetchDbEditSuccess = (edit) => {
-//   return {
-//     type: ACTION_TYPES.FETCH_EDIT_SUCCESS,
-//     payload: edit,
-//   };
-// };
+export const fetchDbEditSuccess = (edit) => {
+  return {
+    type: ACTION_TYPES.FETCH_EDIT_SUCCESS,
+    payload: edit,
+  };
+};
 
-// export const fetchDbEditFail = (err) => {
-//   return {
-//     type: ACTION_TYPES.FETCH_EDIT_FAIL,
-//     payload: err,
-//   };
-// };
+export const fetchDbEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_EDIT_FAIL,
+    payload: err,
+  };
+};
 
 export const fetchDbEditsRequest = () => {
   return {

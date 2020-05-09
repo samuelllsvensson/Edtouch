@@ -4,6 +4,7 @@ export const initialState = {
   post: null,
   posts: [],
   comments: null,
+  edit: null,
   edits: [],
   errors: {},
   loadings: {},
@@ -48,6 +49,12 @@ export const postsReducer = (state = initialState, action) => {
       return {
         ...state,
         edits: action.payload,
+      };
+
+    case ACTION_TYPES.FETCH_EDIT_SUCCESS:
+      return {
+        ...state,
+        edit: action.payload,
       };
 
     default:

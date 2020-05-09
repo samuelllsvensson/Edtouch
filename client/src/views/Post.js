@@ -4,8 +4,9 @@ import moment from "moment";
 import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 import PostComment from "../components/PostComment";
-import EditComment from "../components/EditComment";
+import UpdatePostComment from "../components/UpdatePostComment";
 import Edit from "../components/Edit";
+import EditCard from "../components/EditCard";
 
 const Post = (props) => {
   const {
@@ -13,6 +14,7 @@ const Post = (props) => {
     handleFetchPost,
     handleFetchPostComments,
     handlePostComment,
+    handleFetchEdit,
     handleFetchEdits,
     authState,
   } = useContext(Context);
@@ -26,6 +28,8 @@ const Post = (props) => {
   const [stateLocal, setState] = useState({
     activeTab: "comments",
     comment: "",
+    displayEdit: false,
+    clickedEdit: -1,
   });
 
   const handleSubmit = () => {
@@ -42,6 +46,16 @@ const Post = (props) => {
     handlePostComment(commentData);
   };
 
+  function handleChange() {
+    console.log(postsState);
+    setState({
+      ...stateLocal,
+      displayEdit: !stateLocal.displayEdit,
+      clickedEdit: -1,
+    });
+    renderTabs();
+  }
+
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
@@ -51,16 +65,48 @@ const Post = (props) => {
             {postsState.isEdit !== comment.comment_id ? (
               <PostComment comment={comment} />
             ) : (
-              <EditComment comment={comment} />
+              <UpdatePostComment comment={comment} />
             )}
           </div>
         );
       });
     } else if (stateLocal.activeTab === "edits") {
+      if (stateLocal.displayEdit) {
+        return postsState.edits.map((edit) => {
+          if (postsState.post.post_id === stateLocal.clickedEdit) {
+            return (
+              <Edit
+                edit={edit}
+                onChange={handleChange}
+                displayEdit={stateLocal.displayEdit}
+                clickedEdit={edit.edit_id}
+              />
+            );
+          }
+        });
+      }
+
       return postsState.edits.map((edit) => {
         return (
           <div key={edit.edit_id} className="column is-one-third">
-            <Edit edit={edit} />
+            <div
+              style={{ padding: 0, cursor: "pointer" }}
+              className="box"
+              onClick={() => {
+                const data = {
+                  post_id: edit.post_id,
+                  edit_id: edit.edit_id,
+                };
+                handleFetchEdit(data);
+                setState({
+                  ...stateLocal,
+                  displayEdit: !stateLocal.displayEdit,
+                  clickedEdit: edit.edit_id,
+                });
+              }}
+            >
+              <EditCard edit={edit} />
+            </div>
           </div>
         );
       });
