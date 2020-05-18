@@ -34,6 +34,46 @@ export const fetchDbPostsFail = (err) => {
   };
 };
 
+export const fetchDbProfilePostsRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_POSTS_REQUEST,
+  };
+};
+
+export const fetchDbProfilePostsSuccess = (posts) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_POSTS_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const fetchDbProfilePostsFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_POSTS_FAIL,
+    payload: err,
+  };
+};
+
+export const changeProfileAvatarRequest = () => {
+  return {
+    type: ACTION_TYPES.CHANGE_PROFILE_AVATAR_REQUEST,
+  };
+};
+
+export const changeProfileAvatarSuccess = (posts) => {
+  return {
+    type: ACTION_TYPES.CHANGE_PROFILE_AVATAR_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const changeProfileAvatarFail = (err) => {
+  return {
+    type: ACTION_TYPES.CHANGE_PROFILE_AVATAR_FAIL,
+    payload: err,
+  };
+};
+
 export const fetchDbPostCommentsSuccess = (comments) => {
   return {
     type: ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS,

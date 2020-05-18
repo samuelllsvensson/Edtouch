@@ -11,17 +11,21 @@ const PostCard = ({ post }) => {
         </figure>
       </div>
       <div className="card-content">
-        <div className="media">
-          <div className="media-left">
-            <figure className="image is-48x48">
-              <img src={post.avatar} alt="Placeholder" />
-            </figure>
+        {post.username ? (
+          <div className="media">
+            <div className="media-left">
+              <figure className="image is-48x48">
+                <Image publicId={post.avatar} />
+              </figure>
+            </div>
+            <div className="media-content">
+              <p className="title is-4">{post.title}</p>
+              <p className="subtitle is-6">@{post.username}</p>
+            </div>
           </div>
-          <div className="media-content">
-            <p className="title is-4">{post.title}</p>
-            <p className="subtitle is-6">@{post.username}</p>
-          </div>
-        </div>
+        ) : (
+          <p className="title is-4">{post.title}</p>
+        )}
 
         <div
           className="content"
