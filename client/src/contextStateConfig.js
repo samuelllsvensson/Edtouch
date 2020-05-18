@@ -6,6 +6,7 @@ import history from "./utils/history";
 
 import * as postsReducer from "./store/reducers/postsReducer";
 import * as authReducer from "./store/reducers/authReducer";
+import * as profileReducer from "./store/reducers/profileReducer";
 import Routes from "./routes";
 
 import Auth from "./utils/Auth";
@@ -229,6 +230,42 @@ const ContextState = () => {
     }
   };
 
+  /*
+    Profile reducer
+  */
+  const [stateProfileReducer, dispatchProfileReducer] = useReducer(
+    addStatus(profileReducer.profileReducer),
+    profileReducer.initialState
+  );
+
+  const handleFetchProfilePosts = (userId) => {
+    dispatchProfileReducer(ACTIONS.fetchDbProfilePostsRequest());
+    axios
+      .get(`/api/get/user/${userId}/posts`)
+      .then((res) => {
+        dispatchProfileReducer(ACTIONS.fetchDbProfilePostsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchProfileReducer(ACTIONS.fetchDbProfilePostsFail(err));
+      });
+  };
+
+  const changeProfileAvatar = (data) => {
+    dispatchProfileReducer(ACTIONS.changeProfileAvatarRequest());
+    axios
+      .put(`/api/put/user/${data.userId}/avatar`, {
+        url: data.url,
+      })
+      .then((res) => {
+        dispatchProfileReducer(ACTIONS.changeProfileAvatarSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchProfileReducer(ACTIONS.changeProfileAvatarFail(err));
+      });
+  };
+
   return (
     <div>
       <Context.Provider
@@ -259,6 +296,12 @@ const ContextState = () => {
           handleAddA0Profile: (profile) => handleAddA0Profile(profile),
           handleAddDBProfile: (profile) => handleAddDBProfile(profile),
           handleRemoveA0Profile: () => handleRemoveA0Profile(),
+
+          //Profile
+          profileState: stateProfileReducer,
+          handleFetchProfilePosts: (posts) => handleFetchProfilePosts(posts),
+          changeProfileAvatar: (userId) => changeProfileAvatar(userId),
+
           authObj: auth,
           handleAuth: (props) => handleAuthentication(props),
         }}

@@ -4,8 +4,31 @@ var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
-    `SELECT post_id, title, body, posts.date_created, image_id, username
+    `SELECT posts.post_id, title, body, posts.date_created, image_id, username, avatar
     FROM posts INNER JOIN users ON users.user_id = posts.user_id ORDER BY posts.date_created DESC`,
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.get("/api/get/user/:user_id/posts", (req, res, next) => {
+  const user_id = req.params.user_id;
+  pool.query(
+    `SELECT * FROM posts WHERE user_id=$1 ORDER BY date_created DESC`,
+    [user_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.put("/api/put/user/:user_id/avatar", (req, res, next) => {
+  const user_id = req.params.user_id;
+  const url = req.body.url;
+  pool.query(
+    `UPDATE users SET avatar=$1 WHERE user_id=$2`,
+    [url, user_id],
     (q_err, q_res) => {
       res.json(q_res.rows);
     }
@@ -16,7 +39,8 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   //console.log(req);
   pool.query(
-    `SELECT post_id, title, body, posts.user_id, posts.date_created, image_id, username FROM posts 
+    `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username, avatar
+    FROM posts 
     INNER JOIN users ON users.user_id = posts.user_id
     WHERE post_id=$1`,
     [post_id],
@@ -29,7 +53,7 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
 router.get("/api/get/post/:post_id/comments", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
-    `SELECT comment_id, body, users.username, post_comments.date_created
+    `SELECT comment_id, body, users.username, users.avatar, post_comments.date_created
       FROM post_comments
       INNER JOIN users ON users.user_id = post_comments.user_id
       WHERE post_id=$1
@@ -42,10 +66,15 @@ router.get("/api/get/post/:post_id/comments", (req, res, next) => {
 });
 
 router.post("/api/post/user", (req, res, next) => {
-  const values = [req.body.profile.nickname, req.body.profile.email];
+  const defaultAvatar = "fo6vnzyazyassftnt0mf";
+  const values = [
+    req.body.profile.nickname,
+    req.body.profile.email,
+    defaultAvatar,
+  ];
   pool.query(
-    `INSERT INTO users(username, email, date_created)
-              VALUES($1, $2, NOW())
+    `INSERT INTO users(username, email, avatar, date_created)
+              VALUES($1, $2, $3, NOW())
               ON CONFLICT DO NOTHING`,
     values,
     (q_err, q_res) => {

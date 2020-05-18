@@ -14,6 +14,7 @@ CREATE TABLE posts (
   body VARCHAR,
   user_id INT REFERENCES users(user_id),
   date_created TIMESTAMP,
+  avatar VARCHAR,
 );
 
 CREATE TABLE post_comments (

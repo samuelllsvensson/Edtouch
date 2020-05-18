@@ -119,10 +119,7 @@ const Post = (props) => {
       <article className="media">
         <figure className="media-left">
           <p className="image is-64x64">
-            <img
-              src="https://bulma.io/images/placeholders/128x128.png"
-              alt="Placeholder"
-            />
+            <Image publicId={authState.dbProfile.avatar} />
           </p>
         </figure>
         <div className="media-content">
@@ -182,10 +179,7 @@ const Post = (props) => {
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Placeholder"
-                />
+                <Image publicId={postsState.post.avatar} />
               </p>
             </figure>
             <div className="media-content">

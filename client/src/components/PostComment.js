@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Context from "../utils/context";
 import { Link } from "react-router-dom";
+import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
 const PostComment = ({ comment }) => {
@@ -9,10 +10,7 @@ const PostComment = ({ comment }) => {
     <article className="media">
       <figure className="media-left">
         <p className="image is-64x64">
-          <img
-            src="https://bulma.io/images/placeholders/128x128.png"
-            alt="Placeholder"
-          />
+          <Image publicId={comment.avatar} />
         </p>
       </figure>
       <div className="media-content">
