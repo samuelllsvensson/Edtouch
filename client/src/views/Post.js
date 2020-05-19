@@ -7,6 +7,7 @@ import PostComment from "../components/PostComment";
 import UpdatePostComment from "../components/UpdatePostComment";
 import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
+import AddEdit from "../components/AddEdit";
 
 const Post = (props) => {
   const {
@@ -30,6 +31,7 @@ const Post = (props) => {
     comment: "",
     displayEdit: false,
     clickedEdit: -1,
+    showAddEdit: false,
   });
 
   const handleSubmit = () => {
@@ -47,18 +49,17 @@ const Post = (props) => {
   };
 
   function handleChange() {
-    console.log(postsState);
     setState({
       ...stateLocal,
       displayEdit: !stateLocal.displayEdit,
       clickedEdit: -1,
     });
-    renderTabs();
   }
 
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
+
       return postsState.comments.map((comment) => {
         return (
           <div key={comment.comment_id} className="column">
@@ -73,16 +74,36 @@ const Post = (props) => {
     } else if (stateLocal.activeTab === "edits") {
       if (stateLocal.displayEdit) {
         return postsState.edits.map((edit) => {
-          if (postsState.post.post_id === stateLocal.clickedEdit) {
-            return (
+          let res = postsState.edits.find(
+            (edit) => edit.edit_id === stateLocal.clickedEdit
+          );
+          return (
+            <div key={edit.edit_id} className="column is-one-third">
+              <div
+                style={{ padding: 0, cursor: "pointer" }}
+                className="box"
+                onClick={() => {
+                  const data = {
+                    post_id: edit.post_id,
+                    edit_id: edit.edit_id,
+                  };
+                  handleFetchEdit(data);
+                  setState({
+                    ...stateLocal,
+                    displayEdit: !stateLocal.displayEdit,
+                    clickedEdit: edit.edit_id,
+                  });
+                }}
+              >
+                <EditCard edit={edit} />
+              </div>
               <Edit
-                edit={edit}
+                edit={res}
                 onChange={handleChange}
                 displayEdit={stateLocal.displayEdit}
-                clickedEdit={edit.edit_id}
               />
-            );
-          }
+            </div>
+          );
         });
       }
 
@@ -155,6 +176,46 @@ const Post = (props) => {
     );
   }
 
+  function renderAddEdit() {
+    if (!authState.authenticated) return;
+    if (stateLocal.clickedEdit === -1) {
+      if (stateLocal.showAddEdit) {
+        return (
+          <div className="columns is-centered">
+            <AddEdit post_id={props.match.params.post_id} />
+            <button
+              onClick={() => {
+                setState({
+                  ...stateLocal,
+                  showAddEdit: !stateLocal.showAddEdit,
+                });
+              }}
+              className="button is-info"
+            >
+              Hide
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="columns is-centered">
+            <button
+              onClick={() => {
+                setState({
+                  ...stateLocal,
+                  showAddEdit: !stateLocal.showAddEdit,
+                });
+              }}
+              className="button is-info"
+            >
+              Add Edit
+            </button>
+          </div>
+        );
+      }
+    }
+  }
+
   function changeActiveTab() {
     if (stateLocal.activeTab === "comments") {
       document.getElementById("commentTab").parentElement.className = "";
@@ -220,7 +281,6 @@ const Post = (props) => {
               <span className="tag is-primary">Art</span>
             </div>
           </article>
-          {renderAddComment()}
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>
@@ -254,7 +314,10 @@ const Post = (props) => {
               </li>
             </ul>
           </div>
-          {renderTabs()}
+          {stateLocal.activeTab === "comments"
+            ? renderAddComment()
+            : renderAddEdit()}
+          <div className="columns is-multiline">{renderTabs()}</div>
         </div>
       );
     } else {

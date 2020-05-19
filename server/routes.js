@@ -167,9 +167,10 @@ router.post("/api/post/post", (req, res, next) => {
 router.get("/api/get/:post_id/edits", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
-    `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username FROM edits
+    `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username, avatar FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
-    WHERE post_id=$1`,
+    WHERE post_id=$1
+    ORDER BY date_created ASC`,
     [post_id],
     (q_err, q_res) => {
       //console.log(q_err);
@@ -187,6 +188,25 @@ router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
     WHERE post_id=$1 AND edit_id=$2`,
     [post_id, edit_id],
     (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.post("/api/post/edit", (req, res, next) => {
+  const values = [
+    req.body.post_id,
+    req.body.title,
+    req.body.description,
+    req.body.image_id,
+    req.body.user_id,
+  ];
+  pool.query(
+    `INSERT INTO edits(post_id, title, body, image_id, user_id, date_created)
+              VALUES($1, $2, $3, $4, $5, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
       res.json(q_res.rows);
     }
   );

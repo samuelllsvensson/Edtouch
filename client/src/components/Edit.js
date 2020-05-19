@@ -1,7 +1,8 @@
 import React from "react";
+import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
-const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
+const Edit = ({ edit, onChange, displayEdit }) => {
   console.log(edit);
   function handleChange() {
     onChange(!displayEdit);
@@ -9,12 +10,16 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
 
   return (
     <div className="modal is-active">
-      <div className="modal-background" onClick={handleChange}></div>
+      <div
+        className="modal-background"
+        style={{ opacity: 0.2 }}
+        onClick={handleChange}
+      ></div>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{edit.title}</p>
           <button
-            className="delete"
+            className="delete is-large"
             aria-label="close"
             onClick={handleChange}
           ></button>
@@ -23,10 +28,7 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
           <div className="content">
             <div className="card-image">
               <figure className="image is-4by3">
-                <img
-                  src="https://bulma.io/images/placeholders/1280x960.png"
-                  alt="Placeholder"
-                />
+                <Image publicId={edit.image_id}></Image>
               </figure>
             </div>
           </div>
@@ -34,10 +36,7 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Placeholder"
-                />
+                <Image publicId={edit.avatar}></Image>
               </p>
             </figure>
             <div className="media-content">
@@ -59,6 +58,14 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
                       <i className="fas fa-minus"></i>
                     </span>
                   </div>
+                  <div className="level-item">
+                    <button
+                      className="button is-small is-danger"
+                      // onClick={() => handleSubmit()}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
                 <div className="level-right">
                   <small>
@@ -78,6 +85,7 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
               </button>
             </div>
           </article>
+          {/* Add edit comment */}
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
@@ -156,18 +164,6 @@ const Edit = ({ edit, onChange, displayEdit, clickedEdit }) => {
                 </p>
               </div>
               <nav className="level is-mobile">
-                <div className="level-left">
-                  <a to="#" className="level-item">
-                    <span className="icon is-small">
-                      <i className="fas fa-plus"></i>
-                    </span>
-                  </a>
-                  <a to="#" className="level-item">
-                    <span className="icon is-small">
-                      <i className="fas fa-minus"></i>
-                    </span>
-                  </a>
-                </div>
                 <div className="level-right">
                   <small>
                     {/* {moment(comment.date_created)

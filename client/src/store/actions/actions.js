@@ -35,7 +35,6 @@ export const fetchDbPostsFail = (err) => {
   };
 };
 
-// Post comments
 export const fetchDbProfilePostsRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_POSTS_REQUEST,
@@ -76,6 +75,7 @@ export const changeProfileAvatarFail = (err) => {
   };
 };
 
+// Post comments
 export const fetchDbPostCommentsSuccess = (comments) => {
   return {
     type: ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS,
@@ -185,6 +185,20 @@ export const fetchDbEditsSuccess = (edits) => {
 export const fetchDbEditsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_EDITS_FAIL,
+    payload: err,
+  };
+};
+
+export const addEditSuccess = (edit) => {
+  return {
+    type: ACTION_TYPES.ADD_EDIT_SUCCESS,
+    payload: edit,
+  };
+};
+
+export const addEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.ADD_EDIT_FAIL,
     payload: err,
   };
 };
