@@ -203,6 +203,26 @@ export const addEditFail = (err) => {
   };
 };
 
+export const deleteEditSuccess = (edit) => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_SUCCESS,
+    payload: edit,
+  };
+};
+
+export const deleteEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
+export const deleteEditRequest = () => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_REQUEST,
+  };
+};
+
 // Auth
 export const loginSuccess = () => {
   return {

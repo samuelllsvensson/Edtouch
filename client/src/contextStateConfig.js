@@ -214,6 +214,19 @@ const ContextState = () => {
       });
   };
 
+  const handleDeleteEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.deleteEditRequest());
+    axios
+      .delete(`/api/delete/edit/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deleteEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deleteEditFail(err));
+        console.log(err);
+      });
+  };
   /*
       Auth Reducer
     */
@@ -307,7 +320,7 @@ const ContextState = () => {
           handleFetchEdit: (edit) => handleFetchEdit(edit),
           handleFetchEdits: (edits) => handleFetchEdits(edits),
           handleAddEdit: (edit) => handleAddEdit(edit),
-
+          handleDeleteEdit: (edit) => handleDeleteEdit(edit),
           // Auth
           authState: stateAuthReducer,
           handleUserLogin: () => handleLogin(),

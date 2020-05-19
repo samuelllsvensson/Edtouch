@@ -212,6 +212,17 @@ router.post("/api/post/edit", (req, res, next) => {
   );
 });
 
+router.delete("/api/delete/edit/:edit_id", (req, res, next) => {
+  const edit_id = req.params.edit_id;
+  pool.query(
+    `DELETE FROM edits WHERE edit_id=$1`,
+    [edit_id],
+    (q_err, q_res) => {
+      res.json(q_res);
+    }
+  );
+});
+
 /*
 /api/delete/deleteedit: Deletes the edit and its comments 
 

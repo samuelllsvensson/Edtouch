@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Transformation } from "cloudinary-react";
+import Context from "../utils/context";
 var moment = require("moment");
 
 const Edit = ({ edit, onChange, displayEdit }) => {
+  const { handleDeleteEdit } = useContext(Context);
   console.log(edit);
-  function handleChange() {
+  function closeModal() {
     onChange(!displayEdit);
+  }
+  function handleDelete() {
+    const data = {
+      edit_id: edit.edit_id,
+      post_id: edit.post_id,
+    };
+    console.log(data);
+    handleDeleteEdit(data);
   }
 
   return (
@@ -13,7 +23,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
       <div
         className="modal-background"
         style={{ opacity: 0.2 }}
-        onClick={handleChange}
+        onClick={closeModal}
       ></div>
       <div className="modal-card">
         <header className="modal-card-head">
@@ -21,7 +31,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
           <button
             className="delete is-large"
             aria-label="close"
-            onClick={handleChange}
+            onClick={closeModal}
           ></button>
         </header>
         <section className="modal-card-body">
@@ -61,7 +71,10 @@ const Edit = ({ edit, onChange, displayEdit }) => {
                   <div className="level-item">
                     <button
                       className="button is-small is-danger"
-                      // onClick={() => handleSubmit()}
+                      onClick={() => {
+                        handleDelete();
+                        closeModal();
+                      }}
                     >
                       Delete
                     </button>
