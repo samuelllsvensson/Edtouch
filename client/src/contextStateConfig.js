@@ -207,6 +207,7 @@ const ContextState = () => {
       })
       .then((res) => {
         dispatchPostsReducer(ACTIONS.addEditSuccess());
+        handleFetchEdits(data.post_id);
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.addEditFail(err));
@@ -224,6 +225,26 @@ const ContextState = () => {
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.deleteEditFail(err));
+        console.log(err);
+      });
+  };
+
+  const handleUpdateEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.updateEditRequest());
+    axios
+      .put(`/api/put/${data.edit_id}/edit`, {
+        title: data.title,
+        description: data.description,
+        user_id: data.user_id,
+        image_id: data.image_id,
+        post_id: data.post_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.updateEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.updateEditFail());
         console.log(err);
       });
   };
@@ -321,6 +342,8 @@ const ContextState = () => {
           handleFetchEdits: (edits) => handleFetchEdits(edits),
           handleAddEdit: (edit) => handleAddEdit(edit),
           handleDeleteEdit: (edit) => handleDeleteEdit(edit),
+          handleUpdateEdit: (edit) => handleUpdateEdit(edit),
+
           // Auth
           authState: stateAuthReducer,
           handleUserLogin: () => handleLogin(),

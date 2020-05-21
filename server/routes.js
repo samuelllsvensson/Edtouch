@@ -170,7 +170,7 @@ router.get("/api/get/:post_id/edits", (req, res, next) => {
     `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username, avatar FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
     WHERE post_id=$1
-    ORDER BY date_created ASC`,
+    ORDER BY date_created DESC`,
     [post_id],
     (q_err, q_res) => {
       //console.log(q_err);
@@ -219,6 +219,26 @@ router.delete("/api/delete/edit/:edit_id", (req, res, next) => {
     [edit_id],
     (q_err, q_res) => {
       res.json(q_res);
+    }
+  );
+});
+
+router.put("/api/put/:edit_id/edit", (req, res, next) => {
+  const values = [
+    req.body.title,
+    req.body.description,
+    req.body.user_id,
+    req.body.post_id,
+    req.params.edit_id,
+    req.body.image_id,
+  ];
+  pool.query(
+    `UPDATE edits SET title = $1, body = $2, user_id = $3, post_id = $4, edit_id = $5, image_id = $6, date_created = NOW()
+              WHERE edit_id=$5`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
     }
   );
 });

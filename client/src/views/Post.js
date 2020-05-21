@@ -7,6 +7,7 @@ import PostComment from "../components/PostComment";
 import UpdatePostComment from "../components/UpdatePostComment";
 import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
+
 import AddEdit from "../components/AddEdit";
 
 const Post = (props) => {
@@ -53,6 +54,12 @@ const Post = (props) => {
       ...stateLocal,
       displayEdit: !stateLocal.displayEdit,
       clickedEdit: -1,
+    });
+  }
+  function handleAddEditChange() {
+    setState({
+      ...stateLocal,
+      showAddEdit: !stateLocal.showAddEdit,
     });
   }
 
@@ -106,7 +113,7 @@ const Post = (props) => {
           );
         });
       }
-
+      // Render edit cards behind modal
       return postsState.edits.map((edit) => {
         return (
           <div key={edit.edit_id} className="column is-one-third">
@@ -182,7 +189,11 @@ const Post = (props) => {
       if (stateLocal.showAddEdit) {
         return (
           <div className="columns is-centered">
-            <AddEdit post_id={props.match.params.post_id} />
+            <AddEdit
+              post_id={props.match.params.post_id}
+              onChange={handleAddEditChange}
+              showAddEdit={stateLocal.showAddEdit}
+            />
             <button
               onClick={() => {
                 setState({

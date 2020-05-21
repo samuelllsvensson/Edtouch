@@ -223,6 +223,25 @@ export const deleteEditRequest = () => {
   };
 };
 
+export const updateEditRequest = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_REQUEST,
+  };
+};
+
+export const updateEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_SUCCESS,
+  };
+};
+
+export const updateEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
 // Auth
 export const loginSuccess = () => {
   return {

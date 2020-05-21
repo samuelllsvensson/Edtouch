@@ -1,21 +1,13 @@
 import React, { useContext } from "react";
-import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
+import { Image, Transformation } from "cloudinary-react";
+import UpdateEdit from "../components/UpdateEdit";
 var moment = require("moment");
 
 const Edit = ({ edit, onChange, displayEdit }) => {
-  const { handleDeleteEdit } = useContext(Context);
-  console.log(edit);
+  const { setIsEdit, postsState } = useContext(Context);
   function closeModal() {
     onChange(!displayEdit);
-  }
-  function handleDelete() {
-    const data = {
-      edit_id: edit.edit_id,
-      post_id: edit.post_id,
-    };
-    console.log(data);
-    handleDeleteEdit(data);
   }
 
   return (
@@ -43,61 +35,53 @@ const Edit = ({ edit, onChange, displayEdit }) => {
             </div>
           </div>
 
-          <article className="media">
-            <figure className="media-left">
-              <p className="image is-64x64">
-                <Image publicId={edit.avatar}></Image>
-              </p>
-            </figure>
-            <div className="media-content">
-              <div className="content">
-                <p>
+          {postsState.isEdit !== edit.edit_id ? (
+            <article className="media">
+              <figure className="media-left">
+                <p className="image is-64x64">
+                  <Image publicId={edit.avatar}></Image>
+                </p>
+              </figure>
+              <div className="media-content">
+                <div className="content">
                   <p className="subtitle is-6">@{edit.username}</p>
                   {edit.body}
-                </p>
+                </div>
+                <nav className="level is-mobile">
+                  <div className="level-left">
+                    <div className="level-item">
+                      <span className="icon is-small">
+                        <i className="fas fa-plus"></i>
+                      </span>
+                    </div>
+                    <div className="level-item">
+                      <span className="icon is-small">
+                        <i className="fas fa-minus"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="level-right">
+                    <small>
+                      {moment(edit.date_created).fromNow().toString()}
+                    </small>
+                  </div>
+                </nav>
               </div>
-              <nav className="level is-mobile">
-                <div className="level-left">
-                  <div className="level-item">
-                    <span className="icon is-small">
-                      <i className="fas fa-plus"></i>
-                    </span>
-                  </div>
-                  <div className="level-item">
-                    <span className="icon is-small">
-                      <i className="fas fa-minus"></i>
-                    </span>
-                  </div>
-                  <div className="level-item">
-                    <button
-                      className="button is-small is-danger"
-                      onClick={() => {
-                        handleDelete();
-                        closeModal();
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-                <div className="level-right">
-                  <small>
-                    {moment(edit.date_created).fromNow().toString()}
-                  </small>
-                </div>
-              </nav>
-            </div>
-            <div className="media-right">
-              <button
-                // onClick={() => setIsEdit(comment.comment_id)}
-                className="button is-small"
-              >
-                <span className="icon is-small">
-                  <i className="far fa-edit"></i>
-                </span>
-              </button>
-            </div>
-          </article>
+              <div className="media-right">
+                <button
+                  onClick={() => setIsEdit(edit.edit_id)}
+                  className="button is-small"
+                >
+                  <span className="icon is-small">
+                    <i className="far fa-edit"></i>
+                  </span>
+                </button>
+              </div>
+            </article>
+          ) : (
+            <UpdateEdit edit={edit} closeModal={closeModal} />
+          )}
+
           {/* Add edit comment */}
           <article className="media">
             <figure className="media-left">

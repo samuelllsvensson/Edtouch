@@ -57,6 +57,12 @@ export const postsReducer = (state = initialState, action) => {
         edit: action.payload,
       };
 
+    case ACTION_TYPES.UPDATE_EDIT_SUCCESS:
+      return {
+        ...state,
+        isEdit: -1,
+      };
+
     default:
       return state;
   }

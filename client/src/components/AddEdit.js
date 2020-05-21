@@ -4,7 +4,7 @@ import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
 import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 
-const AddEdit = ({ post_id }) => {
+const AddEdit = ({ post_id, onChange, showAddEdit }) => {
   const [images, setImages] = useState([]);
   const { authState, handleAddEdit, handleFetchEdits } = useContext(Context);
   const [values, setValues] = useState({
@@ -36,6 +36,10 @@ const AddEdit = ({ post_id }) => {
     });
   };
 
+  function hideAddEdit() {
+    onChange(!showAddEdit);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -60,7 +64,7 @@ const AddEdit = ({ post_id }) => {
     };
 
     handleAddEdit(postEdit);
-    handleFetchEdits(post_id);
+    hideAddEdit();
   };
 
   const renderUploadField = () => {
