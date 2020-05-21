@@ -6,6 +6,7 @@ import Context from "../utils/context";
 import PostComment from "../components/PostComment";
 import EditComment from "../components/EditComment";
 import Edit from "../components/Edit";
+import axios from "axios";
 
 const Post = (props) => {
   const {
@@ -116,6 +117,13 @@ const Post = (props) => {
     }
   }
 
+  function upvote() {
+    // Just for test. Should be in contextStateConfig
+    axios.put(`/api/put/post/${postsState.post.post_id}/like`, {
+      userId: authState.dbProfile.user_id,
+    });
+  }
+
   function render() {
     if (postsState.post) {
       return (
@@ -147,14 +155,12 @@ const Post = (props) => {
               <nav className="level is-mobile">
                 <div className="level-left">
                   <div className="level-item">
-                    <span className="icon is-small">
+                    <span onClick={() => upvote()} className="icon is-small">
                       <i className="fas fa-plus"></i>
                     </span>
                   </div>
                   <div className="level-item">
-                    <span className="icon is-small">
-                      <i className="fas fa-minus"></i>
-                    </span>
+                    <b>{postsState.post.likes}</b>
                   </div>
                 </div>
                 <div className="level-right">

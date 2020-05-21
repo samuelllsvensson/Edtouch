@@ -24,16 +24,14 @@ const PostComment = ({ comment }) => {
         </div>
         <nav className="level is-mobile">
           <div className="level-left">
-            <Link to="#" className="level-item">
+            <div className="level-item">
               <span className="icon is-small">
                 <i className="fas fa-plus"></i>
               </span>
-            </Link>
-            <Link to="#" className="level-item">
-              <span className="icon is-small">
-                <i className="fas fa-minus"></i>
-              </span>
-            </Link>
+            </div>
+            <div className="level-item">
+              <b>0</b>
+            </div>
           </div>
           <div className="level-right">
             <small>
