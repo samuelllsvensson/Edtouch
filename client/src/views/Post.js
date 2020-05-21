@@ -4,8 +4,10 @@ import moment from "moment";
 import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 import PostComment from "../components/PostComment";
-import EditComment from "../components/EditComment";
+import UpdatePostComment from "../components/UpdatePostComment";
 import Edit from "../components/Edit";
+import EditCard from "../components/EditCard";
+import AddEdit from "../components/AddEdit";
 import axios from "axios";
 
 const Post = (props) => {
@@ -14,17 +16,23 @@ const Post = (props) => {
     handleFetchPost,
     handleFetchPostComments,
     handlePostComment,
+    handleFetchEdit,
+    handleFetchEdits,
     authState,
   } = useContext(Context);
 
   useEffect(() => {
     handleFetchPost(props.match.params.post_id);
+    handleFetchEdits(props.match.params.post_id);
     handleFetchPostComments(props.match.params.post_id);
   }, []);
 
   const [stateLocal, setState] = useState({
     activeTab: "comments",
     comment: "",
+    displayEdit: false,
+    clickedEdit: -1,
+    showAddEdit: false,
   });
 
   const handleSubmit = () => {
@@ -41,26 +49,95 @@ const Post = (props) => {
     handlePostComment(commentData);
   };
 
+  function handleChange() {
+    setState({
+      ...stateLocal,
+      displayEdit: !stateLocal.displayEdit,
+      clickedEdit: -1,
+    });
+  }
+  function handleAddEditChange() {
+    setState({
+      ...stateLocal,
+      showAddEdit: !stateLocal.showAddEdit,
+    });
+  }
+
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.comments) return;
+
       return postsState.comments.map((comment) => {
         return (
           <div key={comment.comment_id} className="column">
             {postsState.isEdit !== comment.comment_id ? (
               <PostComment comment={comment} />
             ) : (
-              <EditComment comment={comment} />
+              <UpdatePostComment comment={comment} />
             )}
           </div>
         );
       });
     } else if (stateLocal.activeTab === "edits") {
-      return (
-        <div className="column">
-          <Edit /> <Edit /> <Edit />
-        </div>
-      );
+      if (stateLocal.displayEdit) {
+        return postsState.edits.map((edit) => {
+          let res = postsState.edits.find(
+            (edit) => edit.edit_id === stateLocal.clickedEdit
+          );
+          return (
+            <div key={edit.edit_id} className="column is-one-third">
+              <div
+                style={{ padding: 0, cursor: "pointer" }}
+                className="box"
+                onClick={() => {
+                  const data = {
+                    post_id: edit.post_id,
+                    edit_id: edit.edit_id,
+                  };
+                  handleFetchEdit(data);
+                  setState({
+                    ...stateLocal,
+                    displayEdit: !stateLocal.displayEdit,
+                    clickedEdit: edit.edit_id,
+                  });
+                }}
+              >
+                <EditCard edit={edit} />
+              </div>
+              <Edit
+                edit={res}
+                onChange={handleChange}
+                displayEdit={stateLocal.displayEdit}
+              />
+            </div>
+          );
+        });
+      }
+      // Render edit cards behind modal
+      return postsState.edits.map((edit) => {
+        return (
+          <div key={edit.edit_id} className="column is-one-third">
+            <div
+              style={{ padding: 0, cursor: "pointer" }}
+              className="box"
+              onClick={() => {
+                const data = {
+                  post_id: edit.post_id,
+                  edit_id: edit.edit_id,
+                };
+                handleFetchEdit(data);
+                setState({
+                  ...stateLocal,
+                  displayEdit: !stateLocal.displayEdit,
+                  clickedEdit: edit.edit_id,
+                });
+              }}
+            >
+              <EditCard edit={edit} />
+            </div>
+          </div>
+        );
+      });
     }
   }
 
@@ -104,6 +181,50 @@ const Post = (props) => {
         </div>
       </article>
     );
+  }
+
+  function renderAddEdit() {
+    if (!authState.authenticated) return;
+    if (stateLocal.clickedEdit === -1) {
+      if (stateLocal.showAddEdit) {
+        return (
+          <div className="columns is-centered">
+            <AddEdit
+              post_id={props.match.params.post_id}
+              onChange={handleAddEditChange}
+              showAddEdit={stateLocal.showAddEdit}
+            />
+            <button
+              onClick={() => {
+                setState({
+                  ...stateLocal,
+                  showAddEdit: !stateLocal.showAddEdit,
+                });
+              }}
+              className="button is-info"
+            >
+              Hide
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="columns is-centered">
+            <button
+              onClick={() => {
+                setState({
+                  ...stateLocal,
+                  showAddEdit: !stateLocal.showAddEdit,
+                });
+              }}
+              className="button is-info"
+            >
+              Add Edit
+            </button>
+          </div>
+        );
+      }
+    }
   }
 
   function changeActiveTab() {
@@ -176,7 +297,6 @@ const Post = (props) => {
               <span className="tag is-primary">Art</span>
             </div>
           </article>
-          {renderAddComment()}
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>
@@ -210,7 +330,10 @@ const Post = (props) => {
               </li>
             </ul>
           </div>
-          {renderTabs()}
+          {stateLocal.activeTab === "comments"
+            ? renderAddComment()
+            : renderAddEdit()}
+          <div className="columns is-multiline">{renderTabs()}</div>
         </div>
       );
     } else {

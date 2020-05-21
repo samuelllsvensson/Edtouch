@@ -15,7 +15,7 @@ const Home = () => {
   function renderPostCards() {
     if (postsState.loadings["FETCH_POSTS"]) {
       return (
-        <div className="column is-one-quarter">
+        <div className="column">
           <h1>Loading...</h1>
         </div>
       );

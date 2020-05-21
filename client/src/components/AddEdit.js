@@ -4,10 +4,14 @@ import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
 import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 
-const AddPost = () => {
+const AddEdit = ({ post_id, onChange, showAddEdit }) => {
   const [images, setImages] = useState([]);
-  const { authState, handleAddPost } = useContext(Context);
-  const [values, setValues] = useState({ title: "", description: "" });
+  const { authState, handleAddEdit, handleFetchEdits } = useContext(Context);
+  const [values, setValues] = useState({
+    title: "",
+    description: "",
+    post_id: post_id,
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,29 +36,33 @@ const AddPost = () => {
     });
   };
 
+  function hideAddEdit() {
+    onChange(!showAddEdit);
+  }
+
   const handleSubmit = (event) => {
-    console.log(event);
     event.preventDefault();
 
     const user_id = authState.dbProfile.user_id;
+    const post_id = values.post_id;
     const username = authState.dbProfile.username;
 
-    const title = values.title;
     const description = values.description;
 
     const image_id = images[0]; // TODO: Handle more than one image
 
     if (!image_id) return;
 
-    const postData = {
+    const postEdit = {
+      post_id,
       user_id,
       username,
-      title,
       description,
       image_id,
     };
 
-    handleAddPost(postData);
+    handleAddEdit(postEdit);
+    hideAddEdit();
   };
 
   const renderUploadField = () => {
@@ -94,20 +102,9 @@ const AddPost = () => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <div className="columns">
+        <div className="columns is-mobile is-centered">
           <div className="column is-half">
-            <div className="field">
-              <label className="label">Title</label>
-              <div className="control">
-                <input
-                  onChange={handleInputChange}
-                  className="input"
-                  type="text"
-                  name="title"
-                  value={values.title}
-                />
-              </div>
-            </div>
+            <h3 className="title">Add Edit</h3>
             <div className="field">
               <label className="label">Description</label>
               <div className="control">
@@ -122,7 +119,7 @@ const AddPost = () => {
             {renderUploadField()}
             <div className="field">
               <div className="control">
-                <button type="submit" className="button is-link">
+                <button type="submit" className="button is-primary">
                   Submit
                 </button>
               </div>
@@ -134,4 +131,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default AddEdit;

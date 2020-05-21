@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import Context from "../utils/context";
 var moment = require("moment");
 
-const EditComment = ({ comment }) => {
+const UpdatePostComment = ({ comment }) => {
   const {
     postsState,
-    handleEditComment,
+    handleUpdatePostComment,
     handleDeleteComment,
     setIsEdit,
   } = useContext(Context);
@@ -23,7 +23,7 @@ const EditComment = ({ comment }) => {
         comment_id: comment.comment_id,
       };
 
-      handleEditComment(commentData);
+      handleUpdatePostComment(commentData);
     }
     if (action === "deleteComment") {
       const post_id = postsState.post.post_id;
@@ -115,4 +115,4 @@ const EditComment = ({ comment }) => {
   );
 };
 
-export default EditComment;
+export default UpdatePostComment;

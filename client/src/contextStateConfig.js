@@ -54,6 +54,7 @@ const ContextState = () => {
   /*
     Posts Reducer
   */
+  // Posts
   const [statePostsReducer, dispatchPostsReducer] = useReducer(
     addStatus(postsReducer.postsReducer),
     postsReducer.initialState
@@ -81,6 +82,27 @@ const ContextState = () => {
       });
   };
 
+  const handleAddPost = (data) => {
+    axios
+      .post("/api/post/post", {
+        title: data.title,
+        description: data.description,
+        image_id: data.image_id,
+        user_id: data.user_id,
+        username: data.username,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.addPostSuccess());
+        history.replace("/");
+        console.log("HISTORY REPLACED ");
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.addPostFail(err));
+        console.log(err);
+      });
+  };
+
+  // Post comments
   const handleFetchPostComments = (postId) => {
     axios
       .get(`/api/get/post/${postId}/comments`)
@@ -117,7 +139,7 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.setCommentEditable(id));
   };
 
-  const handleEditComment = (data) => {
+  const handleUpdatePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.updatePostCommentRequest());
     axios
       .put(`/api/put/${data.post_id}/postcomment`, {
@@ -150,27 +172,80 @@ const ContextState = () => {
       });
   };
 
-  const handleAddPost = (data) => {
-    console.log("START");
+  // Edits
+  const handleFetchEdit = (data) => {
     axios
-      .post("/api/post/post", {
-        title: data.title,
+      .get(`/api/get/${data.post_id}/edits/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbEditSuccess(res.data));
+      })
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchDbEditFail(err)));
+  };
+
+  const handleFetchEdits = (postId) => {
+    dispatchPostsReducer(ACTIONS.fetchDbEditsRequest());
+    axios
+      .get(`/api/get/${postId}/edits`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchDbEditsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchPostsReducer(ACTIONS.fetchDbEditsFail(err));
+      });
+  };
+
+  const handleAddEdit = (data) => {
+    axios
+      .post("/api/post/edit", {
+        post_id: data.post_id,
         description: data.description,
         image_id: data.image_id,
         user_id: data.user_id,
         username: data.username,
       })
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.addPostSuccess());
-        history.replace("/");
-        console.log("HISTORY REPLACED ");
+        dispatchPostsReducer(ACTIONS.addEditSuccess());
+        handleFetchEdits(data.post_id);
       })
       .catch((err) => {
-        dispatchPostsReducer(ACTIONS.addPostFail(err));
+        dispatchPostsReducer(ACTIONS.addEditFail(err));
         console.log(err);
       });
   };
 
+  const handleDeleteEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.deleteEditRequest());
+    axios
+      .delete(`/api/delete/edit/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deleteEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deleteEditFail(err));
+        console.log(err);
+      });
+  };
+
+  const handleUpdateEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.updateEditRequest());
+    axios
+      .put(`/api/put/${data.edit_id}/edit`, {
+        description: data.description,
+        user_id: data.user_id,
+        image_id: data.image_id,
+        post_id: data.post_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.updateEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.updateEditFail());
+        console.log(err);
+      });
+  };
   /*
       Auth Reducer
     */
@@ -245,19 +320,29 @@ const ContextState = () => {
     <div>
       <Context.Provider
         value={{
-          //Posts
+          // Posts
           postsState: statePostsReducer,
           handleFetchPost: (post) => handleFetchPost(post),
           handleFetchPosts: (posts) => handleFetchPosts(posts),
+
+          // Post comments
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
           handlePostComment: (comment) => handlePostComment(comment),
           setIsEdit: (id) => setIsEdit(id),
-          handleEditComment: (comment) => handleEditComment(comment),
+          handleUpdatePostComment: (comment) =>
+            handleUpdatePostComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
           handleAddPost: (post) => handleAddPost(post),
 
-          //Auth
+          // Edits
+          handleFetchEdit: (edit) => handleFetchEdit(edit),
+          handleFetchEdits: (edits) => handleFetchEdits(edits),
+          handleAddEdit: (edit) => handleAddEdit(edit),
+          handleDeleteEdit: (edit) => handleDeleteEdit(edit),
+          handleUpdateEdit: (edit) => handleUpdateEdit(edit),
+
+          // Auth
           authState: stateAuthReducer,
           handleUserLogin: () => handleLogin(),
           handleUserLogout: () => handleLogout(),

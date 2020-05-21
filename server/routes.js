@@ -179,18 +179,84 @@ router.post("/api/post/post", (req, res, next) => {
   );
 });
 
-/*
-/api/get/post?:id Retrieves a specific post given a post_id
-/api/post/posttodb: Saves a user post to the database
-/api/put/post: Edits a existing post in the database.
-/api/delete/postcomments: Deletes all the comments associated with a post
-/api/delete/post: Deletes a post with the post id.
-/api/get/allpostcomments: Retrieves all the comments associated with a single post
-/api/post/postcommenttodb: Saves a comment to the database
-/api/put/postcommenttodb: edits an existing comment in the database
-/api/delete/postcomment: Deletes a single comment
+router.get("/api/get/:post_id/edits", (req, res, next) => {
+  const post_id = req.params.post_id;
+  pool.query(
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username, avatar FROM edits
+    INNER JOIN users ON users.user_id = edits.user_id
+    WHERE post_id=$1
+    ORDER BY date_created DESC`,
+    [post_id],
+    (q_err, q_res) => {
+      //console.log(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
 
-/api/get/alledits: Retrieves all edits
+router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
+  const post_id = req.params.post_id;
+  const edit_id = req.params.edit_id;
+  pool.query(
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username FROM edits
+    INNER JOIN users ON users.user_id = edits.user_id
+    WHERE post_id=$1 AND edit_id=$2`,
+    [post_id, edit_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.post("/api/post/edit", (req, res, next) => {
+  const values = [
+    req.body.post_id,
+    req.body.description,
+    req.body.image_id,
+    req.body.user_id,
+  ];
+  pool.query(
+    `INSERT INTO edits(post_id, body, image_id, user_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.delete("/api/delete/edit/:edit_id", (req, res, next) => {
+  const edit_id = req.params.edit_id;
+  pool.query(
+    `DELETE FROM edits WHERE edit_id=$1`,
+    [edit_id],
+    (q_err, q_res) => {
+      res.json(q_res);
+    }
+  );
+});
+
+router.put("/api/put/:edit_id/edit", (req, res, next) => {
+  const values = [
+    req.body.description,
+    req.body.user_id,
+    req.body.post_id,
+    req.params.edit_id,
+    req.body.image_id,
+  ];
+  pool.query(
+    `UPDATE edits SET  body = $1, user_id = $2, post_id = $3, edit_id = $4, image_id = $5, date_created = NOW()
+              WHERE edit_id=$4`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+/*
 /api/delete/deleteedit: Deletes the edit and its comments 
 
 /api/get/alleditcomments: Retrieves all edit comments associated with a single edit

@@ -4,6 +4,8 @@ export const initialState = {
   post: null,
   posts: [],
   comments: null,
+  edit: null,
+  edits: [],
   errors: {},
   loadings: {},
   isEdit: -1,
@@ -11,6 +13,7 @@ export const initialState = {
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
+    // Posts
     case ACTION_TYPES.FETCH_POST_SUCCESS:
       return {
         ...state,
@@ -23,6 +26,7 @@ export const postsReducer = (state = initialState, action) => {
         posts: action.payload,
       };
 
+    // Post comments
     case ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS:
       return {
         ...state,
@@ -36,6 +40,24 @@ export const postsReducer = (state = initialState, action) => {
       };
 
     case ACTION_TYPES.UPDATE_POST_COMMENT_SUCCESS:
+      return {
+        ...state,
+        isEdit: -1,
+      };
+
+    case ACTION_TYPES.FETCH_EDITS_SUCCESS:
+      return {
+        ...state,
+        edits: action.payload,
+      };
+
+    case ACTION_TYPES.FETCH_EDIT_SUCCESS:
+      return {
+        ...state,
+        edit: action.payload,
+      };
+
+    case ACTION_TYPES.UPDATE_EDIT_SUCCESS:
       return {
         ...state,
         isEdit: -1,
