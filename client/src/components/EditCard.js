@@ -13,11 +13,20 @@ const EditCard = ({ edit }) => {
       <div className="card-content">
         <div className="media">
           <div className="media-content">
-            <p className="title is-4">{edit.title}</p>
-            <p className="subtitle is-6">@{edit.username}</p>
-            <h6 className="title is-6">
-              {moment(edit.date_created).fromNow().toString()}
-            </h6>
+            <p className="subtitle">@{edit.username}</p>
+            <div
+              style={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {edit.body}
+              <br />
+              <h6 className="title is-6">
+                {moment(edit.date_created).fromNow().toString()}
+              </h6>
+            </div>
           </div>
         </div>
       </div>

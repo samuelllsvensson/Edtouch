@@ -19,7 +19,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
       ></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">{edit.title}</p>
+          <p className="modal-card-title"></p>
           <button
             className="delete is-large"
             aria-label="close"

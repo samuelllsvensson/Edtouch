@@ -47,7 +47,6 @@ const AddEdit = ({ post_id, onChange, showAddEdit }) => {
     const post_id = values.post_id;
     const username = authState.dbProfile.username;
 
-    const title = values.title;
     const description = values.description;
 
     const image_id = images[0]; // TODO: Handle more than one image
@@ -58,7 +57,6 @@ const AddEdit = ({ post_id, onChange, showAddEdit }) => {
       post_id,
       user_id,
       username,
-      title,
       description,
       image_id,
     };
@@ -106,18 +104,7 @@ const AddEdit = ({ post_id, onChange, showAddEdit }) => {
       <form onSubmit={handleSubmit}>
         <div className="columns is-mobile is-centered">
           <div className="column is-half">
-            <div className="field">
-              <label className="label">Title</label>
-              <div className="control">
-                <input
-                  onChange={handleInputChange}
-                  className="input"
-                  type="text"
-                  name="title"
-                  value={values.title}
-                />
-              </div>
-            </div>
+            <h3 className="title">Add Edit</h3>
             <div className="field">
               <label className="label">Description</label>
               <div className="control">

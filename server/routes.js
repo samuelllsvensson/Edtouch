@@ -167,7 +167,7 @@ router.post("/api/post/post", (req, res, next) => {
 router.get("/api/get/:post_id/edits", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
-    `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username, avatar FROM edits
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username, avatar FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
     WHERE post_id=$1
     ORDER BY date_created DESC`,
@@ -183,7 +183,7 @@ router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
   const post_id = req.params.post_id;
   const edit_id = req.params.edit_id;
   pool.query(
-    `SELECT edit_id, edits.user_id, post_id, title, body, image_id, edits.date_created, username FROM edits
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
     WHERE post_id=$1 AND edit_id=$2`,
     [post_id, edit_id],
@@ -196,14 +196,13 @@ router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
 router.post("/api/post/edit", (req, res, next) => {
   const values = [
     req.body.post_id,
-    req.body.title,
     req.body.description,
     req.body.image_id,
     req.body.user_id,
   ];
   pool.query(
-    `INSERT INTO edits(post_id, title, body, image_id, user_id, date_created)
-              VALUES($1, $2, $3, $4, $5, NOW() )`,
+    `INSERT INTO edits(post_id, body, image_id, user_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
     values,
     (q_err, q_res) => {
       if (q_err) return next(q_err);
@@ -225,7 +224,6 @@ router.delete("/api/delete/edit/:edit_id", (req, res, next) => {
 
 router.put("/api/put/:edit_id/edit", (req, res, next) => {
   const values = [
-    req.body.title,
     req.body.description,
     req.body.user_id,
     req.body.post_id,
@@ -233,8 +231,8 @@ router.put("/api/put/:edit_id/edit", (req, res, next) => {
     req.body.image_id,
   ];
   pool.query(
-    `UPDATE edits SET title = $1, body = $2, user_id = $3, post_id = $4, edit_id = $5, image_id = $6, date_created = NOW()
-              WHERE edit_id=$5`,
+    `UPDATE edits SET  body = $1, user_id = $2, post_id = $3, edit_id = $4, image_id = $5, date_created = NOW()
+              WHERE edit_id=$4`,
     values,
     (q_err, q_res) => {
       if (q_err) return next(q_err);

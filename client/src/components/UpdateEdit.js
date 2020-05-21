@@ -22,7 +22,6 @@ const UpdateEdit = ({ edit, closeModal }) => {
     setIsEdit(edit.edit_id);
     if (action === "saveEdit") {
       const editData = {
-        title: edit.title,
         description: value,
         user_id: edit.user_id,
         post_id: edit.post_id,

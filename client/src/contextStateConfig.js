@@ -199,7 +199,6 @@ const ContextState = () => {
     axios
       .post("/api/post/edit", {
         post_id: data.post_id,
-        title: data.title,
         description: data.description,
         image_id: data.image_id,
         user_id: data.user_id,
@@ -233,7 +232,6 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.updateEditRequest());
     axios
       .put(`/api/put/${data.edit_id}/edit`, {
-        title: data.title,
         description: data.description,
         user_id: data.user_id,
         image_id: data.image_id,
