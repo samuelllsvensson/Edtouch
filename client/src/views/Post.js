@@ -64,7 +64,7 @@ const Post = (props) => {
   }
 
   function renderAddComment() {
-    if (!authState.authenticated) return;
+    if (!authState.authenticated || !authState.dbProfile) return;
     return (
       <article className="media">
         <figure className="media-left">
