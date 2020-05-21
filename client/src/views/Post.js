@@ -69,7 +69,10 @@ const Post = (props) => {
 
       return postsState.comments.map((comment) => {
         return (
-          <div key={comment.comment_id} className="column">
+          <div
+            key={comment.comment_id}
+            className="column is-6 is-offset-one-quarter"
+          >
             {postsState.isEdit !== comment.comment_id ? (
               <PostComment comment={comment} />
             ) : (
@@ -144,42 +147,43 @@ const Post = (props) => {
   function renderAddComment() {
     if (!authState.authenticated || !authState.dbProfile) return;
     return (
-      <article className="media">
-        <figure className="media-left">
-          <p className="image is-64x64">
-            <Image publicId={authState.dbProfile.avatar} />
-          </p>
-        </figure>
-        <div className="media-content">
-          <div className="field">
-            <p className="control">
-              <textarea
-                id="postCommentText"
-                type="textarea"
-                placeholder="Add a comment..."
-                style={{ width: "100%", height: "10vh" }}
-                className="textarea is-primary"
-              ></textarea>
+      <div className="column is-centered">
+        <article className="media">
+          <figure className="media-left">
+            <p className="image is-64x64">
+              <Image publicId={authState.dbProfile.avatar} />
             </p>
-          </div>
-          <nav className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <button
-                  className={`button is-info ${
-                    postsState.loadings["SUBMIT_POST_COMMENT"]
-                      ? "is-loading"
-                      : ""
-                  }`}
-                  onClick={() => handleSubmit()}
-                >
-                  Submit
-                </button>
-              </div>
+          </figure>
+          <div className="media-content">
+            <div className="field">
+              <p className="control">
+                <textarea
+                  id="postCommentText"
+                  type="textarea"
+                  placeholder="Add a comment..."
+                  className="textarea is-primary is-6 is-offset-one-quarter"
+                ></textarea>
+              </p>
             </div>
-          </nav>
-        </div>
-      </article>
+            <nav className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  <button
+                    className={`button is-info ${
+                      postsState.loadings["SUBMIT_POST_COMMENT"]
+                        ? "is-loading"
+                        : ""
+                    }`}
+                    onClick={() => handleSubmit()}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </article>
+      </div>
     );
   }
 
