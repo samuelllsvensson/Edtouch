@@ -17,7 +17,11 @@ const PrivateRoute = ({ component: Component, auth }) => (
       auth === true ? (
         <Component auth={auth} {...props} />
       ) : (
-        <Redirect to={{ pathname: "/signup" }} />
+        <Redirect
+          to={{
+            pathname: `/authcheck?to=${history.location.pathname.substr(1)}`,
+          }}
+        />
       )
     }
   />
@@ -34,7 +38,7 @@ const Routes = () => {
     if (accessToken && !authenticated) {
       context.authObj.getProfile();
       setTimeout(() => {
-        history.replace("/authcheck");
+        history.replace(`/authcheck?to=${history.location.pathname.substr(1)}`);
       }, 600);
     }
   }, []);

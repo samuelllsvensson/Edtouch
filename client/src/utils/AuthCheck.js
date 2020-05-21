@@ -1,11 +1,15 @@
 import React, { useEffect, useContext } from "react";
+import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 import history from "./history";
 import Context from "./context";
 
 import axios from "axios";
 
-const AuthCheck = () => {
+const AuthCheck = (props) => {
   const context = useContext(Context);
+
+  const locationParams = queryString.parse(props.location.search);
 
   useEffect(() => {
     if (context.authObj.isAuthenticated()) {
@@ -21,7 +25,11 @@ const AuthCheck = () => {
             })
             .then((res) => context.handleAddDBProfile(res.data[0]))
         )
-        .then(history.replace("/"));
+        .then(() => {
+          return locationParams.to
+            ? history.replace(`/${locationParams.to}`)
+            : history.replace("/");
+        });
     } else {
       context.handleUserLogout();
       context.handleRemoveA0Profile();

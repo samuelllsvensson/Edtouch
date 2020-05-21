@@ -4,7 +4,8 @@ CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255),
-  date_created DATE
+  date_created DATE,
+  avatar VARCHAR(255)
 );
 
 -- TODO: likes
@@ -14,7 +15,9 @@ CREATE TABLE posts (
   body VARCHAR,
   user_id INT REFERENCES users(user_id),
   date_created TIMESTAMP,
-  avatar VARCHAR,
+  image_id VARCHAR(255),
+  likes_users INT[] DEFAULT ARRAY[]::INT[],
+  likes int DEFAULT 0
 );
 
 CREATE TABLE post_comments (
