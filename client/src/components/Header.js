@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Context from "../utils/context";
 
@@ -41,7 +41,8 @@ const Header = () => {
       return;
     return (
       <Link to="/profile" className="navbar-item">
-        {context.authState.dbProfile.username}
+        {context.authState.dbProfile.username} (
+        <strong>{context.profileState.profileLikes}</strong>)
       </Link>
     );
   }

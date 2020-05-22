@@ -4,7 +4,7 @@ var pool = require("./db");
 
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
-    `SELECT posts.post_id, title, body, posts.date_created, image_id, username, avatar, likes_users, likes
+    `SELECT posts.post_id, title, body, posts.date_created, image_id, username, avatar
     FROM posts INNER JOIN users ON users.user_id = posts.user_id ORDER BY posts.date_created DESC`,
     (q_err, q_res) => {
       res.json(q_res.rows);
@@ -16,6 +16,18 @@ router.get("/api/get/user/:user_id/posts", (req, res, next) => {
   const user_id = req.params.user_id;
   pool.query(
     `SELECT * FROM posts WHERE user_id=$1 ORDER BY date_created DESC`,
+    [user_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.get("/api/get/user/:user_id/likes_count", (req, res, next) => {
+  const user_id = req.params.user_id;
+
+  pool.query(
+    `SELECT SUM(likes) FROM edits WHERE user_id=$1`,
     [user_id],
     (q_err, q_res) => {
       res.json(q_res.rows);
@@ -39,7 +51,7 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   //console.log(req);
   pool.query(
-    `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username, avatar, likes_users, likes
+    `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username, avatar
     FROM posts 
     INNER JOIN users ON users.user_id = posts.user_id
     WHERE post_id=$1`,
@@ -101,13 +113,13 @@ router.post("/api/post/:post_id/postcomment", (req, res, next) => {
   );
 });
 
-router.put("/api/put/post/:post_id/like", (req, res, next) => {
-  const values = [[req.body.userId], req.params.post_id];
+router.put("/api/put/edit/:edit_id/like", (req, res, next) => {
+  const values = [[req.body.userId], req.params.edit_id];
 
   pool.query(
-    `UPDATE posts SET likes_users = likes_users || $1, likes = likes + 1
+    `UPDATE edits SET likes_users = likes_users || $1, likes = likes + 1
             WHERE NOT (likes_users @> $1)
-            AND post_id = ($2)`,
+            AND edit_id = ($2)`,
     values,
     (q_err, q_res) => {
       if (q_err) return next(q_err);
@@ -182,7 +194,7 @@ router.post("/api/post/post", (req, res, next) => {
 router.get("/api/get/:post_id/edits", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
-    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username, avatar FROM edits
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username, avatar, likes_users, likes FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
     WHERE post_id=$1
     ORDER BY date_created DESC`,
@@ -198,7 +210,7 @@ router.get("/api/get/:post_id/edits/:edit_id", (req, res, next) => {
   const post_id = req.params.post_id;
   const edit_id = req.params.edit_id;
   pool.query(
-    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username FROM edits
+    `SELECT edit_id, edits.user_id, post_id, body, image_id, edits.date_created, username, likes_users, likes FROM edits
     INNER JOIN users ON users.user_id = edits.user_id
     WHERE post_id=$1 AND edit_id=$2`,
     [post_id, edit_id],

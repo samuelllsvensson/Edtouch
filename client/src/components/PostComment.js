@@ -20,26 +20,16 @@ const PostComment = ({ comment }) => {
             <small>{moment(comment.date_created).fromNow().toString()}</small>
             <br />
             {comment.body}
-          </p>
-        </div>
-        <nav className="level is-mobile">
-          <div className="level-left">
-            <div className="level-item">
-              <span className="icon is-small">
-                <i className="fas fa-plus"></i>
-              </span>
-            </div>
-            <div className="level-item">
-              <b>0</b>
-            </div>
-          </div>
-          <div className="level-right">
+            <br />
             <small>
               {moment(comment.date_created)
                 .format("h:mm A · MMM D, YYYY")
                 .toString()}
             </small>
-          </div>
+          </p>
+        </div>
+        <nav className="level is-mobile">
+          <div className="level-right"></div>
         </nav>
       </div>
       <div className="media-right">

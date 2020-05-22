@@ -242,13 +242,6 @@ const Post = (props) => {
     }
   }
 
-  function upvote() {
-    // Just for test. Should be in contextStateConfig
-    axios.put(`/api/put/post/${postsState.post.post_id}/like`, {
-      userId: authState.dbProfile.user_id,
-    });
-  }
-
   function render() {
     if (postsState.post) {
       return (
@@ -277,25 +270,7 @@ const Post = (props) => {
                   {postsState.post.body}
                 </p>
               </div>
-              <nav className="level is-mobile">
-                <div className="level-left">
-                  <div className="level-item">
-                    <span onClick={() => upvote()} className="icon is-small">
-                      <i className="fas fa-plus"></i>
-                    </span>
-                  </div>
-                  <div className="level-item">
-                    <b>{postsState.post.likes}</b>
-                  </div>
-                </div>
-                <div className="level-right">
-                  <small>
-                    {moment(postsState.post.date_created)
-                      .format("h:mm A · MMM D, YYYY")
-                      .toString()}
-                  </small>
-                </div>
-              </nav>
+              <nav className="level is-mobile"></nav>
             </div>
             <div className="media-right">
               <span className="tag is-primary">Art</span>

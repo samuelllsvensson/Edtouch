@@ -23,7 +23,10 @@ const AuthCheck = (props) => {
             .get("/api/get/user", {
               params: { email: profile.profile.email },
             })
-            .then((res) => context.handleAddDBProfile(res.data[0]))
+            .then((res) => {
+              context.handleFetchProfileLikes(res.data[0].user_id);
+              context.handleAddDBProfile(res.data[0]);
+            })
         )
         .then(() => {
           return locationParams.to
