@@ -7,7 +7,16 @@ const EditCard = ({ edit }) => {
     <div className="card">
       <div className="card-image">
         <figure className="image is-4by3">
-          <Image publicId={edit.image_id}></Image>
+          <Image
+            publicId={edit.image_id}
+            dpr="auto"
+            responsive
+            width="auto"
+            crop="scale"
+            responsiveUseBreakpoints="true"
+          >
+            <Transformation quality="auto" fetchFormat="auto" />
+          </Image>
         </figure>
       </div>
       <div className="card-content">

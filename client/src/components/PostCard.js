@@ -7,7 +7,16 @@ const PostCard = ({ post }) => {
     <div className="card">
       <div className="card-image">
         <figure className="image is-4by3">
-          <Image publicId={post.image_id}></Image>
+          <Image
+            publicId={post.image_id}
+            dpr="auto"
+            responsive
+            width="auto"
+            crop="scale"
+            responsiveUseBreakpoints="true"
+          >
+            <Transformation quality="auto" fetchFormat="auto" />
+          </Image>
         </figure>
       </div>
       <div className="card-content">
@@ -15,7 +24,16 @@ const PostCard = ({ post }) => {
           <div className="media">
             <div className="media-left">
               <figure className="image is-48x48">
-                <Image publicId={post.avatar} />
+                <Image
+                  publicId={post.avatar}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </figure>
             </div>
             <div className="media-content">

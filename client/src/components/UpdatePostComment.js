@@ -40,7 +40,16 @@ const UpdatePostComment = ({ comment }) => {
     <article className="media">
       <figure className="media-left">
         <p className="image is-64x64">
-          <Image publicId={comment.avatar}></Image>
+          <Image
+            publicId={comment.avatar}
+            dpr="auto"
+            responsive
+            width="auto"
+            crop="scale"
+            responsiveUseBreakpoints="true"
+          >
+            <Transformation quality="auto" fetchFormat="auto" />
+          </Image>
         </p>
       </figure>
       <div className="media-content">

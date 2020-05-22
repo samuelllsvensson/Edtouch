@@ -72,7 +72,16 @@ const Profile = () => {
             onClick={() => beginUpload("image")}
             className="image is-64x64"
           >
-            <Image publicId={authState.dbProfile.avatar} />
+            <Image
+              publicId={authState.dbProfile.avatar}
+              dpr="auto"
+              responsive
+              width="auto"
+              crop="scale"
+              responsiveUseBreakpoints="true"
+            >
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
           </figure>
         </div>
         <div className="level-item">

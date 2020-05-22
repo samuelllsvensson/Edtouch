@@ -265,14 +265,32 @@ const Post = (props) => {
         <div className="column is-centered is-half is-offset-one-quarter">
           <h1 className="title">{postsState.post.title}</h1>
           <figure className="image is-16by9">
-            <Image publicId={postsState.post.image_id}></Image>
+            <Image
+              publicId={postsState.post.image_id}
+              dpr="auto"
+              responsive
+              width="auto"
+              crop="scale"
+              responsiveUseBreakpoints="true"
+            >
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
           </figure>
           <br />
           {/* -------POST INFO-------- */}
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <Image publicId={postsState.post.avatar} />
+                <Image
+                  publicId={postsState.post.avatar}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </p>
             </figure>
             <div className="media-content">
