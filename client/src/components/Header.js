@@ -31,7 +31,7 @@ const Header = () => {
     if (!context.authState.authenticated) return;
     return (
       <Link to="/add-post" className="navbar-item">
-        Add request
+        Add post
       </Link>
     );
   }
@@ -49,6 +49,9 @@ const Header = () => {
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
+        <div class="navbar-item">
+          <img src="https://i.imgur.com/7XYhAyP.png" width="150" />
+        </div>
         <label
           role="button"
           className="navbar-burger burger"
@@ -70,7 +73,7 @@ const Header = () => {
             Home
           </Link>
           {renderAddRequestButton()}
-          <div className="level-item">
+          {/* <div className="level-item">
             <div className="field has-addons">
               <p className="control">
                 <input
@@ -83,7 +86,7 @@ const Header = () => {
                 <button className="button">Search</button>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="navbar-end">
