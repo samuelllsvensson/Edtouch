@@ -1,19 +1,19 @@
 import * as ACTION_TYPES from "./actionTypes";
 
-export const fetchDbProfilePostsRequest = () => {
+export const fetchProfilePostsRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_POSTS_REQUEST,
   };
 };
 
-export const fetchDbProfilePostsSuccess = (posts) => {
+export const fetchProfilePostsSuccess = (posts) => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_POSTS_SUCCESS,
     payload: posts,
   };
 };
 
-export const fetchDbProfilePostsFail = (err) => {
+export const fetchProfilePostsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_POSTS_FAIL,
     payload: err,

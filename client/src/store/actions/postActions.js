@@ -1,34 +1,34 @@
 import * as ACTION_TYPES from "./actionTypes";
 
 // Posts
-export const fetchDbPostSuccess = (post) => {
+export const fetchPostSuccess = (post) => {
   return {
     type: ACTION_TYPES.FETCH_POST_SUCCESS,
     payload: post,
   };
 };
 
-export const fetchDbPostFail = (err) => {
+export const fetchPostFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_POST_FAIL,
     payload: err,
   };
 };
 
-export const fetchDbPostsRequest = () => {
+export const fetchPostsRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_POSTS_REQUEST,
   };
 };
 
-export const fetchDbPostsSuccess = (posts) => {
+export const fetchPostsSuccess = (posts) => {
   return {
     type: ACTION_TYPES.FETCH_POSTS_SUCCESS,
     payload: posts,
   };
 };
 
-export const fetchDbPostsFail = (err) => {
+export const fetchPostsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_POSTS_FAIL,
     payload: err,
@@ -50,14 +50,14 @@ export const addPostFail = (err) => {
 };
 
 // Post comments
-export const fetchDbPostCommentsSuccess = (comments) => {
+export const fetchPostCommentsSuccess = (comments) => {
   return {
     type: ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS,
     payload: comments,
   };
 };
 
-export const fetchDbPostCommentsFail = (err) => {
+export const fetchPostCommentsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_POST_COMMENTS_FAIL,
     payload: err,

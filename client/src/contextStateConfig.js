@@ -64,21 +64,21 @@ const ContextState = () => {
     axios
       .get(`/api/get/post/${postId}`)
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.fetchDbPostSuccess(res.data));
+        dispatchPostsReducer(ACTIONS.fetchPostSuccess(res.data));
       })
-      .catch((err) => dispatchPostsReducer(ACTIONS.fetchDbPostFail(err)));
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchPostFail(err)));
   };
 
   const handleFetchPosts = () => {
-    dispatchPostsReducer(ACTIONS.fetchDbPostsRequest());
+    dispatchPostsReducer(ACTIONS.fetchPostsRequest());
     axios
       .get("/api/get/posts")
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.fetchDbPostsSuccess(res.data));
+        dispatchPostsReducer(ACTIONS.fetchPostsSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);
-        dispatchPostsReducer(ACTIONS.fetchDbPostsFail(err));
+        dispatchPostsReducer(ACTIONS.fetchPostsFail(err));
       });
   };
 
@@ -107,12 +107,11 @@ const ContextState = () => {
     axios
       .get(`/api/get/post/${postId}/comments`)
       .then((res) => {
-        //console.log(res);
-        dispatchPostsReducer(ACTIONS.fetchDbPostCommentsSuccess(res.data));
+        dispatchPostsReducer(ACTIONS.fetchPostCommentsSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);
-        dispatchPostsReducer(ACTIONS.fetchDbPostCommentsFail(err));
+        dispatchPostsReducer(ACTIONS.fetchPostCommentsFail(err));
       });
   };
 
@@ -177,21 +176,21 @@ const ContextState = () => {
     axios
       .get(`/api/get/${data.post_id}/edits/${data.edit_id}`)
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.fetchDbEditSuccess(res.data));
+        dispatchPostsReducer(ACTIONS.fetchEditSuccess(res.data));
       })
-      .catch((err) => dispatchPostsReducer(ACTIONS.fetchDbEditFail(err)));
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchEditFail(err)));
   };
 
   const handleFetchEdits = (postId) => {
-    dispatchPostsReducer(ACTIONS.fetchDbEditsRequest());
+    dispatchPostsReducer(ACTIONS.fetchEditsRequest());
     axios
       .get(`/api/get/${postId}/edits`)
       .then((res) => {
-        dispatchPostsReducer(ACTIONS.fetchDbEditsSuccess(res.data));
+        dispatchPostsReducer(ACTIONS.fetchEditsSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);
-        dispatchPostsReducer(ACTIONS.fetchDbEditsFail(err));
+        dispatchPostsReducer(ACTIONS.fetchEditsFail(err));
       });
   };
 
@@ -289,15 +288,15 @@ const ContextState = () => {
   );
 
   const handleFetchProfilePosts = (userId) => {
-    dispatchProfileReducer(ACTIONS.fetchDbProfilePostsRequest());
+    dispatchProfileReducer(ACTIONS.fetchProfilePostsRequest());
     axios
       .get(`/api/get/user/${userId}/posts`)
       .then((res) => {
-        dispatchProfileReducer(ACTIONS.fetchDbProfilePostsSuccess(res.data));
+        dispatchProfileReducer(ACTIONS.fetchProfilePostsSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);
-        dispatchProfileReducer(ACTIONS.fetchDbProfilePostsFail(err));
+        dispatchProfileReducer(ACTIONS.fetchProfilePostsFail(err));
       });
   };
 

@@ -1,33 +1,33 @@
 import * as ACTION_TYPES from "./actionTypes";
 // Edits
-export const fetchDbEditSuccess = (edit) => {
+export const fetchEditSuccess = (edit) => {
   return {
     type: ACTION_TYPES.FETCH_EDIT_SUCCESS,
     payload: edit,
   };
 };
 
-export const fetchDbEditFail = (err) => {
+export const fetchEditFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_EDIT_FAIL,
     payload: err,
   };
 };
 
-export const fetchDbEditsRequest = () => {
+export const fetchEditsRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_EDITS_REQUEST,
   };
 };
 
-export const fetchDbEditsSuccess = (edits) => {
+export const fetchEditsSuccess = (edits) => {
   return {
     type: ACTION_TYPES.FETCH_EDITS_SUCCESS,
     payload: edits,
   };
 };
 
-export const fetchDbEditsFail = (err) => {
+export const fetchEditsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_EDITS_FAIL,
     payload: err,
