@@ -184,7 +184,6 @@ const Post = (props) => {
                           ? "is-loading"
                           : ""
                       }`}
-                      //onClick={() => handleSubmit()}
                     >
                       Submit
                     </button>

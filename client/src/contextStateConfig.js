@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import Context from "./utils/context";
-import * as ACTIONS from "./store/actions/actions";
+import * as ACTIONS from "./store/actions";
 import axios from "axios";
 import history from "./utils/history";
 
