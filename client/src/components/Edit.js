@@ -92,7 +92,16 @@ const Edit = ({ edit, onChange, displayEdit }) => {
           <div className="content">
             <div className="card-image">
               <figure className="image is-4by3">
-                <Image publicId={edit.image_id}></Image>
+                <Image
+                  publicId={edit.image_id}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </figure>
             </div>
           </div>
@@ -101,7 +110,16 @@ const Edit = ({ edit, onChange, displayEdit }) => {
             <article className="media">
               <figure className="media-left">
                 <p className="image is-64x64">
-                  <Image publicId={edit.avatar}></Image>
+                  <Image
+                    publicId={edit.avatar}
+                    dpr="auto"
+                    responsive
+                    width="auto"
+                    crop="scale"
+                    responsiveUseBreakpoints="true"
+                  >
+                    <Transformation quality="auto" fetchFormat="auto" />
+                  </Image>
                 </p>
               </figure>
               <div className="media-content">
@@ -137,10 +155,16 @@ const Edit = ({ edit, onChange, displayEdit }) => {
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Placeholder"
-                />
+                <Image
+                  publicId={edit.avatar}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </p>
             </figure>
             <div className="media-content">
@@ -158,12 +182,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
               <nav className="level">
                 <div className="level-left">
                   <div className="level-item">
-                    <button
-                      className="button is-info"
-                      // onClick={() => handleSubmit()}
-                    >
-                      Submit
-                    </button>
+                    <button className="button is-info">Submit</button>
                   </div>
                 </div>
               </nav>
@@ -191,10 +210,16 @@ const Edit = ({ edit, onChange, displayEdit }) => {
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Placeholder"
-                />
+                <Image
+                  publicId={edit.avatar}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </p>
             </figure>
             <div className="media-content">

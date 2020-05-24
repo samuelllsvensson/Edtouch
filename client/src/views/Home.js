@@ -15,9 +15,9 @@ const Home = () => {
   function renderPostCards() {
     if (postsState.loadings["FETCH_POSTS"]) {
       return (
-        <div className="column">
-          <h1>Loading...</h1>
-        </div>
+        <progress className="progress is-primary" max="100">
+          Loading
+        </progress>
       );
     }
     return postsState.posts.map((post) => {

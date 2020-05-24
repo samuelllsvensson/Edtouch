@@ -44,7 +44,16 @@ const UpdateEdit = ({ edit, closeModal }) => {
     <article className="media">
       <figure className="media-left">
         <p className="image is-64x64">
-          <Image publicId={edit.avatar}></Image>
+          <Image
+            publicId={edit.avatar}
+            dpr="auto"
+            responsive
+            width="auto"
+            crop="scale"
+            responsiveUseBreakpoints="true"
+          >
+            <Transformation quality="auto" fetchFormat="auto" />
+          </Image>
         </p>
       </figure>
       <div className="media-content">

@@ -187,7 +187,6 @@ const Post = (props) => {
                           ? "is-loading"
                           : ""
                       }`}
-                      //onClick={() => handleSubmit()}
                     >
                       Submit
                     </button>
@@ -245,31 +244,38 @@ const Post = (props) => {
     }
   }
 
-  function changeActiveTab() {
-    if (stateLocal.activeTab === "comments") {
-      document.getElementById("commentTab").parentElement.className = "";
-      document.getElementById("editTab").parentElement.className = "is-active";
-    } else if (stateLocal.activeTab === "edits") {
-      document.getElementById("editTab").parentElement.className = "";
-      document.getElementById("commentTab").parentElement.className =
-        "is-active";
-    }
-  }
-
   function render() {
     if (postsState.post) {
       return (
         <div className="column is-centered is-half is-offset-one-quarter">
           <h1 className="title">{postsState.post.title}</h1>
           <figure className="image is-16by9">
-            <Image publicId={postsState.post.image_id}></Image>
+            <Image
+              publicId={postsState.post.image_id}
+              dpr="auto"
+              responsive
+              width="auto"
+              crop="scale"
+              responsiveUseBreakpoints="true"
+            >
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
           </figure>
           <br />
           {/* -------POST INFO-------- */}
           <article className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <Image publicId={postsState.post.avatar} />
+                <Image
+                  publicId={postsState.post.avatar}
+                  dpr="auto"
+                  responsive
+                  width="auto"
+                  crop="scale"
+                  responsiveUseBreakpoints="true"
+                >
+                  <Transformation quality="auto" fetchFormat="auto" />
+                </Image>
               </p>
             </figure>
             <div className="media-content">
@@ -293,11 +299,14 @@ const Post = (props) => {
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>
-              <li className="is-active">
+              <li
+                className={
+                  stateLocal.activeTab === "comments" ? "is-active" : ""
+                }
+              >
                 <a
                   id="commentTab"
                   onClick={() => {
-                    changeActiveTab();
                     setState({ ...stateLocal, activeTab: "comments" });
                   }}
                 >
@@ -307,11 +316,12 @@ const Post = (props) => {
                   <span>Comments</span>
                 </a>
               </li>
-              <li>
+              <li
+                className={stateLocal.activeTab === "edits" ? "is-active" : ""}
+              >
                 <a
                   id="editTab"
                   onClick={() => {
-                    changeActiveTab();
                     setState({ ...stateLocal, activeTab: "edits" });
                   }}
                 >
