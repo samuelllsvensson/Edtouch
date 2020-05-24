@@ -128,6 +128,21 @@ router.put("/api/put/edit/:edit_id/like", (req, res, next) => {
   );
 });
 
+router.put("/api/put/edit/:edit_id/unlike", (req, res, next) => {
+  const values = [req.body.userId, [req.body.userId], req.params.edit_id];
+
+  pool.query(
+    `UPDATE edits SET likes_users = array_remove(likes_users, $1), likes = likes - 1
+            WHERE (likes_users @> $2)
+            AND edit_id = ($3)`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
 router.get("/api/get/user", (req, res, next) => {
   const email = req.query.email;
   pool.query(

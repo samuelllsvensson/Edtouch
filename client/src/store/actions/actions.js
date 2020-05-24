@@ -281,6 +281,25 @@ export const likeEditFail = (err) => {
   };
 };
 
+export const unlikeEditRequest = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_REQUEST,
+  };
+};
+
+export const unlikeEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_SUCCESS,
+  };
+};
+
+export const unlikeEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
 // Auth
 export const loginSuccess = () => {
   return {

@@ -6,15 +6,22 @@ import moment from "moment";
 import axios from "axios";
 
 const Edit = ({ edit, onChange, displayEdit }) => {
-  const { setIsEdit, postsState, authState, handleLikeEdit } = useContext(
-    Context
-  );
+  const {
+    setIsEdit,
+    postsState,
+    authState,
+    handleLikeEdit,
+    handleUnlikeEdit,
+  } = useContext(Context);
   function closeModal() {
     onChange(!displayEdit);
   }
 
   function renderLikeButton() {
-    if (!edit.likes_users.includes(authState.dbProfile.user_id)) {
+    if (
+      authState.authenticated &&
+      !edit.likes_users.includes(authState.dbProfile.user_id)
+    ) {
       return (
         <div className="level-left">
           <div className="level-item">
@@ -32,7 +39,11 @@ const Edit = ({ edit, onChange, displayEdit }) => {
     return (
       <div style={{ color: "#b71c1c" }} className="level-left">
         <div className="level-item">
-          <span className="icon is-small">
+          <span
+            key={Math.random()}
+            onClick={() => unlike()}
+            className="icon is-small"
+          >
             <i className="fas fa-heart"></i>
           </span>
         </div>
@@ -44,13 +55,21 @@ const Edit = ({ edit, onChange, displayEdit }) => {
   }
 
   function like() {
-    // Just for test. Should be in contextStateConfig
     const data = {
       edit_id: edit.edit_id,
       post_id: postsState.post.post_id,
       user_id: authState.dbProfile.user_id,
     };
     handleLikeEdit(data);
+  }
+
+  function unlike() {
+    const data = {
+      edit_id: edit.edit_id,
+      post_id: postsState.post.post_id,
+      user_id: authState.dbProfile.user_id,
+    };
+    handleUnlikeEdit(data);
   }
 
   return (

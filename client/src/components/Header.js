@@ -39,10 +39,11 @@ const Header = () => {
   function renderProfileButton() {
     if (!context.authState.dbProfile || !context.authState.authenticated)
       return;
+
     return (
       <Link to="/profile" className="navbar-item">
         {context.authState.dbProfile.username} (
-        <strong>{context.profileState.profileLikes}</strong>)
+        <strong>{context.profileState.profileLikes || 0}</strong>)
       </Link>
     );
   }

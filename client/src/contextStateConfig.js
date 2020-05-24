@@ -263,6 +263,22 @@ const ContextState = () => {
       });
   };
 
+  const handleUnlikeEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.unlikeEditRequest());
+    axios
+      .put(`/api/put/edit/${data.edit_id}/unlike`, {
+        userId: data.user_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.unlikeEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.unlikeEditFail());
+        console.log(err);
+      });
+  };
+
   /*
       Auth Reducer
     */
@@ -373,6 +389,7 @@ const ContextState = () => {
           handleDeleteEdit: (edit) => handleDeleteEdit(edit),
           handleUpdateEdit: (edit) => handleUpdateEdit(edit),
           handleLikeEdit: (edit) => handleLikeEdit(edit),
+          handleUnlikeEdit: (edit) => handleUnlikeEdit(edit),
 
           // Auth
           authState: stateAuthReducer,
