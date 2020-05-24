@@ -9,6 +9,7 @@ import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
 import AddEdit from "../components/AddEdit";
 import queryString from "query-string";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = (props) => {
@@ -99,6 +100,40 @@ const Post = (props) => {
           );
           return (
             <div key={edit.edit_id} className="column is-one-third">
+              <Link to={`?showedit=1`}>
+                <div
+                  style={{ padding: 0 }}
+                  className="box"
+                  onClick={() => {
+                    const data = {
+                      post_id: edit.post_id,
+                      edit_id: edit.edit_id,
+                    };
+                    handleFetchEdit(data);
+                    setState({
+                      ...stateLocal,
+                      displayEdit: !stateLocal.displayEdit,
+                      clickedEdit: edit.edit_id,
+                    });
+                  }}
+                >
+                  <EditCard edit={edit} />
+                </div>
+              </Link>
+              <Edit
+                edit={res}
+                onChange={handleChange}
+                displayEdit={stateLocal.displayEdit}
+              />
+            </div>
+          );
+        });
+      }
+      // Render edit cards behind modal
+      return postsState.edits.map((edit) => {
+        return (
+          <div key={edit.edit_id} className="column is-one-third">
+            <Link to={`?showedit=${edit.edit_id}`}>
               <div
                 style={{ padding: 0, cursor: "pointer" }}
                 className="box"
@@ -117,37 +152,7 @@ const Post = (props) => {
               >
                 <EditCard edit={edit} />
               </div>
-              <Edit
-                edit={res}
-                onChange={handleChange}
-                displayEdit={stateLocal.displayEdit}
-              />
-            </div>
-          );
-        });
-      }
-      // Render edit cards behind modal
-      return postsState.edits.map((edit) => {
-        return (
-          <div key={edit.edit_id} className="column is-one-third">
-            <div
-              style={{ padding: 0, cursor: "pointer" }}
-              className="box"
-              onClick={() => {
-                const data = {
-                  post_id: edit.post_id,
-                  edit_id: edit.edit_id,
-                };
-                handleFetchEdit(data);
-                setState({
-                  ...stateLocal,
-                  displayEdit: !stateLocal.displayEdit,
-                  clickedEdit: edit.edit_id,
-                });
-              }}
-            >
-              <EditCard edit={edit} />
-            </div>
+            </Link>
           </div>
         );
       });

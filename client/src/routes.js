@@ -19,7 +19,9 @@ const PrivateRoute = ({ component: Component, auth }) => (
       ) : (
         <Redirect
           to={{
-            pathname: `/authcheck?to=${history.location.pathname.substr(1)}`,
+            pathname: `/authcheck?to=${
+              history.location.pathname.substr(1) + history.search
+            }`,
           }}
         />
       )
@@ -38,7 +40,11 @@ const Routes = () => {
     if (accessToken && !authenticated) {
       context.authObj.getProfile();
       setTimeout(() => {
-        history.replace(`/authcheck?to=${history.location.pathname.substr(1)}`);
+        history.replace(
+          `/authcheck?to=${
+            history.location.pathname.substr(1) + history.location.search
+          }`
+        );
       }, 600);
     }
   }, []);
@@ -60,6 +66,11 @@ const Routes = () => {
               }}
             />
             <Route path="/authcheck" component={AuthCheck} />
+            {console.log(
+              `/authcheck?to=${
+                history.location.pathname.substr(1) + history.location.search
+              }`
+            )}
             <PrivateRoute
               auth={context.authState.authenticated}
               path="/profile"
