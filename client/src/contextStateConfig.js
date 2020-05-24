@@ -84,7 +84,7 @@ const ContextState = () => {
 
   const handleAddPost = (data) => {
     axios
-      .post("/api/post/post", {
+      .post("/api/post/add_post", {
         title: data.title,
         description: data.description,
         image_id: data.image_id,
@@ -94,7 +94,6 @@ const ContextState = () => {
       .then((res) => {
         dispatchPostsReducer(ACTIONS.addPostSuccess());
         history.replace("/");
-        console.log("HISTORY REPLACED ");
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.addPostFail(err));
@@ -105,7 +104,7 @@ const ContextState = () => {
   // Post comments
   const handleFetchPostComments = (postId) => {
     axios
-      .get(`/api/get/post/${postId}/comments`)
+      .get(`/api/get/post/${postId}/postcomments`)
       .then((res) => {
         dispatchPostsReducer(ACTIONS.fetchPostCommentsSuccess(res.data));
       })
@@ -119,7 +118,7 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
     console.log(data);
     axios
-      .post(`/api/post/${data.post_id}/postcomment`, {
+      .post(`/api/post/post/${data.post_id}/postcomment`, {
         comment: data.comment,
         username: data.username,
         userId: data.user_id,
@@ -134,14 +133,10 @@ const ContextState = () => {
       });
   };
 
-  const setIsEdit = (id) => {
-    dispatchPostsReducer(ACTIONS.setCommentEditable(id));
-  };
-
   const handleUpdatePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.updatePostCommentRequest());
     axios
-      .put(`/api/put/${data.post_id}/postcomment`, {
+      .put(`/api/put/post/${data.post_id}/postcomment`, {
         comment: data.comment,
         username: data.username,
         user_id: data.user_id,
@@ -160,7 +155,7 @@ const ContextState = () => {
   const handleDeleteComment = (data) => {
     dispatchPostsReducer(ACTIONS.deletePostCommentRequest());
     axios
-      .delete(`/api/delete/${data.comment_id}`)
+      .delete(`/api/delete/post/${data.comment_id}`)
       .then((res) => {
         dispatchPostsReducer(ACTIONS.deletePostCommentSuccess());
         handleFetchPostComments(data.post_id);
@@ -172,19 +167,10 @@ const ContextState = () => {
   };
 
   // Edits
-  const handleFetchEdit = (data) => {
-    axios
-      .get(`/api/get/${data.post_id}/edits/${data.edit_id}`)
-      .then((res) => {
-        dispatchPostsReducer(ACTIONS.fetchEditSuccess(res.data));
-      })
-      .catch((err) => dispatchPostsReducer(ACTIONS.fetchEditFail(err)));
-  };
-
   const handleFetchEdits = (postId) => {
     dispatchPostsReducer(ACTIONS.fetchEditsRequest());
     axios
-      .get(`/api/get/${postId}/edits`)
+      .get(`/api/get/edits/${postId}`)
       .then((res) => {
         dispatchPostsReducer(ACTIONS.fetchEditsSuccess(res.data));
       })
@@ -194,9 +180,18 @@ const ContextState = () => {
       });
   };
 
+  const handleFetchEdit = (data) => {
+    axios
+      .get(`/api/get/edits/${data.post_id}/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchEditSuccess(res.data));
+      })
+      .catch((err) => dispatchPostsReducer(ACTIONS.fetchEditFail(err)));
+  };
+
   const handleAddEdit = (data) => {
     axios
-      .post("/api/post/edit", {
+      .post("/api/post/add_edit", {
         post_id: data.post_id,
         description: data.description,
         image_id: data.image_id,
@@ -213,24 +208,10 @@ const ContextState = () => {
       });
   };
 
-  const handleDeleteEdit = (data) => {
-    dispatchPostsReducer(ACTIONS.deleteEditRequest());
-    axios
-      .delete(`/api/delete/edit/${data.edit_id}`)
-      .then((res) => {
-        dispatchPostsReducer(ACTIONS.deleteEditSuccess());
-        handleFetchEdits(data.post_id);
-      })
-      .catch((err) => {
-        dispatchPostsReducer(ACTIONS.deleteEditFail(err));
-        console.log(err);
-      });
-  };
-
   const handleUpdateEdit = (data) => {
     dispatchPostsReducer(ACTIONS.updateEditRequest());
     axios
-      .put(`/api/put/${data.edit_id}/edit`, {
+      .put(`/api/put/edit/${data.edit_id}`, {
         description: data.description,
         user_id: data.user_id,
         image_id: data.image_id,
@@ -242,6 +223,20 @@ const ContextState = () => {
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.updateEditFail());
+        console.log(err);
+      });
+  };
+
+  const handleDeleteEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.deleteEditRequest());
+    axios
+      .delete(`/api/delete/edit/${data.edit_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deleteEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deleteEditFail(err));
         console.log(err);
       });
   };
@@ -290,7 +285,7 @@ const ContextState = () => {
   const handleFetchProfilePosts = (userId) => {
     dispatchProfileReducer(ACTIONS.fetchProfilePostsRequest());
     axios
-      .get(`/api/get/user/${userId}/posts`)
+      .get(`/api/get/profile/posts/${userId}`)
       .then((res) => {
         dispatchProfileReducer(ACTIONS.fetchProfilePostsSuccess(res.data));
       })
@@ -303,7 +298,7 @@ const ContextState = () => {
   const changeProfileAvatar = (data) => {
     dispatchProfileReducer(ACTIONS.changeProfileAvatarRequest());
     axios
-      .put(`/api/put/user/${data.userId}/avatar`, {
+      .put(`/api/put/profile/avatar/${data.userId}`, {
         url: data.url,
       })
       .then((res) => {
@@ -313,6 +308,10 @@ const ContextState = () => {
         console.log(err);
         dispatchProfileReducer(ACTIONS.changeProfileAvatarFail(err));
       });
+  };
+
+  const setIsEdit = (id) => {
+    dispatchPostsReducer(ACTIONS.setCommentEditable(id));
   };
 
   return (
