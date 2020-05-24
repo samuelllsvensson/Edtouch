@@ -23,9 +23,26 @@ const EditCard = ({ edit }) => {
             >
               {edit.body}
               <br />
-              <h6 className="title is-6">
-                {moment(edit.date_created).fromNow().toString()}
-              </h6>
+              <div className="level">
+                <div className="level-left">
+                  <div className="level-item">
+                    <h6 className="title is-6">
+                      {moment(edit.date_created).fromNow().toString()}
+                    </h6>
+                  </div>
+                </div>
+                <div className="level-right">
+                  <div className="level-item">
+                    <span
+                      style={{ marginRight: "5px" }}
+                      className="icon is-small"
+                    >
+                      <i className="fas fa-heart"></i>
+                    </span>
+                    <strong>{edit.likes}</strong>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

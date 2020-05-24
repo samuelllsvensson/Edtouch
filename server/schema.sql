@@ -15,9 +15,7 @@ CREATE TABLE posts (
   body VARCHAR,
   user_id INT REFERENCES users(user_id),
   date_created TIMESTAMP,
-  image_id VARCHAR(255),
-  likes_users INT[] DEFAULT ARRAY[]::INT[],
-  likes int DEFAULT 0
+  image_id VARCHAR(255)
 );
 
 CREATE TABLE post_comments (
@@ -32,12 +30,13 @@ CREATE TABLE post_comments (
 -- TODO: likes
 CREATE TABLE edits (
   edit_id SERIAL PRIMARY KEY,
-  title VARCHAR(255),
   body VARCHAR,
   post_id INT REFERENCES posts(post_id),
   user_id INT REFERENCES users(user_id),
   image_id VARCHAR,
-  date_created TIMESTAMP
+  date_created TIMESTAMP,
+  likes_users INT[] DEFAULT ARRAY[]::INT[],
+  likes int DEFAULT 0
 );
 
 -- CREATE TABLE edit_comments (

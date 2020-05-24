@@ -55,6 +55,26 @@ export const fetchDbProfilePostsFail = (err) => {
   };
 };
 
+export const fetchProfileLikesRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_REQUEST,
+  };
+};
+
+export const fetchProfileLikesSuccess = (likes) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_SUCCESS,
+    payload: likes,
+  };
+};
+
+export const fetchProfileLikesFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_FAIL,
+    payload: err,
+  };
+};
+
 export const changeProfileAvatarRequest = () => {
   return {
     type: ACTION_TYPES.CHANGE_PROFILE_AVATAR_REQUEST,
@@ -238,6 +258,44 @@ export const updateEditSuccess = () => {
 export const updateEditFail = (err) => {
   return {
     type: ACTION_TYPES.UPDATE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
+export const likeEditRequest = () => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_REQUEST,
+  };
+};
+
+export const likeEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_SUCCESS,
+  };
+};
+
+export const likeEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
+export const unlikeEditRequest = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_REQUEST,
+  };
+};
+
+export const unlikeEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_SUCCESS,
+  };
+};
+
+export const unlikeEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_FAIL,
     payload: err,
   };
 };

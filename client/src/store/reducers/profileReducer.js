@@ -4,6 +4,7 @@ export const initialState = {
   profilePosts: [],
   errors: {},
   loadings: {},
+  profileLikes: null,
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -12,6 +13,12 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profilePosts: action.payload,
+      };
+
+    case ACTION_TYPES.FETCH_PROFILE_LIKES_SUCCESS:
+      return {
+        ...state,
+        profileLikes: action.payload,
       };
 
     default:

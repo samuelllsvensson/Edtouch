@@ -2,12 +2,74 @@ import React, { useContext } from "react";
 import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 import UpdateEdit from "../components/UpdateEdit";
-var moment = require("moment");
+import moment from "moment";
+import axios from "axios";
 
 const Edit = ({ edit, onChange, displayEdit }) => {
-  const { setIsEdit, postsState } = useContext(Context);
+  const {
+    setIsEdit,
+    postsState,
+    authState,
+    handleLikeEdit,
+    handleUnlikeEdit,
+  } = useContext(Context);
   function closeModal() {
     onChange(!displayEdit);
+  }
+
+  function renderLikeButton() {
+    if (
+      authState.authenticated &&
+      !edit.likes_users.includes(authState.dbProfile.user_id)
+    ) {
+      return (
+        <div className="level-left">
+          <div className="level-item">
+            <span onClick={() => like()} className="icon is-small">
+              <i className="far fa-heart"></i>
+            </span>
+          </div>
+          <div className="level-item">
+            <strong>{edit.likes}</strong>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ color: "#b71c1c" }} className="level-left">
+        <div className="level-item">
+          <span
+            key={Math.random()}
+            onClick={() => unlike()}
+            className="icon is-small"
+          >
+            <i className="fas fa-heart"></i>
+          </span>
+        </div>
+        <div className="level-item">
+          <strong>{edit.likes}</strong>
+        </div>
+      </div>
+    );
+  }
+
+  function like() {
+    const data = {
+      edit_id: edit.edit_id,
+      post_id: postsState.post.post_id,
+      user_id: authState.dbProfile.user_id,
+    };
+    handleLikeEdit(data);
+  }
+
+  function unlike() {
+    const data = {
+      edit_id: edit.edit_id,
+      post_id: postsState.post.post_id,
+      user_id: authState.dbProfile.user_id,
+    };
+    handleUnlikeEdit(data);
   }
 
   return (
@@ -48,18 +110,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
                   {edit.body}
                 </div>
                 <nav className="level is-mobile">
-                  <div className="level-left">
-                    <div className="level-item">
-                      <span className="icon is-small">
-                        <i className="fas fa-plus"></i>
-                      </span>
-                    </div>
-                    <div className="level-item">
-                      <span className="icon is-small">
-                        <i className="fas fa-minus"></i>
-                      </span>
-                    </div>
-                  </div>
+                  {renderLikeButton()}
                   <div className="level-right">
                     <small>
                       {moment(edit.date_created).fromNow().toString()}
