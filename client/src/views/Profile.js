@@ -73,7 +73,9 @@ const Profile = () => {
     return profileState.profileEdits.map((edit) => {
       return (
         <div key={edit.edit_id} className="column is-two-fifths">
-          <EditCard edit={edit} />
+          <Link to={`/post/${edit.post_id}?showedit=${edit.edit_id}`}>
+            <EditCard edit={edit} />
+          </Link>
         </div>
       );
     });

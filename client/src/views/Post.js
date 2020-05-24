@@ -8,6 +8,7 @@ import UpdatePostComment from "../components/UpdatePostComment";
 import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
 import AddEdit from "../components/AddEdit";
+import queryString from "query-string";
 import axios from "axios";
 
 const Post = (props) => {
@@ -27,10 +28,12 @@ const Post = (props) => {
     handleFetchPostComments(props.match.params.post_id);
   }, []);
 
+  const { showedit } = queryString.parse(props.location.search);
+
   const [stateLocal, setState] = useState({
-    activeTab: "comments",
-    displayEdit: false,
-    clickedEdit: -1,
+    activeTab: showedit ? "edits" : "comments",
+    displayEdit: showedit ? true : false,
+    clickedEdit: showedit ? parseInt(showedit) : -1,
     showAddEdit: false,
   });
 
