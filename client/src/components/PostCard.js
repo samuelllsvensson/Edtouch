@@ -55,18 +55,9 @@ const PostCard = ({ post }) => {
         >
           {post.body}
           <br />
-          <div className="level">
-            <div className="level-left">
-              <h6 className="title is-6">
-                {moment(post.date_created).fromNow().toString()}
-              </h6>
-            </div>
-            <div className="level-right">
-              <h6 style={{ color: "green" }} className="title is-6">
-                {post.likes}
-              </h6>
-            </div>
-          </div>
+          <h6 className="title is-6">
+            {moment(post.date_created).fromNow().toString()}
+          </h6>
         </div>
       </div>
     </div>

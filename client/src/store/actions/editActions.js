@@ -86,3 +86,41 @@ export const updateEditFail = (err) => {
     payload: err,
   };
 };
+
+export const likeEditRequest = () => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_REQUEST,
+  };
+};
+
+export const likeEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_SUCCESS,
+  };
+};
+
+export const likeEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.LIKE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
+export const unlikeEditRequest = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_REQUEST,
+  };
+};
+
+export const unlikeEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_SUCCESS,
+  };
+};
+
+export const unlikeEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.UNLIKE_EDIT_FAIL,
+    payload: err,
+  };
+};

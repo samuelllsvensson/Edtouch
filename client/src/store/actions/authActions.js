@@ -71,3 +71,23 @@ export const removeA0Profile = () => {
     type: ACTION_TYPES.REMOVE_A0_PROFILE,
   };
 };
+
+export const fetchProfileLikesRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_REQUEST,
+  };
+};
+
+export const fetchProfileLikesSuccess = (likes) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_SUCCESS,
+    payload: likes,
+  };
+};
+
+export const fetchProfileLikesFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_LIKES_FAIL,
+    payload: err,
+  };
+};

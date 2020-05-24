@@ -240,6 +240,39 @@ const ContextState = () => {
         console.log(err);
       });
   };
+
+  const handleLikeEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.likeEditRequest());
+    axios
+      .put(`/api/put/edit/${data.edit_id}/like`, {
+        userId: data.user_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.likeEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.likeEditFail());
+        console.log(err);
+      });
+  };
+
+  const handleUnlikeEdit = (data) => {
+    dispatchPostsReducer(ACTIONS.unlikeEditRequest());
+    axios
+      .put(`/api/put/edit/${data.edit_id}/unlike`, {
+        userId: data.user_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.unlikeEditSuccess());
+        handleFetchEdits(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.unlikeEditFail());
+        console.log(err);
+      });
+  };
+
   /*
       Auth Reducer
     */
@@ -314,6 +347,20 @@ const ContextState = () => {
     dispatchPostsReducer(ACTIONS.setCommentEditable(id));
   };
 
+  const handleFetchProfileLikes = (user_id) => {
+    dispatchProfileReducer(ACTIONS.fetchProfileLikesRequest());
+    axios
+      .get(`/api/get/profile/likes_count/${user_id}`)
+      .then((res) => {
+        dispatchProfileReducer(
+          ACTIONS.fetchProfileLikesSuccess(res.data[0].sum)
+        );
+      })
+      .catch((err) => {
+        dispatchProfileReducer(ACTIONS.fetchProfileLikesFail(err));
+      });
+  };
+
   return (
     <div>
       <Context.Provider
@@ -339,6 +386,8 @@ const ContextState = () => {
           handleAddEdit: (edit) => handleAddEdit(edit),
           handleDeleteEdit: (edit) => handleDeleteEdit(edit),
           handleUpdateEdit: (edit) => handleUpdateEdit(edit),
+          handleLikeEdit: (edit) => handleLikeEdit(edit),
+          handleUnlikeEdit: (edit) => handleUnlikeEdit(edit),
 
           // Auth
           authState: stateAuthReducer,
@@ -352,6 +401,8 @@ const ContextState = () => {
           profileState: stateProfileReducer,
           handleFetchProfilePosts: (posts) => handleFetchProfilePosts(posts),
           changeProfileAvatar: (userId) => changeProfileAvatar(userId),
+          handleFetchProfileLikes: (user_id) =>
+            handleFetchProfileLikes(user_id),
 
           authObj: auth,
           handleAuth: (props) => handleAuthentication(props),
