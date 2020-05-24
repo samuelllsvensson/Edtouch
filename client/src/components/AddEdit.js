@@ -49,7 +49,7 @@ const AddEdit = ({ post_id, onChange, showAddEdit }) => {
 
     const description = values.description;
 
-    const image_id = images[0]; // TODO: Handle more than one image
+    const image_id = images[0];
 
     if (!image_id) return;
 

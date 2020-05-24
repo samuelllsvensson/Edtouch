@@ -108,7 +108,7 @@ const UpdatePostComment = ({ comment }) => {
             <nav className="level is-mobile">
               <div className="level-right">
                 <small>
-                  Comment created: &nbsp;
+                  &nbsp;
                   {moment(comment.date_created)
                     .format("h:mm A · MMM D, YYYY")
                     .toString()}
