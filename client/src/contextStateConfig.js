@@ -334,6 +334,19 @@ const ContextState = () => {
       });
   };
 
+  const handleFetchProfileEdits = (userId) => {
+    dispatchProfileReducer(ACTIONS.fetchDbProfileEditsRequest());
+    axios
+      .get(`/api/get/user/${userId}/edits`)
+      .then((res) => {
+        dispatchProfileReducer(ACTIONS.fetchDbProfileEditsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchProfileReducer(ACTIONS.fetchDbProfileEditsFail(err));
+      });
+  };
+
   const changeProfileAvatar = (data) => {
     dispatchProfileReducer(ACTIONS.changeProfileAvatarRequest());
     axios
@@ -402,6 +415,7 @@ const ContextState = () => {
           //Profile
           profileState: stateProfileReducer,
           handleFetchProfilePosts: (posts) => handleFetchProfilePosts(posts),
+          handleFetchProfileEdits: (edits) => handleFetchProfileEdits(edits),
           changeProfileAvatar: (userId) => changeProfileAvatar(userId),
           handleFetchProfileLikes: (user_id) =>
             handleFetchProfileLikes(user_id),

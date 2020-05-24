@@ -55,6 +55,26 @@ export const fetchDbProfilePostsFail = (err) => {
   };
 };
 
+export const fetchDbProfileEditsRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_REQUEST,
+  };
+};
+
+export const fetchDbProfileEditsSuccess = (posts) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const fetchDbProfileEditsFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_FAIL,
+    payload: err,
+  };
+};
+
 export const fetchProfileLikesRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_LIKES_REQUEST,

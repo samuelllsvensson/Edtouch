@@ -47,7 +47,7 @@ const Routes = () => {
     <div>
       <Router history={history}>
         <Header />
-        <div>
+        <div style={{ marginBottom: "50px" }}>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/post/:post_id" component={Post} />

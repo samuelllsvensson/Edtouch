@@ -2,6 +2,7 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 
 export const initialState = {
   profilePosts: [],
+  profileEdits: [],
   errors: {},
   loadings: {},
   profileLikes: null,
@@ -13,6 +14,12 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profilePosts: action.payload,
+      };
+
+    case ACTION_TYPES.FETCH_PROFILE_EDITS_SUCCESS:
+      return {
+        ...state,
+        profileEdits: action.payload,
       };
 
     case ACTION_TYPES.FETCH_PROFILE_LIKES_SUCCESS:

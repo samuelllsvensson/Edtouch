@@ -13,7 +13,7 @@ const EditCard = ({ edit }) => {
       <div className="card-content">
         <div className="media">
           <div className="media-content">
-            <p className="subtitle">@{edit.username}</p>
+            {edit.username ? <p className="subtitle">@{edit.username}</p> : ""}
             <div
               style={{
                 textOverflow: "ellipsis",
