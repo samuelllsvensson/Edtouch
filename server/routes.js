@@ -56,9 +56,37 @@ router.post("/api/post/add_post", (req, res, next) => {
   );
 });
 
-// TODO: /api/put/post/:post_id
-// TODO: /api/delete/post/:post_id
-// (Deleting post should cascade remove all associated edits, post_comments and edit_comments)
+router.put("/api/put/post/:post_id", (req, res, next) => {
+  const values = [
+    req.body.title,
+    req.body.description,
+    req.body.user_id,
+    req.params.post_id,
+    req.body.image_id,
+  ];
+  pool.query(
+    `UPDATE posts SET title = $1, body = $2, user_id = $3, post_id = $4, image_id = $5, date_created = NOW()
+              WHERE post_id=$4`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+// TODO: cascade remove all associated edits, post_comments and edit_comments
+router.delete("/api/delete/post/:post_id", (req, res, next) => {
+  const post_id = req.params.post_id;
+  pool.query(
+    `DELETE FROM posts WHERE post_id=$1`,
+    [post_id],
+    (q_err, q_res) => {
+      res.json(q_res);
+      console.log(q_err);
+    }
+  );
+});
 
 // Post comments
 router.get("/api/get/post/:post_id/postcomments", (req, res, next) => {
@@ -113,7 +141,7 @@ router.put("/api/put/post/:post_id/postcomment", (req, res, next) => {
   );
 });
 
-router.delete("/api/delete/post/:comment_id", (req, res, next) => {
+router.delete("/api/delete/post/:comment_id/postcomment", (req, res, next) => {
   const comment_id = req.params.comment_id;
   pool.query(
     `DELETE FROM post_comments

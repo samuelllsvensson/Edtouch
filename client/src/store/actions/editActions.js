@@ -48,6 +48,25 @@ export const addEditFail = (err) => {
   };
 };
 
+export const updateEditRequest = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_REQUEST,
+  };
+};
+
+export const updateEditSuccess = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_SUCCESS,
+  };
+};
+
+export const updateEditFail = (err) => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_FAIL,
+    payload: err,
+  };
+};
+
 export const deleteEditSuccess = (edit) => {
   return {
     type: ACTION_TYPES.DELETE_EDIT_SUCCESS,
@@ -65,25 +84,6 @@ export const deleteEditFail = (err) => {
 export const deleteEditRequest = () => {
   return {
     type: ACTION_TYPES.DELETE_EDIT_REQUEST,
-  };
-};
-
-export const updateEditRequest = () => {
-  return {
-    type: ACTION_TYPES.UPDATE_EDIT_REQUEST,
-  };
-};
-
-export const updateEditSuccess = () => {
-  return {
-    type: ACTION_TYPES.UPDATE_EDIT_SUCCESS,
-  };
-};
-
-export const updateEditFail = (err) => {
-  return {
-    type: ACTION_TYPES.UPDATE_EDIT_FAIL,
-    payload: err,
   };
 };
 

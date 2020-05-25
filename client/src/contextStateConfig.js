@@ -101,6 +101,39 @@ const ContextState = () => {
       });
   };
 
+  const handleUpdatePost = (data) => {
+    dispatchPostsReducer(ACTIONS.updatePostRequest());
+    axios
+      .put(`/api/put/post/${data.post_id}`, {
+        title: data.title,
+        description: data.description,
+        user_id: data.user_id,
+        image_id: data.image_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.updatePostSuccess());
+        handleFetchPost(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.updatePostFail());
+        console.log(err);
+      });
+  };
+  // TODO: Delete post ska ta bort alla edits, edit_comments OCH post_comments
+  const handleDeletePost = (data) => {
+    dispatchPostsReducer(ACTIONS.deletePostRequest());
+    axios
+      .delete(`/api/delete/post/${data.post_id}`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deletePostSuccess());
+        handleFetchPosts(data.post_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deletePostFail(err));
+        console.log(err);
+      });
+  };
+
   // Post comments
   const handleFetchPostComments = (postId) => {
     axios
@@ -155,7 +188,7 @@ const ContextState = () => {
   const handleDeleteComment = (data) => {
     dispatchPostsReducer(ACTIONS.deletePostCommentRequest());
     axios
-      .delete(`/api/delete/post/${data.comment_id}`)
+      .delete(`/api/delete/post/${data.comment_id}/postcomment`)
       .then((res) => {
         dispatchPostsReducer(ACTIONS.deletePostCommentSuccess());
         handleFetchPostComments(data.post_id);
@@ -219,7 +252,7 @@ const ContextState = () => {
       })
       .then((res) => {
         dispatchPostsReducer(ACTIONS.updateEditSuccess());
-        handleFetchEdits(data.post_id);
+        handleFetchEdits();
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.updateEditFail());
@@ -392,6 +425,8 @@ const ContextState = () => {
             handleUpdatePostComment(comment),
           handleDeleteComment: (comment) => handleDeleteComment(comment),
           handleAddPost: (post) => handleAddPost(post),
+          handleUpdatePost: (post) => handleUpdatePost(post),
+          handleDeletePost: (post) => handleDeletePost(post),
 
           // Edits
           handleFetchEdit: (edit) => handleFetchEdit(edit),

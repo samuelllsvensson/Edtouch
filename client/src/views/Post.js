@@ -5,6 +5,7 @@ import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 import PostComment from "../components/PostComment";
 import UpdatePostComment from "../components/UpdatePostComment";
+import UpdatePost from "../components/UpdatePost";
 import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
 import AddEdit from "../components/AddEdit";
@@ -21,6 +22,7 @@ const Post = (props) => {
     handleFetchEdit,
     handleFetchEdits,
     authState,
+    setIsEdit,
   } = useContext(Context);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ const Post = (props) => {
       clickedEdit: -1,
     });
   }
+
   function handleAddEditChange() {
     setState({
       ...stateLocal,
@@ -268,39 +271,54 @@ const Post = (props) => {
           </figure>
           <br />
           {/* -------POST INFO-------- */}
-          <article className="media">
-            <figure className="media-left">
-              <p className="image is-64x64">
-                <Image
-                  publicId={postsState.post.avatar}
-                  dpr="auto"
-                  responsive
-                  width="auto"
-                  crop="scale"
-                  responsiveUseBreakpoints="true"
-                >
-                  <Transformation quality="auto" fetchFormat="auto" />
-                </Image>
-              </p>
-            </figure>
-            <div className="media-content">
-              <div className="content">
-                <p>
-                  <strong>{postsState.post.name}</strong>{" "}
-                  <small>@{postsState.post.username}</small>{" "}
-                  <small>
-                    {moment(postsState.post.date_created).fromNow().toString()}
-                  </small>
-                  <br />
-                  {postsState.post.body}
+          {console.log(postsState.isEdit)}
+          {postsState.isEdit !== postsState.post.post_id ? (
+            <article className="media">
+              <figure className="media-left">
+                <p className="image is-64x64">
+                  <Image
+                    publicId={postsState.post.avatar}
+                    dpr="auto"
+                    responsive
+                    width="auto"
+                    crop="scale"
+                    responsiveUseBreakpoints="true"
+                  >
+                    <Transformation quality="auto" fetchFormat="auto" />
+                  </Image>
                 </p>
+              </figure>
+              <div className="media-content">
+                <div className="content">
+                  <p>
+                    <strong>{postsState.post.name}</strong>{" "}
+                    <small>@{postsState.post.username}</small>{" "}
+                    <small>
+                      {moment(postsState.post.date_created)
+                        .fromNow()
+                        .toString()}
+                    </small>
+                    <br />
+                    {postsState.post.body}
+                  </p>
+                </div>
+                <nav className="level is-mobile"></nav>
               </div>
-              <nav className="level is-mobile"></nav>
-            </div>
-            <div className="media-right">
-              <span className="tag is-primary">Art</span>
-            </div>
-          </article>
+              <div className="media-right">
+                <button
+                  onClick={() => setIsEdit(postsState.post.post_id)}
+                  className="button is-small"
+                >
+                  <span className="icon is-small">
+                    <i className="far fa-edit"></i>
+                  </span>
+                </button>
+              </div>
+            </article>
+          ) : (
+            <UpdatePost post={postsState.post} />
+          )}
+
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>

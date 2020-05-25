@@ -3,7 +3,6 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 import UpdateEdit from "../components/UpdateEdit";
 import moment from "moment";
-import axios from "axios";
 
 const Edit = ({ edit, onChange, displayEdit }) => {
   const {

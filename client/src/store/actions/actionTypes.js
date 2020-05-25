@@ -8,9 +8,14 @@ export const ADD_POST_FAIL = "ADD_POST_FAIL";
 // Read
 export const FETCH_POST_SUCCESS = "FETCH_POST_SUCCESS";
 export const FETCH_POST_FAIL = "FETCH_POST_FAIL";
-// TODO: Update
-
-// TODO: Delete
+// Update
+export const UPDATE_POST_REQUEST = "UPDATE_POST_REQUEST";
+export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
+export const UPDATE_POST_FAIL = "UPDATE_POST_FAIL";
+// Delete
+export const DELETE_POST_REQUEST = "DELETE_POST_REQUEST";
+export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
+export const DELETE_POST_FAIL = "DELETE_POST_FAIL";
 
 // Post comments
 // Create

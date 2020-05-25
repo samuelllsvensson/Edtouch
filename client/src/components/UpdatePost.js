@@ -3,48 +3,54 @@ import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 var moment = require("moment");
 
-const UpdateEdit = ({ edit, closeModal }) => {
+const UpdatePost = ({ post }) => {
   const {
     postsState,
     setIsEdit,
-    handleUpdateEdit,
-    handleDeleteEdit,
+    handleUpdatePost,
+    handleDeletePost,
   } = useContext(Context);
 
-  const [value, setValue] = useState({ description: edit.body });
+  const [values, setValues] = useState({
+    title: post.title,
+    description: post.body,
+  });
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
   const handleSubmit = (action) => {
-    setIsEdit(edit.edit_id);
-    if (action === "saveEdit") {
-      const editData = {
-        description: value,
-        user_id: edit.user_id,
-        post_id: edit.post_id,
-        image_id: edit.image_id,
-        edit_id: edit.edit_id,
+    if (action === "savePost") {
+      console.log(values);
+      console.log(post);
+      const postData = {
+        title: values.title,
+        description: values.description,
+        user_id: post.user_id,
+        post_id: post.post_id,
+        image_id: post.image_id,
+        edit_id: post.edit_id,
       };
-      console.log(editData);
-      handleUpdateEdit(editData);
+      console.log("Edit post called");
+      handleUpdatePost(postData);
     }
-    if (action === "deleteEdit") {
-      const editData = {
-        post_id: edit.post_id,
-        edit_id: edit.edit_id,
+    if (action === "deletePost") {
+      const postData = {
+        post_id: post.post_id,
       };
-
-      handleDeleteEdit(editData);
+      console.log("Delete post called");
+      handleDeletePost(postData);
     }
+    setIsEdit(-1);
   };
   return (
     <article className="media">
       <figure className="media-left">
         <p className="image is-64x64">
           <Image
-            publicId={edit.avatar}
+            publicId={post.avatar}
             dpr="auto"
             responsive
             width="auto"
@@ -57,15 +63,28 @@ const UpdateEdit = ({ edit, closeModal }) => {
       </figure>
       <div className="media-content">
         <div className="content">
-          <strong>{edit.name}</strong> <small>@{edit.username}</small>{" "}
-          <small>{moment(edit.date_created).fromNow().toString()}</small>
+          <strong>{post.name}</strong> <small>@{post.username}</small>{" "}
+          <small>{moment(post.date_created).fromNow().toString()}</small>
+          <div className="field">
+            <label className="label">Title</label>
+            <div className="control">
+              <input
+                onChange={handleInputChange}
+                value={values.title}
+                className="input"
+                type="text"
+                name="title"
+              />
+            </div>
+          </div>
           <br />
           <div className="field">
             <p className="control">
               <textarea
-                onChange={handleChange}
-                value={value.description}
+                onChange={handleInputChange}
+                value={values.description}
                 placeholder=""
+                name="description"
                 style={{ width: "100%", height: "10vh" }}
                 className="textarea is-primary"
               ></textarea>
@@ -75,9 +94,9 @@ const UpdateEdit = ({ edit, closeModal }) => {
             <div className="level-left">
               <div className="level-item">
                 <button
-                  onClick={() => handleSubmit("saveEdit")}
+                  onClick={() => handleSubmit("savePost")}
                   className={`button is-info ${
-                    postsState.loadings["UPDATE_EDIT"] ? "is-loading" : ""
+                    postsState.loadings["UPDATE_POST"] ? "is-loading" : ""
                   }`}
                 >
                   Save
@@ -93,12 +112,9 @@ const UpdateEdit = ({ edit, closeModal }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => {
-                    handleSubmit("deleteEdit");
-                    closeModal();
-                  }}
+                  onClick={() => handleSubmit("deletePost")}
                   className={`button is-small ${
-                    postsState.loadings["DELETE_EDIT"] ? "is-loading" : ""
+                    postsState.loadings["DELETE_POST"] ? "is-loading" : ""
                   } is-danger`}
                 >
                   Delete
@@ -109,8 +125,8 @@ const UpdateEdit = ({ edit, closeModal }) => {
             <nav className="level is-mobile">
               <div className="level-right">
                 <small>
-                  Edit created: &nbsp;
-                  {moment(edit.date_created)
+                  Post created: &nbsp;
+                  {moment(post.date_created)
                     .format("h:mm A · MMM D, YYYY")
                     .toString()}
                 </small>
@@ -123,4 +139,4 @@ const UpdateEdit = ({ edit, closeModal }) => {
   );
 };
 
-export default UpdateEdit;
+export default UpdatePost;

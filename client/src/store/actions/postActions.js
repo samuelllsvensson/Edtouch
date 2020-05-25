@@ -49,6 +49,45 @@ export const addPostFail = (err) => {
   };
 };
 
+export const updatePostRequest = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_POST_REQUEST,
+  };
+};
+
+export const updatePostSuccess = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_POST_SUCCESS,
+  };
+};
+
+export const updatePostFail = (err) => {
+  return {
+    type: ACTION_TYPES.UPDATE_POST_FAIL,
+    payload: err,
+  };
+};
+
+export const deletePostSuccess = (post) => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_SUCCESS,
+    payload: post,
+  };
+};
+
+export const deletePostFail = (err) => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_FAIL,
+    payload: err,
+  };
+};
+
+export const deletePostRequest = () => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_REQUEST,
+  };
+};
+
 // Post comments
 export const fetchPostCommentsSuccess = (comments) => {
   return {
