@@ -20,6 +20,26 @@ export const fetchProfilePostsFail = (err) => {
   };
 };
 
+export const fetchProfileEditsRequest = () => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_REQUEST,
+  };
+};
+
+export const fetchProfileEditsSuccess = (posts) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const fetchProfileEditsFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_PROFILE_EDITS_FAIL,
+    payload: err,
+  };
+};
+
 export const changeProfileAvatarRequest = () => {
   return {
     type: ACTION_TYPES.CHANGE_PROFILE_AVATAR_REQUEST,

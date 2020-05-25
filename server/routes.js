@@ -17,6 +17,17 @@ router.get("/api/get/post/:post_id", (req, res, next) => {
   );
 });
 
+router.get("/api/get/user/:user_id/edits", (req, res, next) => {
+  const user_id = req.params.user_id;
+  pool.query(
+    `SELECT * FROM edits WHERE user_id=$1 ORDER BY date_created DESC`,
+    [user_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
 router.get("/api/get/posts", (req, res, next) => {
   pool.query(
     `SELECT posts.post_id, title, body, posts.date_created, image_id, username, avatar

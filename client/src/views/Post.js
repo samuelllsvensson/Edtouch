@@ -9,6 +9,9 @@ import UpdatePost from "../components/UpdatePost";
 import Edit from "../components/Edit";
 import EditCard from "../components/EditCard";
 import AddEdit from "../components/AddEdit";
+import queryString from "query-string";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Post = (props) => {
   const {
@@ -28,10 +31,12 @@ const Post = (props) => {
     handleFetchPostComments(props.match.params.post_id);
   }, []);
 
+  const { showedit } = queryString.parse(props.location.search);
+
   const [stateLocal, setState] = useState({
-    activeTab: "comments",
-    displayEdit: false,
-    clickedEdit: -1,
+    activeTab: showedit ? "edits" : "comments",
+    displayEdit: showedit ? true : false,
+    clickedEdit: showedit ? parseInt(showedit) : -1,
     showAddEdit: false,
   });
 
@@ -98,6 +103,40 @@ const Post = (props) => {
           );
           return (
             <div key={edit.edit_id} className="column is-one-third">
+              <Link to={`?showedit=1`}>
+                <div
+                  style={{ padding: 0 }}
+                  className="box"
+                  onClick={() => {
+                    const data = {
+                      post_id: edit.post_id,
+                      edit_id: edit.edit_id,
+                    };
+                    handleFetchEdit(data);
+                    setState({
+                      ...stateLocal,
+                      displayEdit: !stateLocal.displayEdit,
+                      clickedEdit: edit.edit_id,
+                    });
+                  }}
+                >
+                  <EditCard edit={edit} />
+                </div>
+              </Link>
+              <Edit
+                edit={res}
+                onChange={handleChange}
+                displayEdit={stateLocal.displayEdit}
+              />
+            </div>
+          );
+        });
+      }
+      // Render edit cards behind modal
+      return postsState.edits.map((edit) => {
+        return (
+          <div key={edit.edit_id} className="column is-one-third">
+            <Link to={`?showedit=${edit.edit_id}`}>
               <div
                 style={{ padding: 0, cursor: "pointer" }}
                 className="box"
@@ -116,37 +155,7 @@ const Post = (props) => {
               >
                 <EditCard edit={edit} />
               </div>
-              <Edit
-                edit={res}
-                onChange={handleChange}
-                displayEdit={stateLocal.displayEdit}
-              />
-            </div>
-          );
-        });
-      }
-      // Render edit cards behind modal
-      return postsState.edits.map((edit) => {
-        return (
-          <div key={edit.edit_id} className="column is-one-third">
-            <div
-              style={{ padding: 0, cursor: "pointer" }}
-              className="box"
-              onClick={() => {
-                const data = {
-                  post_id: edit.post_id,
-                  edit_id: edit.edit_id,
-                };
-                handleFetchEdit(data);
-                setState({
-                  ...stateLocal,
-                  displayEdit: !stateLocal.displayEdit,
-                  clickedEdit: edit.edit_id,
-                });
-              }}
-            >
-              <EditCard edit={edit} />
-            </div>
+            </Link>
           </div>
         );
       });
@@ -243,17 +252,6 @@ const Post = (props) => {
     }
   }
 
-  function changeActiveTab() {
-    if (stateLocal.activeTab === "comments") {
-      document.getElementById("commentTab").parentElement.className = "";
-      document.getElementById("editTab").parentElement.className = "is-active";
-    } else if (stateLocal.activeTab === "edits") {
-      document.getElementById("editTab").parentElement.className = "";
-      document.getElementById("commentTab").parentElement.className =
-        "is-active";
-    }
-  }
-
   function render() {
     if (postsState.post) {
       return (
@@ -324,11 +322,14 @@ const Post = (props) => {
           {/* -------TABS-------- */}
           <div className="tabs is-centered is-boxed">
             <ul>
-              <li className="is-active">
+              <li
+                className={
+                  stateLocal.activeTab === "comments" ? "is-active" : ""
+                }
+              >
                 <a
                   id="commentTab"
                   onClick={() => {
-                    changeActiveTab();
                     setState({ ...stateLocal, activeTab: "comments" });
                   }}
                 >
@@ -338,11 +339,12 @@ const Post = (props) => {
                   <span>Comments</span>
                 </a>
               </li>
-              <li>
+              <li
+                className={stateLocal.activeTab === "edits" ? "is-active" : ""}
+              >
                 <a
                   id="editTab"
                   onClick={() => {
-                    changeActiveTab();
                     setState({ ...stateLocal, activeTab: "edits" });
                   }}
                 >

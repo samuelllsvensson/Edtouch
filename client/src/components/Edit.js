@@ -19,6 +19,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
   function renderLikeButton() {
     if (
       authState.authenticated &&
+      authState.dbProfile &&
       !edit.likes_users.includes(authState.dbProfile.user_id)
     ) {
       return (
