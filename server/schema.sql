@@ -23,7 +23,7 @@ CREATE TABLE post_comments (
   body VARCHAR(255),
   username VARCHAR REFERENCES users(username),
   user_id INT REFERENCES users(user_id),
-  post_id INT REFERENCES posts(post_id),
+  post_id INT REFERENCES posts(post_id) ON DELETE CASCADE,
   date_created TIMESTAMP
 );
 
@@ -31,7 +31,7 @@ CREATE TABLE post_comments (
 CREATE TABLE edits (
   edit_id SERIAL PRIMARY KEY,
   body VARCHAR,
-  post_id INT REFERENCES posts(post_id),
+  post_id INT REFERENCES posts(post_id) ON DELETE CASCADE,
   user_id INT REFERENCES users(user_id),
   image_id VARCHAR,
   date_created TIMESTAMP,
@@ -43,6 +43,6 @@ CREATE TABLE edits (
 --   edit_comment_id SERIAL PRIMARY KEY,
 --   body VARCHAR(255),
 --   user_id INT REFERENCES users(user_id),
---   edit_id INT REFERENCES edits(edit_id),
+--   edit_id INT REFERENCES edits(edit_id) ON DELETE CASCADE,
 --   date_created TIMESTAMP
 -- );
