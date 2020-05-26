@@ -27,7 +27,6 @@ const UpdateEditComment = ({ comment }) => {
         edit_id: comment.edit_id,
         comment_id: comment.edit_comment_id,
       };
-      console.log(editCommentData);
       handleUpdateEditComment(editCommentData);
     }
     if (action === "deleteEditComment") {

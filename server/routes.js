@@ -4,7 +4,6 @@ var pool = require("./db");
 
 router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
-  //console.log(req);
   pool.query(
     `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username, avatar
     FROM posts 
@@ -82,7 +81,6 @@ router.delete("/api/delete/post/:post_id", (req, res, next) => {
     [post_id],
     (q_err, q_res) => {
       res.json(q_res);
-      console.log(q_err);
     }
   );
 });
@@ -148,7 +146,6 @@ router.delete("/api/delete/post/:comment_id/postcomment", (req, res, next) => {
     [comment_id],
     (q_err, q_res) => {
       res.json(q_res);
-      //console.log(q_err);
     }
   );
 });
@@ -163,7 +160,6 @@ router.get("/api/get/edits/:post_id", (req, res, next) => {
     ORDER BY date_created DESC`,
     [post_id],
     (q_err, q_res) => {
-      //console.log(q_err);
       res.json(q_res.rows);
     }
   );
@@ -262,7 +258,6 @@ router.put("/api/put/edit/:edit_id/unlike", (req, res, next) => {
 });
 
 // Edit comments
-
 router.get("/api/get/edit/:edit_id/editcomments", (req, res, next) => {
   const edit_id = req.params.edit_id;
   pool.query(
@@ -326,7 +321,6 @@ router.delete(
       [edit_comment_id],
       (q_err, q_res) => {
         res.json(q_res);
-        //console.log(q_err);
       }
     );
   }

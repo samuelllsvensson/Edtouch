@@ -32,7 +32,6 @@ const AddPost = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log(event);
     event.preventDefault();
 
     const user_id = authState.dbProfile.user_id;

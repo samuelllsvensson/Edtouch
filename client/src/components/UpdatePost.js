@@ -23,8 +23,6 @@ const UpdatePost = ({ post }) => {
 
   const handleSubmit = (action) => {
     if (action === "savePost") {
-      console.log(values);
-      console.log(post);
       const postData = {
         title: values.title,
         description: values.description,
@@ -33,14 +31,12 @@ const UpdatePost = ({ post }) => {
         image_id: post.image_id,
         edit_id: post.edit_id,
       };
-      console.log("Edit post called");
       handleUpdatePost(postData);
     }
     if (action === "deletePost") {
       const postData = {
         post_id: post.post_id,
       };
-      console.log("Delete post called");
       handleDeletePost(postData);
     }
     setEditablePost(-1);

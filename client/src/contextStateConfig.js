@@ -149,7 +149,6 @@ const ContextState = () => {
 
   const handlePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
-    console.log(data);
     axios
       .post(`/api/post/post/${data.post_id}/postcomment`, {
         comment: data.comment,
@@ -321,7 +320,6 @@ const ContextState = () => {
 
   const handleEditComment = (data) => {
     dispatchPostsReducer(ACTIONS.submitEditCommentRequest());
-    console.log(data);
     axios
       .post(`/api/post/edit/${data.edit_id}/editcomment`, {
         comment: data.comment,
@@ -349,7 +347,6 @@ const ContextState = () => {
       })
       .then((res) => {
         dispatchPostsReducer(ACTIONS.updateEditCommentSuccess());
-        console.log("successfully edited edit comment");
         handleFetchEditComments(data.edit_id);
       })
       .catch((err) => {

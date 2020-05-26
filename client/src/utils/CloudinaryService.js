@@ -21,8 +21,6 @@ export async function fetchPhotos(imageTag, setter) {
 
   const urlPath = url(imageTag.toString(), options);
 
-  console.log(urlPath);
-
   fetch(urlPath)
     .then((res) => res.text())
     .then((text) =>

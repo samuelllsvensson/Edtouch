@@ -147,7 +147,6 @@ const Edit = ({ edit, onChange, displayEdit }) => {
 
   function renderEditComments() {
     if (!postsState.edit_comments) {
-      console.log("hej");
       return (
         <div className="column is-two-thirds is-offset-2">
           <hr />
