@@ -102,7 +102,16 @@ const Edit = ({ edit, onChange, displayEdit }) => {
   };
 
   function renderAddEditComment() {
-    if (!authState.authenticated || !authState.dbProfile) return;
+    if (!authState.authenticated || !authState.dbProfile) {
+      return (
+        <div
+          className="column is-half is-offset-one-quarter"
+          style={{ textAlign: "center" }}
+        >
+          <span className="tag is-warning"> Log in to add edit comments</span>
+        </div>
+      );
+    }
     return (
       <form onSubmit={onEditCommentSubmit}>
         <article className="media">
