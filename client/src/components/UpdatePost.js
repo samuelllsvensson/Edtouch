@@ -6,7 +6,7 @@ var moment = require("moment");
 const UpdatePost = ({ post }) => {
   const {
     postsState,
-    setIsEdit,
+    setEditablePost,
     handleUpdatePost,
     handleDeletePost,
   } = useContext(Context);
@@ -43,7 +43,7 @@ const UpdatePost = ({ post }) => {
       console.log("Delete post called");
       handleDeletePost(postData);
     }
-    setIsEdit(-1);
+    setEditablePost(-1);
   };
   return (
     <article className="media">
@@ -104,7 +104,7 @@ const UpdatePost = ({ post }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => setIsEdit(-1)}
+                  onClick={() => setEditablePost(-1)}
                   className="button is-info"
                 >
                   Cancel

@@ -39,10 +39,11 @@ CREATE TABLE edits (
   likes int DEFAULT 0
 );
 
--- CREATE TABLE edit_comments (
---   edit_comment_id SERIAL PRIMARY KEY,
---   body VARCHAR(255),
---   user_id INT REFERENCES users(user_id),
---   edit_id INT REFERENCES edits(edit_id) ON DELETE CASCADE,
---   date_created TIMESTAMP
--- );
+CREATE TABLE edit_comments (
+  edit_comment_id SERIAL PRIMARY KEY,
+  body VARCHAR(255),
+  username VARCHAR REFERENCES users(username),
+  user_id INT REFERENCES users(user_id),
+  edit_id INT REFERENCES edits(edit_id) ON DELETE CASCADE,
+  date_created TIMESTAMP
+);

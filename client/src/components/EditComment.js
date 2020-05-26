@@ -3,8 +3,8 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
-const PostComment = ({ comment }) => {
-  const { setEditablePostComment } = useContext(Context);
+const EditComment = ({ comment }) => {
+  const { setEditableEditComment } = useContext(Context);
   return (
     <article className="media">
       <figure className="media-left">
@@ -42,7 +42,7 @@ const PostComment = ({ comment }) => {
       </div>
       <div className="media-right">
         <button
-          onClick={() => setEditablePostComment(comment.comment_id)}
+          onClick={() => setEditableEditComment(comment.edit_comment_id)}
           className="button is-small"
         >
           <span className="icon is-small">
@@ -54,4 +54,4 @@ const PostComment = ({ comment }) => {
   );
 };
 
-export default PostComment;
+export default EditComment;

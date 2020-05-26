@@ -88,6 +88,13 @@ export const deletePostRequest = () => {
   };
 };
 
+export const setPostEditable = (id) => {
+  return {
+    type: ACTION_TYPES.SET_POST_EDITABLE,
+    payload: id,
+  };
+};
+
 // Post comments
 export const fetchPostCommentsSuccess = (comments) => {
   return {
@@ -100,32 +107,6 @@ export const fetchPostCommentsFail = (err) => {
   return {
     type: ACTION_TYPES.FETCH_POST_COMMENTS_FAIL,
     payload: err,
-  };
-};
-
-export const deletePostCommentRequest = () => {
-  return {
-    type: ACTION_TYPES.DELETE_POST_COMMENT_REQUEST,
-  };
-};
-
-export const deletePostCommentSuccess = () => {
-  return {
-    type: ACTION_TYPES.DELETE_POST_COMMENT_SUCCESS,
-  };
-};
-
-export const deletePostCommentFail = (err) => {
-  return {
-    type: ACTION_TYPES.DELETE_POST_COMMENT_FAIL,
-    payload: err,
-  };
-};
-
-export const setCommentEditable = (id) => {
-  return {
-    type: ACTION_TYPES.SET_COMMENT_EDITABLE,
-    payload: id,
   };
 };
 
@@ -164,5 +145,31 @@ export const updatePostCommentFail = (err) => {
   return {
     type: ACTION_TYPES.UPDATE_POST_COMMENT_FAIL,
     payload: err,
+  };
+};
+
+export const deletePostCommentRequest = () => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_COMMENT_REQUEST,
+  };
+};
+
+export const deletePostCommentSuccess = () => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_COMMENT_SUCCESS,
+  };
+};
+
+export const deletePostCommentFail = (err) => {
+  return {
+    type: ACTION_TYPES.DELETE_POST_COMMENT_FAIL,
+    payload: err,
+  };
+};
+
+export const setPostCommentEditable = (id) => {
+  return {
+    type: ACTION_TYPES.SET_POST_COMMENT_EDITABLE,
+    payload: id,
   };
 };

@@ -3,44 +3,42 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
-const UpdatePostComment = ({ comment }) => {
+const UpdateEditComment = ({ comment }) => {
   const {
     postsState,
-    handleUpdatePostComment,
-    handleDeletePostComment,
-    setEditablePostComment,
+    handleUpdateEditComment,
+    handleDeleteEditComment,
+    setEditableEditComment,
   } = useContext(Context);
 
-  const [value, setValue] = useState({ post_comment: comment.body });
+  const [value, setValue] = useState({ edit_comment: comment.body });
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleSubmit = (action) => {
-    if (action === "savePostComment") {
-      const post_id = postsState.post.post_id;
+    if (action === "saveEditComment") {
       const user_id = postsState.post.user_id;
-      const commentData = {
+      const editCommentData = {
         comment: value,
         username: comment.username,
         user_id: user_id,
-        post_id: post_id,
-        comment_id: comment.comment_id,
+        edit_id: comment.edit_id,
+        comment_id: comment.edit_comment_id,
       };
-
-      handleUpdatePostComment(commentData);
+      console.log(editCommentData);
+      handleUpdateEditComment(editCommentData);
     }
-    if (action === "deletePostComment") {
-      const post_id = postsState.post.post_id;
+    if (action === "deleteEditComment") {
       const commentData = {
-        post_id: post_id,
-        comment_id: comment.comment_id,
+        edit_id: comment.edit_id,
+        edit_comment_id: comment.edit_comment_id,
       };
 
-      handleDeletePostComment(commentData);
+      handleDeleteEditComment(commentData);
     }
-    setEditablePostComment(-1);
+    setEditableEditComment(-1);
   };
   return (
     <article className="media">
@@ -67,8 +65,8 @@ const UpdatePostComment = ({ comment }) => {
             <p className="control">
               <textarea
                 onChange={handleChange}
+                value={value.edit_comment}
                 placeholder=""
-                value={value.post_comment}
                 style={{ width: "100%", height: "10vh" }}
                 className="textarea is-primary"
               ></textarea>
@@ -78,9 +76,9 @@ const UpdatePostComment = ({ comment }) => {
             <div className="level-left">
               <div className="level-item">
                 <button
-                  onClick={() => handleSubmit("savePostComment")}
+                  onClick={() => handleSubmit("saveEditComment")}
                   className={`button is-info ${
-                    postsState.loadings["UPDATE_POST_COMMENT"]
+                    postsState.loadings["UPDATE_EDIT_COMMENT"]
                       ? "is-loading"
                       : ""
                   }`}
@@ -90,7 +88,7 @@ const UpdatePostComment = ({ comment }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => setEditablePostComment(-1)}
+                  onClick={() => setEditableEditComment(-1)}
                   className="button is-info"
                 >
                   Cancel
@@ -98,9 +96,9 @@ const UpdatePostComment = ({ comment }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => handleSubmit("deletePostComment")}
+                  onClick={() => handleSubmit("deleteEditComment")}
                   className={`button is-small ${
-                    postsState.loadings["DELETE_POST_COMMENT"]
+                    postsState.loadings["DELETE_EDIT_COMMENT"]
                       ? "is-loading"
                       : ""
                   } is-danger`}
@@ -127,4 +125,4 @@ const UpdatePostComment = ({ comment }) => {
   );
 };
 
-export default UpdatePostComment;
+export default UpdateEditComment;
