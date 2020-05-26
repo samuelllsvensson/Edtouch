@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import history from "./history";
 import Context from "./context";

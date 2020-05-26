@@ -3,7 +3,7 @@ import Context from "../utils/context";
 import PostCard from "../components/PostCard";
 import EditCard from "../components/EditCard";
 import { Link } from "react-router-dom";
-import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
+import { openUploadWidget } from "../utils/CloudinaryService";
 import { Image, Transformation } from "cloudinary-react";
 
 const Profile = () => {
