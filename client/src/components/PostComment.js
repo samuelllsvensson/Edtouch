@@ -5,7 +5,26 @@ import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
 const PostComment = ({ comment }) => {
-  const { setIsEdit } = useContext(Context);
+  const { setIsEdit, authState } = useContext(Context);
+
+  function renderEditButton() {
+    if (
+      authState.dbProfile &&
+      comment.username === authState.dbProfile.username
+    ) {
+      return (
+        <button
+          onClick={() => setIsEdit(comment.comment_id)}
+          className="button is-small"
+        >
+          <span className="icon is-small">
+            <i className="far fa-edit"></i>
+          </span>
+        </button>
+      );
+    }
+  }
+
   return (
     <article className="media">
       <figure className="media-left">
@@ -41,16 +60,7 @@ const PostComment = ({ comment }) => {
           <div className="level-right"></div>
         </nav>
       </div>
-      <div className="media-right">
-        <button
-          onClick={() => setIsEdit(comment.comment_id)}
-          className="button is-small"
-        >
-          <span className="icon is-small">
-            <i className="far fa-edit"></i>
-          </span>
-        </button>
-      </div>
+      <div className="media-right">{renderEditButton()}</div>
     </article>
   );
 };

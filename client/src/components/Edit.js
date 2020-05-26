@@ -25,7 +25,12 @@ const Edit = ({ edit, onChange, displayEdit }) => {
       return (
         <div className="level-left">
           <div className="level-item">
-            <span onClick={() => like()} className="icon is-small">
+            <span
+              onClick={() => like()}
+              className="icon is-small"
+              style={{ cursor: "pointer" }}
+              key={Math.random()}
+            >
               <i className="far fa-heart"></i>
             </span>
           </div>
@@ -43,6 +48,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
             key={Math.random()}
             onClick={() => unlike()}
             className="icon is-small"
+            style={{ cursor: "pointer" }}
           >
             <i className="fas fa-heart"></i>
           </span>
