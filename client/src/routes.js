@@ -66,11 +66,6 @@ const Routes = () => {
               }}
             />
             <Route path="/authcheck" component={AuthCheck} />
-            {console.log(
-              `/authcheck?to=${
-                history.location.pathname.substr(1) + history.location.search
-              }`
-            )}
             <PrivateRoute
               auth={context.authState.authenticated}
               path="/profile"
