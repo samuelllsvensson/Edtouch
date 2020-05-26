@@ -291,16 +291,21 @@ const Post = (props) => {
                 </div>
                 <nav className="level is-mobile"></nav>
               </div>
-              <div className="media-right">
-                <button
-                  onClick={() => setIsEdit(postsState.post.post_id)}
-                  className="button is-small"
-                >
-                  <span className="icon is-small">
-                    <i className="far fa-edit"></i>
-                  </span>
-                </button>
-              </div>
+              {authState.dbProfile &&
+              postsState.post.user_id === authState.dbProfile.user_id ? (
+                <div className="media-right">
+                  <button
+                    onClick={() => setIsEdit(postsState.post.post_id)}
+                    className="button is-small"
+                  >
+                    <span className="icon is-small">
+                      <i className="far fa-edit"></i>
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </article>
           ) : (
             <UpdatePost post={postsState.post} />

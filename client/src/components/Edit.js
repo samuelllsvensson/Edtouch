@@ -142,16 +142,21 @@ const Edit = ({ edit, onChange, displayEdit }) => {
                   </div>
                 </nav>
               </div>
-              <div className="media-right">
-                <button
-                  onClick={() => setIsEdit(edit.edit_id)}
-                  className="button is-small"
-                >
-                  <span className="icon is-small">
-                    <i className="far fa-edit"></i>
-                  </span>
-                </button>
-              </div>
+              {authState.dbProfile &&
+              authState.dbProfile.user_id === edit.user_id ? (
+                <div className="media-right">
+                  <button
+                    onClick={() => setIsEdit(edit.edit_id)}
+                    className="button is-small"
+                  >
+                    <span className="icon is-small">
+                      <i className="far fa-edit"></i>
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </article>
           ) : (
             <UpdateEdit edit={edit} closeModal={closeModal} />
