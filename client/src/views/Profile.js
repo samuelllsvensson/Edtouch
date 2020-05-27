@@ -43,10 +43,14 @@ const Profile = () => {
 
   function renderPostCards() {
     if (profileState.loadings["FETCH_PROFILE_POSTS"]) {
+      return <h1>Loading...</h1>;
+    }
+
+    if (profileState.profilePosts.length === 0) {
       return (
-        <div>
-          <h1>Loading...</h1>
-        </div>
+        <p className="has-text-centered column">
+          You have not submitted any posts
+        </p>
       );
     }
 
@@ -63,10 +67,14 @@ const Profile = () => {
 
   function renderEditCards() {
     if (profileState.loadings["FETCH_PROFILE_EDITS"]) {
+      return <h1>Loading...</h1>;
+    }
+
+    if (profileState.profileEdits.length === 0) {
       return (
-        <div>
-          <h1>Loading...</h1>
-        </div>
+        <p className="has-text-centered column">
+          You have not submitted any edits
+        </p>
       );
     }
 
@@ -105,11 +113,13 @@ const Profile = () => {
             publicId={authState.dbProfile.avatar}
             dpr="auto"
             responsive
-            width="auto"
+            width="64"
+            height="64"
             crop="scale"
             responsiveUseBreakpoints="true"
           >
             <Transformation quality="auto" fetchFormat="auto" />
+            <Transformation radius="max" />
           </Image>
         </figure>
       </div>
@@ -134,7 +144,7 @@ const Profile = () => {
           <div className="level-item has-text-centered">
             <div>
               <p className="heading">Likes</p>
-              <p className="title">{profileState.profileLikes}</p>
+              <p className="title">{profileState.profileLikes || 0}</p>
             </div>
           </div>
         </div>

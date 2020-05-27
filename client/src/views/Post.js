@@ -77,6 +77,31 @@ const Post = (props) => {
     });
   }
 
+  function renderEditCard(edit) {
+    return (
+      <Link to={`?showedit=${edit.edit_id}`}>
+        <div
+          style={{ padding: 0 }}
+          className="box"
+          onClick={() => {
+            const data = {
+              post_id: edit.post_id,
+              edit_id: edit.edit_id,
+            };
+            handleFetchEdit(data);
+            setState({
+              ...stateLocal,
+              displayEdit: !stateLocal.displayEdit,
+              clickedEdit: edit.edit_id,
+            });
+          }}
+        >
+          <EditCard edit={edit} />
+        </div>
+      </Link>
+    );
+  }
+
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
       if (!postsState.post_comments) return;
@@ -103,27 +128,7 @@ const Post = (props) => {
           );
           return (
             <div key={edit.edit_id} className="column is-one-third">
-              <Link to={`?showedit=1`}>
-                <div
-                  style={{ padding: 0 }}
-                  className="box"
-                  onClick={() => {
-                    const data = {
-                      post_id: edit.post_id,
-                      edit_id: edit.edit_id,
-                    };
-                    handleFetchEdit(data);
-                    handleFetchEditComments(data.edit_id);
-                    setState({
-                      ...stateLocal,
-                      displayEdit: !stateLocal.displayEdit,
-                      clickedEdit: edit.edit_id,
-                    });
-                  }}
-                >
-                  <EditCard edit={edit} />
-                </div>
-              </Link>
+              {renderEditCard(edit)}
               <Edit
                 edit={res}
                 onChange={handleChange}
@@ -137,27 +142,7 @@ const Post = (props) => {
       return postsState.edits.map((edit) => {
         return (
           <div key={edit.edit_id} className="column is-one-third">
-            <Link to={`?showedit=${edit.edit_id}`}>
-              <div
-                style={{ padding: 0, cursor: "pointer" }}
-                className="box"
-                onClick={() => {
-                  const data = {
-                    post_id: edit.post_id,
-                    edit_id: edit.edit_id,
-                  };
-                  handleFetchEdit(data);
-                  handleFetchEditComments(data.edit_id);
-                  setState({
-                    ...stateLocal,
-                    displayEdit: !stateLocal.displayEdit,
-                    clickedEdit: edit.edit_id,
-                  });
-                }}
-              >
-                <EditCard edit={edit} />
-              </div>
-            </Link>
+            {renderEditCard(edit)}
           </div>
         );
       });
@@ -322,16 +307,21 @@ const Post = (props) => {
                 </div>
                 <nav className="level is-mobile"></nav>
               </div>
-              <div className="media-right">
-                <button
-                  onClick={() => setEditablePost(postsState.post.post_id)}
-                  className="button is-small"
-                >
-                  <span className="icon is-small">
-                    <i className="far fa-edit"></i>
-                  </span>
-                </button>
-              </div>
+              {authState.dbProfile &&
+              postsState.post.user_id === authState.dbProfile.user_id ? (
+                <div className="media-right">
+                  <button
+                    onClick={() => setEditablePost(postsState.post.post_id)}
+                    className="button is-small"
+                  >
+                    <span className="icon is-small">
+                      <i className="far fa-edit"></i>
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </article>
           ) : (
             <UpdatePost post={postsState.post} />

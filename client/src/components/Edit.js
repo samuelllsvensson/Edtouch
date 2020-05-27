@@ -32,7 +32,12 @@ const Edit = ({ edit, onChange, displayEdit }) => {
       return (
         <div className="level-left">
           <div className="level-item">
-            <span onClick={() => like()} className="icon is-small">
+            <span
+              onClick={() => like()}
+              className="icon is-small"
+              style={{ cursor: "pointer" }}
+              key={Math.random()}
+            >
               <i className="far fa-heart"></i>
             </span>
           </div>
@@ -50,6 +55,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
             key={Math.random()}
             onClick={() => unlike()}
             className="icon is-small"
+            style={{ cursor: "pointer" }}
           >
             <i className="fas fa-heart"></i>
           </span>
@@ -242,16 +248,21 @@ const Edit = ({ edit, onChange, displayEdit }) => {
                   </div>
                 </nav>
               </div>
-              <div className="media-right">
-                <button
-                  onClick={() => setEditableEdit(edit.edit_id)}
-                  className="button is-small"
-                >
-                  <span className="icon is-small">
-                    <i className="far fa-edit"></i>
-                  </span>
-                </button>
-              </div>
+              {authState.dbProfile &&
+              authState.dbProfile.user_id === edit.user_id ? (
+                <div className="media-right">
+                  <button
+                    onClick={() => setEditableEdit(edit.edit_id)}
+                    className="button is-small"
+                  >
+                    <span className="icon is-small">
+                      <i className="far fa-edit"></i>
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </article>
           ) : (
             <UpdateEdit edit={edit} closeModal={closeModal} />
