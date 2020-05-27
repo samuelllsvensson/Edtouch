@@ -61,7 +61,7 @@ const Profile = () => {
 
     return profileState.profilePosts.map((post) => {
       return (
-        <div key={post.post_id} className="column is-two-fifths">
+        <div key={post.post_id} className="column is-half">
           <Link to={`/post/${post.post_id}`}>
             <PostCard post={post} />
           </Link>
@@ -85,7 +85,7 @@ const Profile = () => {
 
     return profileState.profileEdits.map((edit) => {
       return (
-        <div key={edit.edit_id} className="column is-two-fifths">
+        <div key={edit.edit_id} className="column is-half">
           <Link to={`/post/${edit.post_id}?showedit=${edit.edit_id}`}>
             <EditCard edit={edit} />
           </Link>
