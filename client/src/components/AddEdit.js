@@ -83,18 +83,6 @@ const AddEdit = ({ post_id, onChange, showAddEdit }) => {
             </label>
           </div>
         </div>
-        <div className="field">
-          <div
-            className="file"
-            onClick={() => setImages([...images, "kpgi2illb0zf2pqyfvlg"])}
-          >
-            <label className="file-label">
-              <span className="file-cta">
-                <span className="file-label">[DEV] fake file</span>
-              </span>
-            </label>
-          </div>
-        </div>
       </div>
     );
   };
