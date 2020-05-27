@@ -21,18 +21,15 @@ As for _CI/CD_ we will probably use **CircleCI** to automate builds in a scaleab
 
 
 ## Mid course screencast
-___________________________________
 
 [Mid course screencast can be seen here](https://www.youtube.com/watch?v=wucZl2d4Mn0&feature=youtu.be)
 
 
 ## Project screencasts
-___________________________________
 
 [Project screencast can be seen here](https://www.youtube.com/watch?v=ILPil_hXGg8)
 
 
 ## Individual screencasts
-___________________________________
 
 [Samuels individual screencast can be seen here](https://www.youtube.com/watch?v=t6r9QxhPKSA)
