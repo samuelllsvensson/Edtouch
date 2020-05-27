@@ -2,6 +2,10 @@ var express = require("express");
 var router = express.Router();
 var pool = require("./db");
 
+/**
+ * Central file for defining all necessary Express routes when Axios sends a HTTP request
+ * TODO: Split into several files
+ */
 router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(

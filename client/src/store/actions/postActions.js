@@ -1,5 +1,10 @@
 import * as ACTION_TYPES from "./actionTypes";
 
+/**
+ * Exports all of the post associated actions and returns the payload.
+ * Used in contextStateConfig.js
+ */
+
 // Posts
 export const fetchPostSuccess = (post) => {
   return {

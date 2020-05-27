@@ -1,5 +1,7 @@
 import React from "react";
-
+/**
+ * The footer displays general information about the project and the course on the bottom of the application
+ */
 const Footer = () => {
   return (
     <footer className="footer">

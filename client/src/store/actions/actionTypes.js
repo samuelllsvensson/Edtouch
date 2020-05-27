@@ -1,3 +1,7 @@
+/**
+ * All action types. Use constants to reduce the risk of typo bugs.
+ */
+
 // Posts
 export const FETCH_POSTS_REQUEST = "FETCH_POSTS_REQUEST";
 export const FETCH_POSTS_SUCCESS = "FETCH_POSTS_SUCCESS";

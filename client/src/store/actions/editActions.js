@@ -1,4 +1,10 @@
 import * as ACTION_TYPES from "./actionTypes";
+
+/**
+ * Exports all of the edit associated actions and returns the payload.
+ * Used in contextStateConfig.js
+ */
+
 // Edits
 export const fetchEditSuccess = (edit) => {
   return {

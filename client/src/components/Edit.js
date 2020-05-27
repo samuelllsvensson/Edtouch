@@ -6,6 +6,11 @@ import UpdateEditComment from "../components/UpdateEditComment";
 import UpdateEdit from "../components/UpdateEdit";
 import moment from "moment";
 
+/**
+ * The edit component is the main component which is used to display an Edit and the entirety of its contents.
+ * This includes the entire edit information+image, its edit comments and an "Add edit comment" form.
+ * The edit component is rendered as a modal on top of the post.js component.
+ */
 const Edit = ({ edit, onChange, displayEdit }) => {
   const {
     postsState,
@@ -16,6 +21,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
     handleUnlikeEdit,
     setEditableEdit,
   } = useContext(Context);
+
   function closeModal() {
     onChange(!displayEdit);
   }

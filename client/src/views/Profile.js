@@ -6,6 +6,11 @@ import { Link } from "react-router-dom";
 import { openUploadWidget } from "../utils/CloudinaryService";
 import { Image, Transformation } from "cloudinary-react";
 
+/**
+ * The profile component displays all of the currently logged in user's information such as
+ * its posts, edits and amount of likes. The component is rendered when clicking the username button in the header.
+ * The user can also change his/hers profile picture (avatar) and click any of the posts/edits that have been created by that profile.
+ */
 const Profile = () => {
   const {
     authState,
@@ -159,9 +164,7 @@ const Profile = () => {
               }}
             >
               <h1 className="has-text-centered title">Your posts</h1>
-              <div style={{ overflow: "scroll" }} className="columns">
-                {renderPostCards()}
-              </div>
+              <div className="columns">{renderPostCards()}</div>
             </div>
           </div>
           <div className="column is-6 is-flex">
@@ -173,9 +176,7 @@ const Profile = () => {
               }}
             >
               <h1 className="has-text-centered title">Your edits</h1>
-              <div style={{ overflow: "scroll" }} className="columns">
-                {renderEditCards()}
-              </div>
+              <div className="columns">{renderEditCards()}</div>
             </div>
           </div>
         </div>

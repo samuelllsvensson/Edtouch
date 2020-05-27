@@ -2,6 +2,9 @@ import React from "react";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
+/**
+ * The edit card displays the specific edit information when the user clicks the edit tab on a post.
+ */
 const EditCard = ({ edit }) => {
   return (
     <div className="card">

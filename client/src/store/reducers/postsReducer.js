@@ -15,6 +15,9 @@ export const initialState = {
   isEditCommentEditable: -1,
 };
 
+/**
+ * Reducer for handling all of the post associated states
+ */
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     // Posts

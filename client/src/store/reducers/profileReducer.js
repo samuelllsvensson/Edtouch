@@ -8,6 +8,9 @@ export const initialState = {
   profileLikes: null,
 };
 
+/**
+ * Reducer for handling all of the profile associated states
+ */
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.FETCH_PROFILE_POSTS_SUCCESS:

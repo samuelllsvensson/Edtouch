@@ -3,6 +3,10 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
+/**
+ * The edit comment displays the commenting users profile info as well as the comment on an edit.
+ * These are shown when clicking a specific edit of a post.
+ */
 const EditComment = ({ comment }) => {
   const { setEditableEditComment } = useContext(Context);
   return (

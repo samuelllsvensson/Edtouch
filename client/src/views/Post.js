@@ -12,6 +12,11 @@ import AddEdit from "../components/AddEdit";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 
+/**
+ * The post component is the main component which is used to display a post and the entirety of its contents.
+ * This includes the entire post information+image, its post comments and its associated edits.
+ * The post comments and edits can be toggled using the tabs below the post.
+ */
 const Post = (props) => {
   const {
     postsState,
@@ -20,7 +25,6 @@ const Post = (props) => {
     handlePostComment,
     handleFetchEdit,
     handleFetchEdits,
-    handleFetchEditComments,
     authState,
     setEditablePost,
   } = useContext(Context);
@@ -41,6 +45,7 @@ const Post = (props) => {
   });
 
   const [postComment, setPostComment] = useState("");
+
   const onCommentChange = (e) => {
     const { value } = e.target;
     setPostComment(value);

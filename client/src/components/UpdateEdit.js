@@ -3,6 +3,10 @@ import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 var moment = require("moment");
 
+/**
+ * The update edit component is rendered whenever the user clicks the edit button.
+ * This renders a new form for the user to enter new data which will update the current edit.
+ */
 const UpdateEdit = ({ edit, closeModal }) => {
   const {
     postsState,

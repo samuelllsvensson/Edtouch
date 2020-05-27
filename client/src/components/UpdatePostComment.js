@@ -3,6 +3,10 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
+/**
+ * The update post comment component is rendered whenever the user clicks the edit button on a post comment.
+ * This renders a new form for the user to enter new data which will update the current post comment.
+ */
 const UpdatePostComment = ({ comment }) => {
   const {
     postsState,

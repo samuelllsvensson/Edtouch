@@ -14,6 +14,9 @@ import Auth from "./utils/Auth";
 const auth = new Auth();
 
 // Acts as a middleware and will add status states for a reducer
+// This will make it so that we can always check the state for an action in every component,
+// for example to see if a specific async action is still pending.
+// For this to work, every action must have three action creators: [ACTION]_REQUEST, [ACTION]_SUCCESS and [ACTION]_FAIL
 const addStatus = (reducer) => {
   return (state, action) => {
     const { type } = action;
@@ -49,6 +52,11 @@ const addStatus = (reducer) => {
     return reduce(reducer(state, action));
   };
 };
+
+/**
+ * Central point of state. This object will be imported from components when accessing Context state or actions.
+ * TODO: Split into several files...
+ */
 
 const ContextState = () => {
   /*

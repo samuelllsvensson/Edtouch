@@ -2,6 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Context from "../utils/context";
 
+/**
+ * The header contains the buttons for the home page as well as the add post button for creating a new post request.
+ * It also shows the users username and likes. This can be clicked to see your profile page.
+ * Lastly there is a log out button (if signed in) or a log in button.
+ */
 const Header = () => {
   const context = useContext(Context);
 

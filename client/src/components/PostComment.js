@@ -3,6 +3,10 @@ import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
+/**
+ * The post comment displays the commenting user's profile info as well as the comment on the post.
+ * These are shown when clicking a specific post in the bottom.
+ */
 const PostComment = ({ comment }) => {
   const { setEditablePostComment, authState } = useContext(Context);
 
