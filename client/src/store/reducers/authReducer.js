@@ -6,6 +6,9 @@ export const initialState = {
   dbProfile: null,
 };
 
+/**
+ * Reducer for handling all of the authentication associated states
+ */
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.LOGIN_SUCCESS:

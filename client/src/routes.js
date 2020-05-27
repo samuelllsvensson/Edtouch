@@ -11,6 +11,9 @@ import Callback from "./components/Callback";
 import AuthCheck from "./utils/AuthCheck";
 import Profile from "./views/Profile";
 
+/**
+ * This can be used on auth-locked routes. Will redirect if user is not authenticated.
+ */
 const PrivateRoute = ({ component: Component, auth }) => (
   <Route
     render={(props) =>
@@ -42,7 +45,7 @@ const Routes = () => {
       setTimeout(() => {
         history.replace(
           `/authcheck?to=${
-            history.location.pathname.substr(1) + history.location.search
+            history.location.pathname.substr(1) + history.location.search // Where to redirect user after auth
           }`
         );
       }, 600);

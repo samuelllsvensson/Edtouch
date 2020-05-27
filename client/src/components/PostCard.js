@@ -2,6 +2,10 @@ import React from "react";
 import moment from "moment";
 import { Image, Transformation } from "cloudinary-react";
 
+/**
+ * The post card displays the specific post information on the home page in a grid.
+ * These can be clicked to see more information about the post and its comments/edits.
+ */
 const PostCard = ({ post }) => {
   return (
     <div className="card">

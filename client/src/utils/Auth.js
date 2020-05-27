@@ -2,6 +2,9 @@ import auth0 from "auth0-js";
 import history from "./history";
 const config = require("../config");
 
+/**
+ * Helper class for handling authentication with Auth0
+ */
 export default class Auth {
   auth0 = new auth0.WebAuth(config.auth0);
 
@@ -14,6 +17,7 @@ export default class Auth {
   handleAuth = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult) {
+        // Save in local storage so that user can refresh page without logging out
         localStorage.setItem("access_token", authResult.accessToken);
         localStorage.setItem("id_token", authResult.idToken);
 
@@ -41,6 +45,7 @@ export default class Auth {
     }
   };
 
+  // Gets the actual user info from Auth0 and stores the result in this.userProfile
   getProfile = () => {
     let accessToken = this.getAccessToken();
     if (accessToken) {

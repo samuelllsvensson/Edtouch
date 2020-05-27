@@ -1,5 +1,9 @@
 import { Cloudinary as CoreCloudinary, Util } from "cloudinary-core";
 
+/**
+ * Helper class that is used during Cloudinary uploading and fetching.
+ */
+
 export const url = (publicId, options) => {
   const scOptions = Util.withSnakeCaseKeys(options);
   const cl = CoreCloudinary.new();
@@ -20,8 +24,6 @@ export async function fetchPhotos(imageTag, setter) {
   };
 
   const urlPath = url(imageTag.toString(), options);
-
-  console.log(urlPath);
 
   fetch(urlPath)
     .then((res) => res.text())

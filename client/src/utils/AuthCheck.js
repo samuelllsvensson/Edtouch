@@ -1,14 +1,18 @@
 import React, { useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import history from "./history";
 import Context from "./context";
 
 import axios from "axios";
 
+/**
+ * React component that checks if user is authenticated and saves user data to Context store
+ */
 const AuthCheck = (props) => {
   const context = useContext(Context);
 
+  // The user will be redirected to this component with a search param ?to=DESTINATION
+  // We store the destination url in locationParams.
   const locationParams = queryString.parse(props.location.search);
 
   useEffect(() => {
@@ -29,6 +33,7 @@ const AuthCheck = (props) => {
             })
         )
         .then(() => {
+          // Send user back to the URL they came from
           return locationParams.to
             ? history.replace(`/${locationParams.to}`)
             : history.replace("/");

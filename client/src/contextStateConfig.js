@@ -14,6 +14,9 @@ import Auth from "./utils/Auth";
 const auth = new Auth();
 
 // Acts as a middleware and will add status states for a reducer
+// This will make it so that we can always check the state for an action in every component,
+// for example to see if a specific async action is still pending.
+// For this to work, every action must have three action creators: [ACTION]_REQUEST, [ACTION]_SUCCESS and [ACTION]_FAIL
 const addStatus = (reducer) => {
   return (state, action) => {
     const { type } = action;
@@ -49,6 +52,11 @@ const addStatus = (reducer) => {
     return reduce(reducer(state, action));
   };
 };
+
+/**
+ * Central point of state. This object will be imported from components when accessing Context state or actions.
+ * TODO: Split into several files...
+ */
 
 const ContextState = () => {
   /*
@@ -119,7 +127,7 @@ const ContextState = () => {
         console.log(err);
       });
   };
-  // TODO: Delete post ska ta bort alla edits, edit_comments OCH post_comments
+
   const handleDeletePost = (data) => {
     dispatchPostsReducer(ACTIONS.deletePostRequest());
     axios
@@ -149,7 +157,6 @@ const ContextState = () => {
 
   const handlePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.submitPostCommentRequest());
-    console.log(data);
     axios
       .post(`/api/post/post/${data.post_id}/postcomment`, {
         comment: data.comment,
@@ -185,7 +192,7 @@ const ContextState = () => {
       });
   };
 
-  const handleDeleteComment = (data) => {
+  const handleDeletePostComment = (data) => {
     dispatchPostsReducer(ACTIONS.deletePostCommentRequest());
     axios
       .delete(`/api/delete/post/${data.comment_id}/postcomment`)
@@ -252,7 +259,7 @@ const ContextState = () => {
       })
       .then((res) => {
         dispatchPostsReducer(ACTIONS.updateEditSuccess());
-        handleFetchEdits();
+        handleFetchEdits(data.post_id);
       })
       .catch((err) => {
         dispatchPostsReducer(ACTIONS.updateEditFail());
@@ -304,6 +311,84 @@ const ContextState = () => {
         dispatchPostsReducer(ACTIONS.unlikeEditFail());
         console.log(err);
       });
+  };
+
+  // Edit comments
+  const handleFetchEditComments = (edit_id) => {
+    axios
+      .get(`/api/get/edit/${edit_id}/editcomments`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.fetchEditCommentsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatchPostsReducer(ACTIONS.fetchEditCommentsFail(err));
+      });
+  };
+
+  const handleEditComment = (data) => {
+    dispatchPostsReducer(ACTIONS.submitEditCommentRequest());
+    axios
+      .post(`/api/post/edit/${data.edit_id}/editcomment`, {
+        comment: data.comment,
+        username: data.username,
+        userId: data.user_id,
+      })
+      .then(() => {
+        dispatchPostsReducer(ACTIONS.submitEditCommentSuccess());
+        handleFetchEditComments(data.edit_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.submitEditCommentFail());
+        console.log(err);
+      });
+  };
+
+  const handleUpdateEditComment = (data) => {
+    dispatchPostsReducer(ACTIONS.updateEditCommentRequest());
+    axios
+      .put(`/api/put/edit/${data.edit_id}/editcomment`, {
+        comment: data.comment,
+        username: data.username,
+        user_id: data.user_id,
+        edit_comment_id: data.comment_id,
+      })
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.updateEditCommentSuccess());
+        handleFetchEditComments(data.edit_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.updateEditCommentFail());
+        console.log(err);
+      });
+  };
+
+  const handleDeleteEditComment = (data) => {
+    dispatchPostsReducer(ACTIONS.deleteEditCommentRequest());
+    axios
+      .delete(`/api/delete/edit/${data.edit_comment_id}/editcomment`)
+      .then((res) => {
+        dispatchPostsReducer(ACTIONS.deleteEditCommentSuccess());
+        handleFetchEditComments(data.edit_id);
+      })
+      .catch((err) => {
+        dispatchPostsReducer(ACTIONS.deleteEditCommentFail(err));
+        console.log(err);
+      });
+  };
+
+  // Utilites
+  const setEditablePost = (id) => {
+    dispatchPostsReducer(ACTIONS.setPostEditable(id));
+  };
+  const setEditablePostComment = (id) => {
+    dispatchPostsReducer(ACTIONS.setPostCommentEditable(id));
+  };
+  const setEditableEdit = (id) => {
+    dispatchPostsReducer(ACTIONS.setEditEditable(id));
+  };
+  const setEditableEditComment = (id) => {
+    dispatchPostsReducer(ACTIONS.setEditCommentEditable(id));
   };
 
   /*
@@ -389,10 +474,6 @@ const ContextState = () => {
       });
   };
 
-  const setIsEdit = (id) => {
-    dispatchPostsReducer(ACTIONS.setCommentEditable(id));
-  };
-
   const handleFetchProfileLikes = (user_id) => {
     dispatchProfileReducer(ACTIONS.fetchProfileLikesRequest());
     axios
@@ -420,10 +501,10 @@ const ContextState = () => {
           handleFetchPostComments: (comments) =>
             handleFetchPostComments(comments),
           handlePostComment: (comment) => handlePostComment(comment),
-          setIsEdit: (id) => setIsEdit(id),
           handleUpdatePostComment: (comment) =>
             handleUpdatePostComment(comment),
-          handleDeleteComment: (comment) => handleDeleteComment(comment),
+          handleDeletePostComment: (comment) =>
+            handleDeletePostComment(comment),
           handleAddPost: (post) => handleAddPost(post),
           handleUpdatePost: (post) => handleUpdatePost(post),
           handleDeletePost: (post) => handleDeletePost(post),
@@ -436,6 +517,21 @@ const ContextState = () => {
           handleUpdateEdit: (edit) => handleUpdateEdit(edit),
           handleLikeEdit: (edit) => handleLikeEdit(edit),
           handleUnlikeEdit: (edit) => handleUnlikeEdit(edit),
+
+          // Edit comments
+          handleFetchEditComments: (comments) =>
+            handleFetchEditComments(comments),
+          handleEditComment: (comment) => handleEditComment(comment),
+          handleUpdateEditComment: (comment) =>
+            handleUpdateEditComment(comment),
+          handleDeleteEditComment: (comment) =>
+            handleDeleteEditComment(comment),
+
+          // Utilities
+          setEditablePost: (id) => setEditablePost(id),
+          setEditablePostComment: (id) => setEditablePostComment(id),
+          setEditableEdit: (id) => setEditableEdit(id),
+          setEditableEditComment: (id) => setEditableEditComment(id),
 
           // Auth
           authState: stateAuthReducer,

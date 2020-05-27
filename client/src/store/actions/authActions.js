@@ -1,5 +1,10 @@
 import * as ACTION_TYPES from "./actionTypes";
 
+/**
+ * Exports all of the authentication associated actions and returns the payload.
+ * Used in contextStateConfig.js
+ */
+
 export const fetchProfilePostsRequest = () => {
   return {
     type: ACTION_TYPES.FETCH_PROFILE_POSTS_REQUEST,

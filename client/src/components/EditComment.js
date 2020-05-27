@@ -4,30 +4,11 @@ import { Image, Transformation } from "cloudinary-react";
 var moment = require("moment");
 
 /**
- * The post comment displays the commenting user's profile info as well as the comment on the post.
- * These are shown when clicking a specific post in the bottom.
+ * The edit comment displays the commenting users profile info as well as the comment on an edit.
+ * These are shown when clicking a specific edit of a post.
  */
-const PostComment = ({ comment }) => {
-  const { setEditablePostComment, authState } = useContext(Context);
-
-  function renderEditButton() {
-    if (
-      authState.dbProfile &&
-      comment.username === authState.dbProfile.username
-    ) {
-      return (
-        <button
-          onClick={() => setEditablePostComment(comment.comment_id)}
-          className="button is-small"
-        >
-          <span className="icon is-small">
-            <i className="far fa-edit"></i>
-          </span>
-        </button>
-      );
-    }
-  }
-
+const EditComment = ({ comment }) => {
+  const { setEditableEditComment } = useContext(Context);
   return (
     <article className="media">
       <figure className="media-left">
@@ -63,9 +44,18 @@ const PostComment = ({ comment }) => {
           <div className="level-right"></div>
         </nav>
       </div>
-      <div className="media-right">{renderEditButton()}</div>
+      <div className="media-right">
+        <button
+          onClick={() => setEditableEditComment(comment.edit_comment_id)}
+          className="button is-small"
+        >
+          <span className="icon is-small">
+            <i className="far fa-edit"></i>
+          </span>
+        </button>
+      </div>
     </article>
   );
 };
 
-export default PostComment;
+export default EditComment;

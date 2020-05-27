@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchPhotos } from "../utils/CloudinaryService";
 import Context from "../utils/context";
 import "../css/home.css";
 import PostCard from "../components/PostCard";
 
+/**
+ * The home component displays all of the post cards that the user sees when first opening the website.
+ */
 const Home = () => {
-  const { postsState, authState, handleFetchPosts } = useContext(Context);
+  const { postsState, handleFetchPosts } = useContext(Context);
 
   useEffect(() => {
     handleFetchPosts();

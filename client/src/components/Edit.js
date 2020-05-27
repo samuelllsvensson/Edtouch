@@ -1,21 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../utils/context";
 import { Image, Transformation } from "cloudinary-react";
+import EditComment from "../components/EditComment";
+import UpdateEditComment from "../components/UpdateEditComment";
 import UpdateEdit from "../components/UpdateEdit";
 import moment from "moment";
 
+/**
+ * The edit component is the main component which is used to display an Edit and the entirety of its contents.
+ * This includes the entire edit information+image, its edit comments and an "Add edit comment" form.
+ * The edit component is rendered as a modal on top of the post.js component.
+ */
 const Edit = ({ edit, onChange, displayEdit }) => {
   const {
-    setIsEdit,
     postsState,
     authState,
+    handleFetchEditComments,
+    handleEditComment,
     handleLikeEdit,
     handleUnlikeEdit,
+    setEditableEdit,
   } = useContext(Context);
+
   function closeModal() {
     onChange(!displayEdit);
   }
 
+  useEffect(() => {
+    handleFetchEditComments(edit.edit_id);
+  }, []);
   function renderLikeButton() {
     if (
       authState.authenticated &&
@@ -78,6 +91,105 @@ const Edit = ({ edit, onChange, displayEdit }) => {
     handleUnlikeEdit(data);
   }
 
+  const [editComment, setEditComment] = useState("");
+
+  const onEditCommentChange = (e) => {
+    const { value } = e.target;
+    setEditComment(value);
+  };
+
+  const onEditCommentSubmit = (e) => {
+    e.preventDefault();
+    const user_id = authState.dbProfile.user_id;
+    const username = authState.dbProfile.username;
+    const edit_id = edit.edit_id;
+    const editCommentData = {
+      comment: editComment,
+      username: username,
+      user_id: user_id,
+      edit_id: edit_id,
+    };
+    handleEditComment(editCommentData);
+    setEditComment("");
+  };
+
+  function renderAddEditComment() {
+    if (!authState.authenticated || !authState.dbProfile) {
+      return (
+        <div
+          className="column is-half is-offset-one-quarter"
+          style={{ textAlign: "center" }}
+        >
+          <span className="tag is-warning"> Log in to add edit comments</span>
+        </div>
+      );
+    }
+    return (
+      <form onSubmit={onEditCommentSubmit}>
+        <article className="media">
+          <figure className="media-left">
+            <p className="image is-64x64">
+              <Image publicId={authState.dbProfile.avatar} />
+            </p>
+          </figure>
+          <div className="media-content">
+            <div className="field">
+              <p className="control">
+                <textarea
+                  type="textarea"
+                  onChange={onEditCommentChange}
+                  value={editComment}
+                  placeholder="Add an edit comment..."
+                  className="textarea is-primary"
+                ></textarea>
+              </p>
+            </div>
+            <nav className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  <button
+                    type="submit"
+                    className={`button is-info ${
+                      postsState.loadings["SUBMIT_EDIT_COMMENT"]
+                        ? "is-loading"
+                        : ""
+                    }`}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </article>
+      </form>
+    );
+  }
+
+  function renderEditComments() {
+    if (!postsState.edit_comments) {
+      return (
+        <div className="column is-two-thirds is-offset-2">
+          <hr />
+          <div style={{ textAlign: "center" }}>
+            There are no edit comments on this edit yet
+          </div>
+        </div>
+      );
+    }
+    return postsState.edit_comments.map((edit_comment) => {
+      return (
+        <div key={edit_comment.edit_comment_id} className="column">
+          {postsState.isEditCommentEditable !== edit_comment.edit_comment_id ? (
+            <EditComment comment={edit_comment} />
+          ) : (
+            <UpdateEditComment comment={edit_comment} />
+          )}
+        </div>
+      );
+    });
+  }
+
   return (
     <div className="modal is-active">
       <div
@@ -112,7 +224,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
             </div>
           </div>
 
-          {postsState.isEdit !== edit.edit_id ? (
+          {postsState.isEditEditable !== edit.edit_id ? (
             <article className="media">
               <figure className="media-left">
                 <p className="image is-64x64">
@@ -146,7 +258,7 @@ const Edit = ({ edit, onChange, displayEdit }) => {
               authState.dbProfile.user_id === edit.user_id ? (
                 <div className="media-right">
                   <button
-                    onClick={() => setIsEdit(edit.edit_id)}
+                    onClick={() => setEditableEdit(edit.edit_id)}
                     className="button is-small"
                   >
                     <span className="icon is-small">
@@ -161,113 +273,20 @@ const Edit = ({ edit, onChange, displayEdit }) => {
           ) : (
             <UpdateEdit edit={edit} closeModal={closeModal} />
           )}
-
-          {/* Add edit comment */}
-          <article className="media">
-            <figure className="media-left">
-              <p className="image is-64x64">
-                <Image
-                  publicId={edit.avatar}
-                  dpr="auto"
-                  responsive
-                  width="auto"
-                  crop="scale"
-                  responsiveUseBreakpoints="true"
-                >
-                  <Transformation quality="auto" fetchFormat="auto" />
-                </Image>
-              </p>
-            </figure>
-            <div className="media-content">
-              <div className="field">
-                <p className="control">
-                  <textarea
-                    id="postCommentText"
-                    type="textarea"
-                    placeholder="Add a comment..."
-                    style={{ width: "100%", height: "10vh" }}
-                    className="textarea is-primary"
-                  ></textarea>
-                </p>
-              </div>
-              <nav className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    <button className="button is-info">Submit</button>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </article>
           <div className="tabs is-centered is-boxed">
             <ul>
               <li className="is-active">
-                <a
-                  id="commentTab"
-                  onClick={() => {
-                    // changeActiveTab();
-                    // setState({ ...stateLocal, activeTab: "comments" });
-                  }}
-                >
+                <a id="commentTab">
                   <span className="icon is-small">
                     <i className="far fa-comments" aria-hidden="true"></i>
                   </span>
-                  <span>Comments</span>
+                  <span>Edit comments</span>
                 </a>
               </li>
             </ul>
           </div>
-          {/* {renderTabs()} */}
-          <article className="media">
-            <figure className="media-left">
-              <p className="image is-64x64">
-                <Image
-                  publicId={edit.avatar}
-                  dpr="auto"
-                  responsive
-                  width="auto"
-                  crop="scale"
-                  responsiveUseBreakpoints="true"
-                >
-                  <Transformation quality="auto" fetchFormat="auto" />
-                </Image>
-              </p>
-            </figure>
-            <div className="media-content">
-              <div className="content">
-                <p>
-                  <strong>name</strong> {/*  {comment.name} */}
-                  <small>@username</small> {/* {comment.username} */}
-                  <small>
-                    timestamp
-                    {/* {moment(comment.date_created).fromNow().toString()} */}
-                  </small>
-                  <br />
-                  comment body text
-                  {/* {comment.body} */}
-                </p>
-              </div>
-              <nav className="level is-mobile">
-                <div className="level-right">
-                  <small>
-                    {/* {moment(comment.date_created)
-                .format("h:mm A · MMM D, YYYY")
-                .toString()} */}
-                  </small>
-                </div>
-              </nav>
-            </div>
-            <div className="media-right">
-              <button
-                // onClick={() => setIsEdit(comment.comment_id)}
-                className="button is-small"
-              >
-                <span className="icon is-small">
-                  <i className="far fa-edit"></i>
-                </span>
-              </button>
-            </div>
-          </article>
+          {renderAddEditComment()}
+          {renderEditComments()}
         </section>
       </div>
     </div>

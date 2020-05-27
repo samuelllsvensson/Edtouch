@@ -1,9 +1,12 @@
 import React, { useState, useContext } from "react";
-import { CloudinaryContext } from "cloudinary-react";
-import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
+import { openUploadWidget } from "../utils/CloudinaryService";
 import Context from "../utils/context";
-import { Image, Transformation } from "cloudinary-react";
+import { Image } from "cloudinary-react";
 
+/**
+ * The add edit button will be shown if the user is logged in below the post's information.
+ * This component will send relevant information to the Cloudinary widget for image uploading.
+ */
 const AddEdit = ({ post_id, onChange, showAddEdit }) => {
   const [images, setImages] = useState([]);
   const { authState, handleAddEdit, handleFetchEdits } = useContext(Context);

@@ -1,9 +1,13 @@
 import React, { useState, useContext } from "react";
-import { CloudinaryContext } from "cloudinary-react";
-import { fetchPhotos, openUploadWidget } from "../utils/CloudinaryService";
+import { openUploadWidget } from "../utils/CloudinaryService";
 import Context from "../utils/context";
-import { Image, Transformation } from "cloudinary-react";
+import { Image } from "cloudinary-react";
 
+/**
+ * The add post button will be shown if the user is logged in the header beside the "Home" button.
+ * This component will send relevant information to the Cloudinary widget for image uploading.
+ * It will add a new post to the home page grid.
+ */
 const AddPost = () => {
   const [images, setImages] = useState([]);
   const { authState, handleAddPost } = useContext(Context);
@@ -33,7 +37,6 @@ const AddPost = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log(event);
     event.preventDefault();
 
     const user_id = authState.dbProfile.user_id;

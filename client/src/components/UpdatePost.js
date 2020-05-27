@@ -3,10 +3,14 @@ import { Image, Transformation } from "cloudinary-react";
 import Context from "../utils/context";
 var moment = require("moment");
 
+/**
+ * The update post component is rendered whenever the user clicks the edit button.
+ * This renders a new form for the user to enter new data which will update the current post.
+ */
 const UpdatePost = ({ post }) => {
   const {
     postsState,
-    setIsEdit,
+    setEditablePost,
     handleUpdatePost,
     handleDeletePost,
   } = useContext(Context);
@@ -23,8 +27,6 @@ const UpdatePost = ({ post }) => {
 
   const handleSubmit = (action) => {
     if (action === "savePost") {
-      console.log(values);
-      console.log(post);
       const postData = {
         title: values.title,
         description: values.description,
@@ -33,17 +35,15 @@ const UpdatePost = ({ post }) => {
         image_id: post.image_id,
         edit_id: post.edit_id,
       };
-      console.log("Edit post called");
       handleUpdatePost(postData);
     }
     if (action === "deletePost") {
       const postData = {
         post_id: post.post_id,
       };
-      console.log("Delete post called");
       handleDeletePost(postData);
     }
-    setIsEdit(-1);
+    setEditablePost(-1);
   };
   return (
     <article className="media">
@@ -104,7 +104,7 @@ const UpdatePost = ({ post }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => setIsEdit(-1)}
+                  onClick={() => setEditablePost(-1)}
                   className="button is-info"
                 >
                   Cancel
