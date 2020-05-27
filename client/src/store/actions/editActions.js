@@ -87,6 +87,13 @@ export const deleteEditRequest = () => {
   };
 };
 
+export const setEditEditable = (id) => {
+  return {
+    type: ACTION_TYPES.SET_EDIT_EDITABLE,
+    payload: id,
+  };
+};
+
 export const likeEditRequest = () => {
   return {
     type: ACTION_TYPES.LIKE_EDIT_REQUEST,
@@ -122,5 +129,84 @@ export const unlikeEditFail = (err) => {
   return {
     type: ACTION_TYPES.UNLIKE_EDIT_FAIL,
     payload: err,
+  };
+};
+
+// Edit comments
+export const fetchEditCommentsSuccess = (edit_comments) => {
+  return {
+    type: ACTION_TYPES.FETCH_EDIT_COMMENTS_SUCCESS,
+    payload: edit_comments,
+  };
+};
+
+export const fetchEditCommentsFail = (err) => {
+  return {
+    type: ACTION_TYPES.FETCH_EDIT_COMMENTS_FAIL,
+    payload: err,
+  };
+};
+
+export const submitEditCommentRequest = () => {
+  return {
+    type: ACTION_TYPES.SUBMIT_EDIT_COMMENT_REQUEST,
+  };
+};
+
+export const submitEditCommentSuccess = () => {
+  return {
+    type: ACTION_TYPES.SUBMIT_EDIT_COMMENT_SUCCESS,
+  };
+};
+
+export const submitEditCommentFail = (err) => {
+  return {
+    type: ACTION_TYPES.SUBMIT_EDIT_COMMENT_FAIL,
+    payload: err,
+  };
+};
+
+export const updateEditCommentRequest = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_COMMENT_REQUEST,
+  };
+};
+
+export const updateEditCommentSuccess = () => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_COMMENT_SUCCESS,
+  };
+};
+
+export const updateEditCommentFail = (err) => {
+  return {
+    type: ACTION_TYPES.UPDATE_EDIT_COMMENT_FAIL,
+    payload: err,
+  };
+};
+
+export const deleteEditCommentRequest = () => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_COMMENT_REQUEST,
+  };
+};
+
+export const deleteEditCommentSuccess = () => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_COMMENT_SUCCESS,
+  };
+};
+
+export const deleteEditCommentFail = (err) => {
+  return {
+    type: ACTION_TYPES.DELETE_EDIT_COMMENT_FAIL,
+    payload: err,
+  };
+};
+
+export const setEditCommentEditable = (id) => {
+  return {
+    type: ACTION_TYPES.SET_EDIT_COMMENT_EDITABLE,
+    payload: id,
   };
 };

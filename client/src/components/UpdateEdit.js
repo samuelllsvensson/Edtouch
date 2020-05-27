@@ -6,7 +6,7 @@ var moment = require("moment");
 const UpdateEdit = ({ edit, closeModal }) => {
   const {
     postsState,
-    setIsEdit,
+    setEditableEdit,
     handleUpdateEdit,
     handleDeleteEdit,
   } = useContext(Context);
@@ -18,7 +18,7 @@ const UpdateEdit = ({ edit, closeModal }) => {
   };
 
   const handleSubmit = (action) => {
-    setIsEdit(edit.edit_id);
+    setEditableEdit(edit.edit_id);
     if (action === "saveEdit") {
       const editData = {
         description: value,
@@ -27,7 +27,6 @@ const UpdateEdit = ({ edit, closeModal }) => {
         image_id: edit.image_id,
         edit_id: edit.edit_id,
       };
-      console.log(editData);
       handleUpdateEdit(editData);
     }
     if (action === "deleteEdit") {
@@ -35,7 +34,6 @@ const UpdateEdit = ({ edit, closeModal }) => {
         post_id: edit.post_id,
         edit_id: edit.edit_id,
       };
-
       handleDeleteEdit(editData);
     }
   };
@@ -85,7 +83,7 @@ const UpdateEdit = ({ edit, closeModal }) => {
               </div>
               <div className="level-item">
                 <button
-                  onClick={() => setIsEdit(-1)}
+                  onClick={() => setEditableEdit(-1)}
                   className="button is-info"
                 >
                   Cancel

@@ -3,12 +3,16 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 export const initialState = {
   post: null,
   posts: [],
-  comments: null,
+  post_comments: null,
   edit: null,
   edits: [],
+  edit_comments: null,
   errors: {},
   loadings: {},
-  isEdit: -1,
+  isPostEditable: -1,
+  isEditEditable: -1,
+  isPostCommentEditable: -1,
+  isEditCommentEditable: -1,
 };
 
 export const postsReducer = (state = initialState, action) => {
@@ -26,25 +30,37 @@ export const postsReducer = (state = initialState, action) => {
         posts: action.payload,
       };
 
+    case ACTION_TYPES.UPDATE_POST_SUCCESS:
+      return {
+        ...state,
+        isPostEditable: -1,
+      };
+    case ACTION_TYPES.SET_POST_EDITABLE:
+      return {
+        ...state,
+        isPostEditable: action.payload,
+      };
+
     // Post comments
     case ACTION_TYPES.FETCH_POST_COMMENTS_SUCCESS:
       return {
         ...state,
-        comments: action.payload,
-      };
-
-    case ACTION_TYPES.SET_COMMENT_EDITABLE:
-      return {
-        ...state,
-        isEdit: action.payload,
+        post_comments: action.payload,
       };
 
     case ACTION_TYPES.UPDATE_POST_COMMENT_SUCCESS:
       return {
         ...state,
-        isEdit: -1,
+        isPostCommentEditable: -1,
       };
 
+    case ACTION_TYPES.SET_POST_COMMENT_EDITABLE:
+      return {
+        ...state,
+        isPostCommentEditable: action.payload,
+      };
+
+    // Edits
     case ACTION_TYPES.FETCH_EDITS_SUCCESS:
       return {
         ...state,
@@ -60,7 +76,32 @@ export const postsReducer = (state = initialState, action) => {
     case ACTION_TYPES.UPDATE_EDIT_SUCCESS:
       return {
         ...state,
-        isEdit: -1,
+        isEditEditable: -1,
+      };
+
+    case ACTION_TYPES.SET_EDIT_EDITABLE:
+      return {
+        ...state,
+        isEditEditable: action.payload,
+      };
+
+    // Edit comments
+    case ACTION_TYPES.FETCH_EDIT_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        edit_comments: action.payload,
+      };
+
+    case ACTION_TYPES.UPDATE_EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+        isEditCommentEditable: -1,
+      };
+
+    case ACTION_TYPES.SET_EDIT_COMMENT_EDITABLE:
+      return {
+        ...state,
+        isEditCommentEditable: action.payload,
       };
 
     default:

@@ -4,7 +4,6 @@ var pool = require("./db");
 
 router.get("/api/get/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
-  //console.log(req);
   pool.query(
     `SELECT posts.post_id, title, body, posts.user_id, posts.date_created, image_id, username, avatar
     FROM posts 
@@ -75,7 +74,6 @@ router.put("/api/put/post/:post_id", (req, res, next) => {
   );
 });
 
-// TODO: cascade remove all associated edits, post_comments and edit_comments
 router.delete("/api/delete/post/:post_id", (req, res, next) => {
   const post_id = req.params.post_id;
   pool.query(
@@ -83,7 +81,6 @@ router.delete("/api/delete/post/:post_id", (req, res, next) => {
     [post_id],
     (q_err, q_res) => {
       res.json(q_res);
-      console.log(q_err);
     }
   );
 });
@@ -149,7 +146,6 @@ router.delete("/api/delete/post/:comment_id/postcomment", (req, res, next) => {
     [comment_id],
     (q_err, q_res) => {
       res.json(q_res);
-      //console.log(q_err);
     }
   );
 });
@@ -164,7 +160,6 @@ router.get("/api/get/edits/:post_id", (req, res, next) => {
     ORDER BY date_created DESC`,
     [post_id],
     (q_err, q_res) => {
-      //console.log(q_err);
       res.json(q_res.rows);
     }
   );
@@ -221,7 +216,6 @@ router.put("/api/put/edit/:edit_id", (req, res, next) => {
   );
 });
 
-// TODO: Delete edit should cascade remove all edit_comments
 router.delete("/api/delete/edit/:edit_id", (req, res, next) => {
   const edit_id = req.params.edit_id;
   pool.query(
@@ -262,6 +256,75 @@ router.put("/api/put/edit/:edit_id/unlike", (req, res, next) => {
     }
   );
 });
+
+// Edit comments
+router.get("/api/get/edit/:edit_id/editcomments", (req, res, next) => {
+  const edit_id = req.params.edit_id;
+  pool.query(
+    `SELECT edit_comment_id, body, users.username, users.avatar, edit_comments.date_created, edit_id
+      FROM edit_comments
+      INNER JOIN users ON users.user_id = edit_comments.user_id
+      WHERE edit_id=$1
+      ORDER BY edit_comments.date_created DESC`,
+    [edit_id],
+    (q_err, q_res) => {
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.post("/api/post/edit/:edit_id/editcomment", (req, res, next) => {
+  const values = [
+    req.body.comment,
+    req.body.username,
+    req.body.userId,
+    req.params.edit_id,
+  ];
+  pool.query(
+    `INSERT INTO edit_comments(body, username, user_id, edit_id, date_created)
+              VALUES($1, $2, $3, $4, NOW() )`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.put("/api/put/edit/:edit_id/editcomment", (req, res, next) => {
+  const values = [
+    req.body.comment,
+    req.body.username,
+    req.body.user_id,
+    req.params.edit_id,
+    req.body.edit_comment_id,
+  ];
+  pool.query(
+    `UPDATE edit_comments SET body = $1, username = $2, user_id = $3, edit_id = $4, date_created = NOW()
+              WHERE edit_comment_id=$5`,
+    values,
+    (q_err, q_res) => {
+      if (q_err) return next(q_err);
+      res.json(q_res.rows);
+    }
+  );
+});
+
+router.delete(
+  "/api/delete/edit/:edit_comment_id/editcomment",
+  (req, res, next) => {
+    console.log(req.params);
+    const edit_comment_id = req.params.edit_comment_id;
+    pool.query(
+      `DELETE FROM edit_comments
+              WHERE edit_comment_id=$1`,
+      [edit_comment_id],
+      (q_err, q_res) => {
+        res.json(q_res);
+      }
+    );
+  }
+);
 
 // Profile
 router.get("/api/get/profile/posts/:user_id", (req, res, next) => {

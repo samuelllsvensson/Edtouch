@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Context from "../utils/context";
 
@@ -27,7 +27,7 @@ const Header = () => {
     }
   }
 
-  function renderAddRequestButton() {
+  function renderAddPostButton() {
     if (!context.authState.authenticated) return;
     return (
       <Link to="/add-post" className="navbar-item">
@@ -51,8 +51,8 @@ const Header = () => {
   return (
     <div className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <div class="navbar-item">
-          <img src="https://i.imgur.com/7XYhAyP.png" width="150" />
+        <div className="navbar-item">
+          <img src="https://i.imgur.com/7XYhAyP.png" alt="logo" width="150" />
         </div>
         <label
           role="button"
@@ -74,21 +74,7 @@ const Header = () => {
           <Link to="/" className="navbar-item">
             Home
           </Link>
-          {renderAddRequestButton()}
-          {/* <div className="level-item">
-            <div className="field has-addons">
-              <p className="control">
-                <input
-                  className="input"
-                  type="text"
-                  placeholder="Find a post"
-                />
-              </p>
-              <p className="control">
-                <button className="button">Search</button>
-              </p>
-            </div>
-          </div> */}
+          {renderAddPostButton()}
         </div>
 
         <div className="navbar-end">

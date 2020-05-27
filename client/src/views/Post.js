@@ -11,7 +11,6 @@ import EditCard from "../components/EditCard";
 import AddEdit from "../components/AddEdit";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const Post = (props) => {
   const {
@@ -21,8 +20,9 @@ const Post = (props) => {
     handlePostComment,
     handleFetchEdit,
     handleFetchEdits,
+    handleFetchEditComments,
     authState,
-    setIsEdit,
+    setEditablePost,
   } = useContext(Context);
 
   useEffect(() => {
@@ -104,15 +104,15 @@ const Post = (props) => {
 
   function renderTabs() {
     if (stateLocal.activeTab === "comments") {
-      if (!postsState.comments) return;
+      if (!postsState.post_comments) return;
 
-      return postsState.comments.map((comment) => {
+      return postsState.post_comments.map((comment) => {
         return (
           <div
             key={comment.comment_id}
             className="column is-6 is-offset-one-quarter"
           >
-            {postsState.isEdit !== comment.comment_id ? (
+            {postsState.isPostCommentEditable !== comment.comment_id ? (
               <PostComment comment={comment} />
             ) : (
               <UpdatePostComment comment={comment} />
@@ -150,7 +150,16 @@ const Post = (props) => {
   }
 
   function renderAddComment() {
-    if (!authState.authenticated || !authState.dbProfile) return;
+    if (!authState.authenticated || !authState.dbProfile) {
+      return (
+        <div
+          className="column is-half is-offset-one-quarter"
+          style={{ textAlign: "center" }}
+        >
+          <span className="tag is-warning"> Log in to add post comments</span>
+        </div>
+      );
+    }
     return (
       <div className="column is-centered is-6 is-offset-one-quarter">
         <form onSubmit={onPostCommentSubmit}>
@@ -194,9 +203,17 @@ const Post = (props) => {
       </div>
     );
   }
-
   function renderAddEdit() {
-    if (!authState.authenticated) return;
+    if (!authState.authenticated) {
+      return (
+        <div
+          className="column is-half is-offset-one-quarter"
+          style={{ textAlign: "center" }}
+        >
+          <span className="tag is-warning"> Log in to add edits</span>
+        </div>
+      );
+    }
     if (stateLocal.clickedEdit === -1) {
       if (stateLocal.showAddEdit) {
         return (
@@ -258,7 +275,7 @@ const Post = (props) => {
           </figure>
           <br />
           {/* -------POST INFO-------- */}
-          {postsState.isEdit !== postsState.post.post_id ? (
+          {postsState.isPostEditable !== postsState.post.post_id ? (
             <article className="media">
               <figure className="media-left">
                 <p className="image is-64x64">
@@ -294,7 +311,7 @@ const Post = (props) => {
               postsState.post.user_id === authState.dbProfile.user_id ? (
                 <div className="media-right">
                   <button
-                    onClick={() => setIsEdit(postsState.post.post_id)}
+                    onClick={() => setEditablePost(postsState.post.post_id)}
                     className="button is-small"
                   >
                     <span className="icon is-small">
