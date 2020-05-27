@@ -258,7 +258,6 @@ const Post = (props) => {
           </figure>
           <br />
           {/* -------POST INFO-------- */}
-          {console.log(postsState.isEdit)}
           {postsState.isEdit !== postsState.post.post_id ? (
             <article className="media">
               <figure className="media-left">

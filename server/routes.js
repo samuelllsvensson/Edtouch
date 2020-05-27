@@ -313,7 +313,7 @@ router.get("/api/get/user", (req, res, next) => {
 });
 
 router.post("/api/post/user", (req, res, next) => {
-  const defaultAvatar = "fo6vnzyazyassftnt0mf";
+  const defaultAvatar = "s9bhkwvkmphhw3ybekjn";
   const values = [
     req.body.profile.nickname,
     req.body.profile.email,
