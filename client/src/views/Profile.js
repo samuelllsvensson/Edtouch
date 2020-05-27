@@ -155,28 +155,28 @@ const Profile = () => {
         </div>
 
         <div className="columns">
-          <div className="column is-6 is-flex">
+          <div className="column is-half">
             <div
               style={{
-                backgroundColor: "#fafafa",
-                width: "100%",
+                backgroundColor: "#e8e8e8",
+                padding: "5px",
                 borderRadius: "10px",
               }}
             >
               <h1 className="has-text-centered title">Your posts</h1>
-              <div className="columns">{renderPostCards()}</div>
+              <div className="columns is-multiline">{renderPostCards()}</div>
             </div>
           </div>
-          <div className="column is-6 is-flex">
+          <div className="column is-half">
             <div
               style={{
-                backgroundColor: "#fafafa",
-                width: "100%",
+                backgroundColor: "#e8e8e8",
+                padding: "5px",
                 borderRadius: "10px",
               }}
             >
               <h1 className="has-text-centered title">Your edits</h1>
-              <div className="columns">{renderEditCards()}</div>
+              <div className="columns is-multiline">{renderEditCards()}</div>
             </div>
           </div>
         </div>
