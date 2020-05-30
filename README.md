@@ -33,3 +33,5 @@ As for _CI/CD_ we will probably use **CircleCI** to automate builds in a scaleab
 ## Individual screencasts
 
 [Samuels individual screencast can be seen here](https://www.youtube.com/watch?v=t6r9QxhPKSA)
+
+[Johans individual screencast can be seen here](https://youtu.be/gsfcyJOtWUI)
